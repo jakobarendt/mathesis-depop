@@ -43,6 +43,9 @@ vignettes/*.pdf
 # pkgdown site
 docs/
 
+# quarto book project output directory
+_book
+
 # Cache folder for Quarto project renderings
 .quarto
 
