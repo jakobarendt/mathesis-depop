@@ -4,6 +4,7 @@
 
 # Session Data files
 .RData
+.Rdata
 .RDataTmp
 
 # User-specific files
@@ -19,7 +20,7 @@
 /*.Rcheck/
 
 # RStudio files
-.Rproj.user/
+.Rproj.user
 
 # produced vignettes
 vignettes/*.html
@@ -42,8 +43,14 @@ vignettes/*.pdf
 # pkgdown site
 docs/
 
+# Cache folder for Quarto project renderings
+.quarto
+
 # translation temp files
 po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# APFS-specific config file/folder
+.DS_Store
