@@ -11,3 +11,12 @@ Encoding: UTF-8
 
 RnwWeave: Sweave
 LaTeX: XeLaTeX
+
+StripTrailingWhitespace: Yes
+
+UseNativePipeOperator: Yes
+
+MarkdownWrap: Sentence
+MarkdownCanonical: Yes
+
+SpellingDictionary: en_US
