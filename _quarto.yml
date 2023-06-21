@@ -6,6 +6,7 @@ book:
   author: "Jakob Arendt"
   date: today
   chapters:
+    - index.qmd
     - introduction.qmd
     - rel-literature.qmd
     - data.qmd
