@@ -1,0 +1,22 @@
+project:
+  type: book
+
+book:
+  title: "Climate Change und Rural Depopulation"
+  author: "Jakob Arendt"
+  date: today
+  chapters:
+    - introduction.qmd
+    - rel-literature.qmd
+    - data.qmd
+    - methodology.qmd
+    - results.qmd
+    - conclusion.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrbook
