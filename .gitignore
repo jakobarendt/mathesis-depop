@@ -48,6 +48,7 @@ _book
 
 # Cache folder for Quarto project renderings
 .quarto
+/.quarto/
 
 # translation temp files
 po/*~
