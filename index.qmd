@@ -1,0 +1,5 @@
+# Index {.unnumbered}
+
+This is the index.
+I am still not quite sure what it actually does.
+Supposedly, the quarto book project cannot be rendered without it.
