@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Climate Change und Rural Depopulation",
+    "section": "",
+    "text": "Index\nThis is the index. I am still not quite sure what it actually does. Supposedly, the quarto book project cannot be rendered without it."
+  },
+  {
+    "objectID": "introduction.html",
+    "href": "introduction.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "abc"
+  },
+  {
+    "objectID": "rel-literature.html",
+    "href": "rel-literature.html",
+    "title": "2  Related Literature",
+    "section": "",
+    "text": "abc"
+  },
+  {
+    "objectID": "data.html#historic-lau-population-data-set",
+    "href": "data.html#historic-lau-population-data-set",
+    "title": "3  Data",
+    "section": "3.1 Historic LAU Population Data Set",
+    "text": "3.1 Historic LAU Population Data Set\nabc"
+  },
+  {
+    "objectID": "data.html#climate-data",
+    "href": "data.html#climate-data",
+    "title": "3  Data",
+    "section": "3.2 Climate Data",
+    "text": "3.2 Climate Data\nabc"
+  },
+  {
+    "objectID": "data.html#mapping-climate-onto-weather-data-and-descriptive-evidence",
+    "href": "data.html#mapping-climate-onto-weather-data-and-descriptive-evidence",
+    "title": "3  Data",
+    "section": "3.3 Mapping Climate onto Weather Data and Descriptive Evidence",
+    "text": "3.3 Mapping Climate onto Weather Data and Descriptive Evidence\nabc"
+  },
+  {
+    "objectID": "methodology.html",
+    "href": "methodology.html",
+    "title": "4  Methodology",
+    "section": "",
+    "text": "abc\n\n1 + 1\n\n[1] 2\n\nmean(2, 5, 6)\n\n[1] 2\n\nprint(\"This is an R code chunk to test the freeze code capabilities for rendering and publishing with GitHub Actions.\")\n\n[1] \"This is an R code chunk to test the freeze code capabilities for rendering and publishing with GitHub Actions.\""
+  },
+  {
+    "objectID": "results.html",
+    "href": "results.html",
+    "title": "5  Results",
+    "section": "",
+    "text": "abc"
+  },
+  {
+    "objectID": "conclusion.html",
+    "href": "conclusion.html",
+    "title": "6  Conclusion",
+    "section": "",
+    "text": "abc"
+  }
+]
