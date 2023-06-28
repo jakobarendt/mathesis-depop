@@ -18,8 +18,8 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
+    # permissions:
+      # contents: write
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -45,10 +45,13 @@ jobs:
           # uncomment below and fill to pin a version
           # version: SPECIFIC-QUARTO-VERSION-HERE
 
-      - name: Publish to GitHub Pages (and render)
-        uses: quarto-dev/quarto-actions/publish@v2
-        with:
-          target: gh-pages
-          render: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
+      # - name: Publish to GitHub Pages (and render)
+      #   uses: quarto-dev/quarto-actions/publish@v2
+      #   with:
+      #     target: gh-pages
+      #     render: false
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
+
+      - name: Render Quarto Project
+        uses: quarto-dev/quarto-actions/render@v2
