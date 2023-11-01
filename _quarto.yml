@@ -5,6 +5,9 @@ book:
   title: "Climate Change und Rural Depopulation"
   author: "Jakob Arendt"
   date: today
+  site-url: https://mathesis.jakobarendt.com
+  repo-url: https://github.com/jakobarendt/mathesis-depop
+  repo-actions: [edit,source,issue]
   chapters:
     - index.qmd
     - introduction.qmd
