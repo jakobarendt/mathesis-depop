@@ -5,6 +5,8 @@ Both of these
 
 ## Historic LAU Population Data Set
 
+<!-- use wording 'geoposition' in explanatory text below -->
+
 <!-- CITATION of the report by Glørsen and Lüer (Spatial Foresight) -->
 
 The source of the historical population data for European LAUs is Eurostat.
@@ -38,6 +40,8 @@ Similarly, there are also exceptions regarding the spatial level of detail: For 
 <!-- LAU-2 level: Highest resolution of Eurostat regional typology) -->
 
 <!-- **Add another column to table denoting whether bias due to spatial overlay may be present** -->
+
+<!-- Add another column to table denoting for each country the year for which its boundaries have been recalculated (either 2011 or 2012) -->
 
 |             Country | LAU-Level | Corresponding Geographic Attributes/Maps |
 |--------------------:|:---------:|------------------------------------------|
