@@ -17,6 +17,8 @@ book:
     - results.qmd
     - conclusion.qmd
     - references.qmd
+  appendices:
+    - ex-germany.qmd
 
 bibliography: references.bib
 
