@@ -46,6 +46,9 @@ docs/
 # quarto book project output directory
 _book
 
+# shapefile directory (shapefiles are typically too large in file size to be tracked efficiently with Git)
+data/shapefiles
+
 # Cache folder for Quarto project renderings
 .quarto
 /.quarto/
