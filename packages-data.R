@@ -1,19 +1,20 @@
-### This R script centrally loads packages and data needed in the different chapters ###
+### This R script centrally loads packages, population data, its georeferences and urbanism characteristsics for the different chapters. ###
+### It also cleans and combines the different population data attributes such that it can mapped onto the climate data and used for further causal econometric analysis. ###
 
 
-# Packages #
+# Packages ----------------------------------------------------------------
 
 require(tidyverse)
 require(sf)
 
 
-# Historic LAU Population Data #
+# Historic LAU population data --------------------------------------------
 
 dir.create("data")
 hist_pop <- readxl::read_xlsx(path = 'data/LAU2_REFERENCE_DATES_POPL.xlsx')
 
 
-# Geographic shapefiles for historic LAU population data #
+# Geographic shapefiles for historic LAU population data ------------------
 
 dir.create("data/shapefiles")
 
