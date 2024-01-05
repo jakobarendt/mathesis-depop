@@ -23,7 +23,21 @@ dir.create("data/shapefiles")
 # or the cloud storage for this project
 
 # 1. Load shapefiles from Eurostat via its API
-shape_files <- giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles', verbose = TRUE)
+shapes_files <- giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles', verbose = TRUE)
 
 # 2. Load shapefiles from this project's cloud storage
 # !! still missing !!
+
+# Special case: Greece
+gr <- read_sf('data/shapefiles/gr')
+
+# Special case: Ireland
+ie <- read_sf('data/shapefiles/ie')
+
+# Special case: Turkey
+tr <- read_sf('data/shapefiles/tr')
+# !! also adjust this for dowloads from Google Drive !!
+
+
+# Joining historic LAU population with geolocation data -------------------
+
