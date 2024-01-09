@@ -49,6 +49,9 @@ _book
 # shapefile directory (shapefiles are typically too large in file size to be tracked efficiently with Git)
 data/shapefiles
 
+# weather data directory (raster files with weather data are too large in file size to be tracked efficiently with Git)
+data/weather
+
 # Cache folder for Quarto project renderings
 .quarto
 /.quarto/
