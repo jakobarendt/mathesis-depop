@@ -20,7 +20,7 @@ book:
     - conclusion.qmd
     - references.qmd
   appendices:
-    - ex-germany.qmd
+    - ann-pop-data.qmd
 
 bibliography: references.bib
 
