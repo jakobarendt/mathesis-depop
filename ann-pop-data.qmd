@@ -1,1 +1,3 @@
 # Historic Population Data and its Georeferences
+
+-   grid weather data comes with WGS84 projection, therefore shapes are retrieved with the same projection or converted accordingly

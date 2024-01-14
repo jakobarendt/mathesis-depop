@@ -24,6 +24,8 @@ dir.create("data/shapefiles")
 
 # 1. Load shapefiles from Eurostat via its API
 shapes_files <- giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles', verbose = TRUE)
+# shapefiles are loaded by default for the WGS84 (EPSG 4326) map projection
+# this projection corresponds to the projection of the weather grid data
 
 # 2. Load shapefiles from this project's cloud storage
 # !! still missing !!
@@ -41,3 +43,5 @@ tr <- read_sf('data/shapefiles/tr')
 
 # Joining historic LAU population with geolocation data -------------------
 
+# Special case: Greece
+gr <- gr |> select(NSI_CODE, geometry)
