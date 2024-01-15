@@ -42,9 +42,10 @@ tr <- read_sf('data/shapefiles/tr')
 # !! also adjust this for dowloads from Google Drive !!
 
 
-# Joining historic LAU population with geolocation data -------------------
 
-# Special case: Greece
+# Special cases: Joining historic LAU population with geolocation  --------
+
+# Greece
 gr <- gr |> select(NSI_CODE, SHAPE_Area, geometry) |>
   mutate(NSI_CODE = paste0("EL", NSI_CODE)) |>
   rename("GR__SHAPE_Area" = SHAPE_Area)
@@ -69,6 +70,21 @@ hist_pop <- hist_pop |>
   mutate(geometry = if_else(st_is_empty(geometry.x), geometry, geometry.x)) |>
   mutate(geometry = if_else(st_is_empty(geometry.y), geometry, geometry.y)) |>
   select(-geometry.x, -geometry.y)
+
+
+
+# Clean and transform shapefile collection of remaining countries ---------
+shapes_files <- shapes_files |>
+  mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID)) |>
+  filter(!CNTR_CODE %in% c("LT", "PT", "SI", "EL", "IE", "TR")) |>
+  select(CNTR_LAU_ID, POP_2012, POP_DENS_2012, AREA_KM2, geometry)
+# reduces shapa file collection data set to only the needed columns, and excludes
+# the countries that are special cases (see above) or for which the LAU1 level
+# of Eurogeographis7.0 is not retrievable via the GISCO API
+shapes_files <- shapes_files |> st_transform("OGC:CRS84")
+hist_pop <- left_join(hist_pop, shapes_files, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  mutate(geometry = if_else(st_is_empty(geometry.x), geometry.y, geometry.x)) |>
+  select(-geometry.x, geometry.y) |> View()
 # how do I maintain that it is a sf collection even with a left_join? Will the CRS characteristics stay?
 
 # Join shapefiles remaining majority of countries
