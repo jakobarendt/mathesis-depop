@@ -42,7 +42,6 @@ tr <- read_sf('data/shapefiles/tr')
 # !! also adjust this for dowloads from Google Drive !!
 
 
-
 # Special cases: Joining historic LAU population with geolocation  --------
 
 # Greece
@@ -72,7 +71,6 @@ hist_pop <- hist_pop |>
   select(-geometry.x, -geometry.y)
 
 
-
 # Clean, transform and merge shapefile collection of remaining countries to pop data ---------
 
 shapes_files <- shapes_files |>
@@ -92,8 +90,18 @@ st_crs(hist_pop)
 # !! use crs() for the grid data to compare
 
 
-
 # NA in population and geolocation data -----------------------------------
+
+# !! remark the values below zero just as NA
+# maybe then also the table benchmarking NAs for each country, i.e. the code block
+# below can then be simplified
+# hist_pop <- hist_pop |>
+#   mutate(across(POP_1961_01_01:POP_2011_01_01, ~ if_else( . < 0, NA, .)))
+# hist_pop |>
+#   tibble() |>
+#   group_by(CNTR_CODE) |>
+#   mutate(HAS_NA = )
+#   summarise(TOT_OBS = n(), TOT_NA = n(sum()))
 
 any_na <- hist_pop |> filter(if_any(POP_1961_01_01:POP_2011_01_01, ~ is.na(.) | . < 0) | st_is_empty(geometry))
 na_count_country <- any_na |> tibble() |>
@@ -105,3 +113,6 @@ count_country <- hist_pop |> tibble() |>
 left_join(count_country, na_count_country, by = join_by(CNTR_CODE)) |>
   mutate(NA_SHARE = NA_COUNT / TOT_OBS) |>
   print(n = Inf)
+
+# for testing exclude NAs for now
+hist_pop <- hist_pop |> filter(!(if_any(POP_1961_01_01:POP_2011_01_01, ~ is.na(.) | . < 0) | st_is_empty(geometry)))
