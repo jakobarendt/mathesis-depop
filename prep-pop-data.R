@@ -73,21 +73,20 @@ hist_pop <- hist_pop |>
 
 
 
-# Clean and transform shapefile collection of remaining countries ---------
+# Clean, transform and merge shapefile collection of remaining countries to pop data ---------
+
 shapes_files <- shapes_files |>
   mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID)) |>
   filter(!CNTR_CODE %in% c("LT", "PT", "SI", "EL", "IE", "TR")) |>
   select(CNTR_LAU_ID, POP_2012, POP_DENS_2012, AREA_KM2, geometry)
-# reduces shapa file collection data set to only the needed columns, and excludes
+# reduces shape file collection data set to only the needed columns, and excludes
 # the countries that are special cases (see above) or for which the LAU1 level
 # of Eurogeographis7.0 is not retrievable via the GISCO API
 shapes_files <- shapes_files |> st_transform("OGC:CRS84")
 hist_pop <- left_join(hist_pop, shapes_files, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   mutate(geometry = if_else(st_is_empty(geometry.x), geometry.y, geometry.x)) |>
-  select(-geometry.x, geometry.y) |> View()
-# how do I maintain that it is a sf collection even with a left_join? Will the CRS characteristics stay?
-
-# Join shapefiles remaining majority of countries
-# with left_join, but also reduce columns in shapes_files beforehand
-# then also consolidate all geometry columns into one column
-# and work through NA's
+  select(-geometry.x, -geometry.y) |>
+  st_sf()
+# !! how do I maintain that it is a sf collection even with a left_join? Will the CRS characteristics stay?
+st_crs(hist_pop)
+# !! use crs() for the grid data to compare
