@@ -90,3 +90,18 @@ hist_pop <- left_join(hist_pop, shapes_files, by = join_by(CNTR_LAU_CODE == CNTR
 # !! how do I maintain that it is a sf collection even with a left_join? Will the CRS characteristics stay?
 st_crs(hist_pop)
 # !! use crs() for the grid data to compare
+
+
+
+# NA in population and geolocation data -----------------------------------
+
+any_na <- hist_pop |> filter(if_any(POP_1961_01_01:POP_2011_01_01, ~ is.na(.) | . < 0) | st_is_empty(geometry))
+na_count_country <- any_na |> tibble() |>
+  group_by(CNTR_CODE) |>
+  summarise(NA_COUNT = n())
+count_country <- hist_pop |> tibble() |>
+  group_by(CNTR_CODE) |>
+  summarise(TOT_OBS = n())
+left_join(count_country, na_count_country, by = join_by(CNTR_CODE)) |>
+  mutate(NA_SHARE = NA_COUNT / TOT_OBS) |>
+  print(n = Inf)
