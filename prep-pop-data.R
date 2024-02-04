@@ -6,6 +6,7 @@
 
 require(tidyverse)
 require(s2)
+# package "s2" needed for what exactly?
 require(sf)
 
 
@@ -19,14 +20,13 @@ hist_pop <- readxl::read_xlsx(path = 'data/LAU2_REFERENCE_DATES_POPL.xlsx')
 
 dir.create("data/shapefiles")
 
-# uncomment depending on whether you want to load shapefiles directly from the
-# Eurostat database (or your local drive if cached there),
-# or the cloud storage for this project
+# Comment/uncomment depending on whether you want to load shapefiles directly from:
+# 1. The Eurostat database / your local drive if cached there (default), or
+# 2. The cloud storage for this project (in case the data is not retrievable via option 1.)
 
 # 1. Load shapefiles from Eurostat via its API
 shapes_files <- giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles', verbose = TRUE)
 # shapefiles are loaded by default for the WGS84 (EPSG 4326) map projection
-# this projection corresponds to the projection of the weather grid data
 
 # 2. Load shapefiles from this project's cloud storage
 # !! still missing !!
@@ -39,7 +39,8 @@ ie <- read_sf('data/shapefiles/ie')
 
 # Special case: Turkey
 tr <- read_sf('data/shapefiles/tr')
-# !! also adjust this for dowloads from Google Drive !!
+
+# !! also adjust these special cases for downloads from Google Drive !!
 
 
 # Special cases: Joining historic LAU population with geolocation  --------
@@ -77,9 +78,8 @@ shapes_files <- shapes_files |>
   mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID)) |>
   filter(!CNTR_CODE %in% c("LT", "PT", "SI", "EL", "IE", "TR")) |>
   select(CNTR_LAU_ID, POP_2012, POP_DENS_2012, AREA_KM2, geometry)
-# reduces shape file collection data set to only the needed columns, and excludes
-# the countries that are special cases (see above) or for which the LAU1 level
-# of Eurogeographis7.0 is not retrievable via the GISCO API
+# reduces shape file collection data set to only the needed columns;
+# excludes the countries that are special cases (see above) or for which the LAU1 level of Eurogeographis7.0 is not retrievable via the GISCO API
 shapes_files <- shapes_files |> st_transform("OGC:CRS84")
 hist_pop <- left_join(hist_pop, shapes_files, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   mutate(geometry = if_else(st_is_empty(geometry.x), geometry.y, geometry.x)) |>
