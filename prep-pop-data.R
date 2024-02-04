@@ -1,5 +1,5 @@
-### This R script centrally loads packages, population data, its georeferences and urbanism characteristsics for the different chapters. ###
-### It also cleans and combines the different population data attributes such that it can mapped onto the climate data and used for further causal econometric analysis. ###
+### This R script centrally loads packages, population data, its georeferences and urbanism characteristics for the different chapters. ###
+### It also cleans and combines the different population data attributes to prepare the population data for mapping onto the climate data and its usage for further causal econometric analysis. ###
 
 
 # Packages ----------------------------------------------------------------
@@ -116,3 +116,8 @@ left_join(count_country, na_count_country, by = join_by(CNTR_CODE)) |>
 
 # for testing exclude NAs for now
 hist_pop <- hist_pop |> filter(!(if_any(POP_1961_01_01:POP_2011_01_01, ~ is.na(.) | . < 0) | st_is_empty(geometry)))
+
+
+
+# Perimeter definition for rural areas ------------------------------------
+
