@@ -10,10 +10,12 @@ require(s2)
 require(sf)
 
 
+
 # Historic LAU population data --------------------------------------------
 
 dir.create("data")
 hist_pop <- readxl::read_xlsx(path = 'data/LAU2_REFERENCE_DATES_POPL.xlsx')
+
 
 
 # Geographic shapefiles for historic LAU population data ------------------
@@ -41,6 +43,7 @@ ie <- read_sf('data/shapefiles/ie')
 tr <- read_sf('data/shapefiles/tr')
 
 # !! also adjust these special cases for downloads from Google Drive !!
+
 
 
 # Special cases: Joining historic LAU population with geolocation  --------
@@ -72,15 +75,61 @@ hist_pop <- hist_pop |>
   select(-geometry.x, -geometry.y)
 
 
-# Clean, transform and merge shapefile collection of remaining countries to pop data ---------
+
+# LAU population data: Accounting for minor peculiarities -----------------
+
+# Check: Do values in CNTR_CODE with the country-determiner in CNTR_LAU_CODE?
+sum(hist_pop$CNTR_CODE == str_extract(hist_pop$CNTR_LAU_CODE, "^.{2}"), na.rm = TRUE)
+nrow(hist_pop)
+hist_pop |> filter(is.na(hist_pop$CNTR_CODE == str_extract(hist_pop$CNTR_LAU_CODE, "^.{2}")))
+# Yes, with the exception of two French LAUs they do correspond!
+# These two French LAUs do not have a CNTR_LAU_CODE at all
+
+# Hungary: Agreggate population of all Budapest districts to correspond to the city's single shape file
+budapest <- hist_pop |>
+  filter(str_starts(LAU_LABEL, "Budapest_"))
+budap_aggreg <- budapest |>
+  summarize(CNTR_CODE = "HU", CNTR_LAU_CODE = "HU13578", LAU_LABEL = "Budapest (aggreg.)",
+            across(starts_with("POP_"), sum))
+hist_pop <- hist_pop |>
+  bind_rows(budap_aggreg) |>
+  filter(!CNTR_LAU_CODE %in% budapest$CNTR_LAU_CODE)
+# All Budapest population figures are aggregated to single LAU and added population data set.
+# The remaining disaggregated LAUs with no further use are removed.
+
+# Netherlands
+
+
+
+# Clean and transform shapefile collection of remaining countries to pop data ---------
+
+# Create new column that combines CNTR_CODE and LAU_ID
+shapes_files <- shapes_files |>
+  mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID))
+
+# Check: Do values in columns GISCO_ID and FID correspond?
+sum(shapes_files$GISCO_ID != shapes_files$FID)
+# Yes, they do correspond fully.
+
+# Check: Does the newly created column CNTR_LAU_ID correspond to both of the investigated columns above?
+sum(shapes_files$CNTR_LAU_ID != gsub("_", "", shapes_files$GISCO_ID))
+shapes_files |> filter(shapes_files$CNTR_LAU_ID != gsub("_", "", shapes_files$GISCO_ID))
+# With the exception of Budapest (Hungary), the newly created column corresponds to the other two.
+# The exception of Budapest is taken care of under the peculiarities of hist_pop above.
 
 shapes_files <- shapes_files |>
-  mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID)) |>
   filter(!CNTR_CODE %in% c("LT", "PT", "SI", "EL", "IE", "TR")) |>
   select(CNTR_LAU_ID, POP_2012, POP_DENS_2012, AREA_KM2, geometry)
 # reduces shape file collection data set to only the needed columns;
 # excludes the countries that are special cases (see above) or for which the LAU1 level of Eurogeographis7.0 is not retrievable via the GISCO API
+st_crs(shapes_files)
 shapes_files <- shapes_files |> st_transform("OGC:CRS84")
+# !!COMMENT!!
+
+
+
+# Merge shapefile collection of remaining countries to pop data -----------
+
 hist_pop <- left_join(hist_pop, shapes_files, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   mutate(geometry = if_else(st_is_empty(geometry.x), geometry.y, geometry.x)) |>
   select(-geometry.x, -geometry.y) |>
