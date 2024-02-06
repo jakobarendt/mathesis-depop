@@ -97,6 +97,14 @@ hist_pop <- hist_pop |>
 # All Budapest population figures are aggregated to single LAU and added population data set.
 # The remaining disaggregated LAUs with no further use are removed.
 
+# Austria
+# use shape file collection from 2011
+
+# Bulgaria
+# use shape file collection from 2011
+
+
+
 # Netherlands
 
 
@@ -116,6 +124,7 @@ sum(shapes_files$CNTR_LAU_ID != gsub("_", "", shapes_files$GISCO_ID))
 shapes_files |> filter(shapes_files$CNTR_LAU_ID != gsub("_", "", shapes_files$GISCO_ID))
 # With the exception of Budapest (Hungary), the newly created column corresponds to the other two.
 # The exception of Budapest is taken care of under the peculiarities of hist_pop above.
+# It should now match correctly as the key based on the LAU_ID.
 
 shapes_files <- shapes_files |>
   filter(!CNTR_CODE %in% c("LT", "PT", "SI", "EL", "IE", "TR")) |>
@@ -161,7 +170,7 @@ count_country <- hist_pop |> tibble() |>
   summarise(TOT_OBS = n())
 left_join(count_country, na_count_country, by = join_by(CNTR_CODE)) |>
   mutate(NA_SHARE = NA_COUNT / TOT_OBS) |>
-  print(n = Inf)
+  mutate(CORRECTLY_ASSIGNED = TOT_OBS - NA_COUNT) |> View()
 
 # for testing exclude NAs for now
 hist_pop <- hist_pop |> filter(!(if_any(POP_1961_01_01:POP_2011_01_01, ~ is.na(.) | . < 0) | st_is_empty(geometry)))
@@ -170,3 +179,13 @@ hist_pop <- hist_pop |> filter(!(if_any(POP_1961_01_01:POP_2011_01_01, ~ is.na(.
 
 # Perimeter definition for rural areas ------------------------------------
 
+
+
+
+# Observations in different years -----------------------------------------
+
+obs_hist_pop <- hist_pop |> group_by(CNTR_CODE) |> summarise(HIST_POP_OBS = n())
+obs_shapes_2011 <- shapes_files_2011 |> as_tibble() |> select(-geometry) |> group_by(CNTR_CODE) |> summarise(SHAPES_OBS_2011 = n())
+obs_shapes_2012 <- shapes_files |> as_tibble() |> select(-geometry) |> group_by(CNTR_CODE) |> summarise(SHAPES_OBS_2012 = n())
+obs_hist_pop |> full_join(obs_shapes_2011) |> full_join(obs_shapes_2012) |>
+  filter(if_any(everything(), ~ is.na(.)))
