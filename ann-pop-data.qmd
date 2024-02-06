@@ -4,7 +4,7 @@
 
 -   **difference again between geodetic reference datum and geographic coordinate reference system?? (and also own sheets of notes)**
 
--   **add that it is not actually based on the standard WGS84, but rather on the WGS84 for computer usage (where x and y axes are interchanged) see sf documentation for a brief explanation; OGC:CRS84**
+-   **add that it is not actually based on the standard WGS84, but rather on the WGS84 for computer usage (where x and y axes are interchanged) see sf documentation for a brief explanation** @sf**; OGC:CRS84 is considered the traditional GIS order, supposed standard is to have longitude as the first coordinate, and latitude as the second**
 
 -   shapes retrieved via GISCO API and special cases delivered on EUROSTAT project website
 
@@ -21,3 +21,42 @@
     However, any potential version differences, whether they be caused by improved accuracy of the datum or by tectonic plate movements, are considered to have little to no influence on this research set up.
     The dimensions and sizes of the geographical units under investigation are disproportionately bigger than any of the potential datum shifts caused by the differing WGS84 versions.
     Besides, potential misalignents due to tectonic plate movement are unlikely as this investigation focuses on a single continent, and almost all of the investigated land mass lies on the same principal tectonic plates (with Macaronesia and Iceland being only minor exceptions, **are there any other exceptions?? --\> plot map quickly with leaflet**)
+
+| Country | Observations (Individ. File) | Geo Version (Individ. File) |
+|---------|------------------------------|-----------------------------|
+| AT      | 2357                         | 1 Jan 2012                  |
+| BE      | 589                          | 1 Jan 2012                  |
+| BG      | 4619                         | not specified               |
+| CH      | 2499                         | not specified               |
+| CY      | 614                          | not specified               |
+| CZ      | 6251                         | 1 Jan 2012                  |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+|         |                              |                             |
+
+: Countries, their observations and geolocation characteristics
