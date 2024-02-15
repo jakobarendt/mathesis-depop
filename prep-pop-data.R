@@ -42,3 +42,17 @@ shapes_tr <- read_sf('data/shapefiles/tr') |> st_transform("OGC:CRS84")
 # Historic LAU population data --------------------------------------------
 
 pop_orig <- readxl::read_xlsx(path = 'data/LAU2_REFERENCE_DATES_POPL.xlsx')
+
+
+
+# Population figures and shapes per country -------------------------------
+
+obs_pop_orig <- pop_orig |>
+  group_by(CNTR_CODE) |> summarise(HIST_POP_OBS = n())
+obs_shapes_2011 <- shapes_2011 |>
+  as_tibble() |> select(-geometry) |> group_by(CNTR_CODE) |> summarise(SHAPES_2011_OBS = n())
+obs_shapes_2012 <- shapes_2012 |>
+  as_tibble() |> select(-geometry) |> group_by(CNTR_CODE) |> summarise(SHAPES_2012_OBS = n())
+# Join numbers of observations to table by CNTR_CODE:
+obs_pop_orig |> left_join(obs_shapes_2011) |> left_join(obs_shapes_2012) |>
+  writexl::write_xlsx("~/Downloads/test.xlsx")
