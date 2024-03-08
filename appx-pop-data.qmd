@@ -1,10 +1,10 @@
-# Historic Population Data and its Georeferences
+# Historic Population Data and its Georeferences {#sec-AppxPopData}
 
 -   grid weather data is based on the WGS84 geodetic reference datum and geographic coordinate reference system (CRS), therefore shapes are retrieved as projections that are referenced to the same datum or they are transformed accordingly
 
 -   **difference again between geodetic reference datum and geographic coordinate reference system?? (and also own sheets of notes)**
 
--   **add that it is not actually based on the standard WGS84, but rather on the WGS84 for computer usage (where x and y axes are interchanged) see sf documentation for a brief explanation** @sf**; OGC:CRS84 is considered the traditional GIS order, supposed standard is to have longitude as the first coordinate, and latitude as the second**
+-   **add that it is not actually based on the standard WGS84, but rather on the WGS84 for computer usage (where x and y axes are interchanged) see sf documentation for a brief explanation** @sf**; OGC:CRS84 is considered the "traditional" GIS order, supposed standard is to have longitude as the first coordinate, and latitude as the second**
 
 -   shapes retrieved via GISCO API and special cases delivered on EUROSTAT project website
 

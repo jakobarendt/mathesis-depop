@@ -20,7 +20,8 @@ book:
     - conclusion.qmd
     - references.qmd
   appendices:
-    - ann-pop-data.qmd
+    - appx-pop-data.qmd
+    - appx-weat-data.qmd
 
 bibliography: references.bib
 
