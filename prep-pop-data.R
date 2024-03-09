@@ -1,5 +1,5 @@
-### This R script centrally loads packages, georeferences/shapefiles and corresponding population data for usage in the different chapters. ###
-### It also cleans and combines the different population data attributes to prepare the (georeferenced) population data for mapping onto the climate data and its usage for further causal econometric analysis. ###
+### This R script centrally loads packages, georeferences/shapefiles and corresponding population data for usage in the following steps of analysis and different chapters. ###
+### It also cleans and combines the different population data attributes to prepare the georeferenced population data for mapping onto the climate data and its usage for further causal econometric analysis. ###
 
 
 
@@ -47,12 +47,17 @@ pop_orig <- readxl::read_xlsx(path = 'data/LAU2_REFERENCE_DATES_POPL.xlsx')
 
 # Population figures and shapes per country -------------------------------
 
-obs_pop_orig <- pop_orig |>
-  group_by(CNTR_CODE) |> summarise(HIST_POP_OBS = n())
+## LAUs with population figures per country
+obs_laus_pop_orig <- pop_orig |>
+  group_by(CNTR_CODE) |> summarise(HIST_POP_OBS_LAUS = n())
+## Shapes of 2011 (Eurogeographics v5.0) per country
 obs_shapes_2011 <- shapes_2011 |>
   as_tibble() |> select(-geometry) |> group_by(CNTR_CODE) |> summarise(SHAPES_2011_OBS = n())
+## Shapes of 2012 (Eurogeographics v7.0) per country
 obs_shapes_2012 <- shapes_2012 |>
   as_tibble() |> select(-geometry) |> group_by(CNTR_CODE) |> summarise(SHAPES_2012_OBS = n())
-# Join numbers of observations to table by CNTR_CODE:
-obs_pop_orig |> left_join(obs_shapes_2011) |> left_join(obs_shapes_2012) |>
-  writexl::write_xlsx("~/Downloads/test.xlsx")
+## Join numbers of shapes to population figures table by CNTR_CODE and save as Excel file
+table_obs <- obs_laus_pop_orig |>
+  left_join(obs_shapes_2011) |> left_join(obs_shapes_2012)
+# table_obs |> writexl::write_xlsx("obs-pop-figures-shapes.xlsx")
+### Save as Excel file is commented out so as to not overwrite the annotated file
