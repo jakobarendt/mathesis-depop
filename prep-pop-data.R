@@ -83,9 +83,13 @@ sum(shapes_2012$GISCO_ID != shapes_2012$FID)
 sum(shapes_2011$CNTR_LAU_ID != gsub("_", "", shapes_2011$GISCO_ID))
 sum(shapes_2012$CNTR_LAU_ID != gsub("_", "", shapes_2012$GISCO_ID))
 shapes_2012 |> filter(shapes_2012$CNTR_LAU_ID != gsub("_", "", shapes_2012$GISCO_ID))
-### With the exception of Budapest (HU) in the shapes of 2012 (Eurogeographics v7.0),
+### With the exception of Budapest (HU) in the shapefiles of 2012 (EuroGeographics v7.0),
 ### the newly created column corresponds to the other two.
-### !!ADD ADDITIONAL COMMENT HOW THIS IS TAKEN CARE OF!!
+## Correct CNTR_LAU_ID for Budapest in EuroGeographics v7.0 shapefile, such that
+## it corresponds to the EuroGeographics v5.0 shapefile (and the population data
+## that is transformed later)
+shapes_2012 <- shapes_2012 |>
+  mutate(CNTR_LAU_ID = if_else(CNTR_LAU_ID == "HU13578", "HU1357", CNTR_LAU_ID))
 ## Reduce shapefiles to the columns needed
 shapes_2011 <- shapes_2011 |>
   select(CNTR_LAU_ID, POP_2011, POP_DENS_2011, AREA_KM2, geometry) |>
@@ -116,3 +120,32 @@ st_crs(shapes_2012)
 st_crs(shapes_gr)
 st_crs(shapes_ie)
 st_crs(shapes_tr)
+
+
+
+# Historic LAU population data: Correct minor peculiarities ---------------
+
+# Check: Do values in CNTR_CODE correspond with the country-determiner in CNTR_LAU_CODE?
+sum(pop_orig$CNTR_CODE == str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}"), na.rm = TRUE)
+nrow(pop_orig)
+pop_orig |> filter(pop_orig$CNTR_CODE != str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}")
+                   | is.na(pop_orig$CNTR_CODE == str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}")))
+### Yes, they do correspond, with the exception of two French LAUs that do not
+### have CNTR_LAU_CODE at all.
+## The two French LAUs without the CNTR_LAU_CODE identifier are removed from the data set
+pop_orig <- pop_orig |> filter(!is.na(CNTR_LAU_CODE))
+
+# Hungary: Aggregate (sum up) population figures of all Budapest districts to
+# correspond to the city's single shape file
+budapest <- pop_orig |>
+  filter(str_starts(LAU_LABEL, "Budapest_"))
+budap_aggreg <- budapest |>
+  summarize(CNTR_CODE = "HU", CNTR_LAU_CODE = "HU1357", LAU_LABEL = "Budapest (aggreg.)",
+            across(starts_with("POP_"), ~ sum(.x, na.rm = TRUE)))
+pop_orig <- pop_orig |>
+  bind_rows(budap_aggreg) |>
+  filter(!CNTR_LAU_CODE %in% budapest$CNTR_LAU_CODE)
+rm(budapest, budap_aggreg)
+# All Budapest population figures are aggregated to a single LAU and added to
+# the population data set. The remaining disaggregated Budapest LAUs with no
+# further use are removed.
