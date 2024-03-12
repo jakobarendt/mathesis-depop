@@ -107,7 +107,7 @@ shapes_gr <- shapes_gr |>
 shapes_ie <- shapes_ie |>
   mutate(CNTR_LAU_ID = paste0("IE", MERG_COD)) |>
   select(CNTR_LAU_ID, Shape_Area, geometry) |>
-  rename("SHAPE_AREA_EL" = Shape_Area, "geometry_IE" = geometry)
+  rename("SHAPE_AREA_IE" = Shape_Area, "geometry_IE" = geometry)
 shapes_tr <- shapes_tr |>
   select(ICC_LAU_CO, SHAPE_AREA, geometry) |>
   rename("CNTR_LAU_ID" = ICC_LAU_CO, "SHAPE_AREA_TR" = SHAPE_AREA,
@@ -149,3 +149,61 @@ rm(budapest, budap_aggreg)
 # All Budapest population figures are aggregated to a single LAU and added to
 # the population data set. The remaining disaggregated Budapest LAUs with no
 # further use are removed.
+
+
+
+# Join all shapefiles with population data --------------------------------
+
+pop_all_shapes <- pop_orig |>
+  left_join(shapes_2011, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(shapes_2012, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(shapes_gr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(shapes_ie, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(shapes_tr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)
+  )
+
+# Function for assigning EuroGeographics version or other shapefile in column
+# for overview of matching succes table
+version_shape <- function(country) {
+  case_when(
+    country %in% c("PT", "SI") ~ "cannot join",
+    country %in% c("EL", "IE", "TR") ~ "proprietary",
+    country %in% c("CY", "DE", "LI", "LT", "LU", "LV", "UK") ~ "v7.0",
+    .default = "v5.0" # AT, BE, BG, CH, CZ, DK, EE, ES, FI, FR, HU, IS, IT, MK, MT, NL, NO, PL, RO, SE, SK
+  ) # not yet sure: HR, LU
+}
+# alternative function that determines the max between two columns and returns
+# "v5.0" or "v7.0", depending on which column has the high number of non-NA values
+
+## !!CHECK AGAIN: Not sure whether to go from particular to general or vice versa!!
+
+version_shape_alt <- function(country, column1, column2) {
+  case_when(
+    country %in% c("PT", "SI") ~ "cannot join",
+    country %in% c("EL", "IE", "TR") ~ "proprietary",
+    column1 >= column2 ~ "v5.0",
+    column1 < column2 ~ "v7.0",
+    .default = "cannot join"
+  )
+
+  # if (country %in% c("PT", "SI")) {
+  #   return("cannot join")
+  # } else if (country %in% c("EL", "IE", "TR")) {
+  #   return("proprietary")
+  # } else {
+  #   case_when(
+  #     column1 >= column2 ~ "v5.0",
+  #     column1 < column2 ~ "v7.0",
+  #     .default = "cannot join"
+  #   )
+  # }
+}
+
+# Check: How do the two EuroGeographics shapefile versions compare to each other
+# regarding the successful join to the population data?
+pop_all_shapes |>
+  group_by(CNTR_CODE) |>
+  summarise(HIST_POP_OBS_LAUS = n(), SHAPES_2011_JOINED = sum(!st_is_empty(geometry_2011)),
+            SHAPES_2012_JOINED = sum(!st_is_empty(geometry_2012))) |>
+  mutate(VERS_SHAPEFILE = version_shape(CNTR_CODE)) |>
+  mutate(VERS_SHAPEFILE_ALT = version_shape_alt(CNTR_CODE, SHAPES_2011_JOINED, SHAPES_2012_JOINED)) |> View()
