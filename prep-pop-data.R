@@ -61,6 +61,8 @@ table_obs <- obs_laus_pop_orig |>
   left_join(obs_shapes_2011) |> left_join(obs_shapes_2012)
 # table_obs |> writexl::write_xlsx("obs-pop-figures-shapes.xlsx")
 ### Save as Excel file is commented out so as to not overwrite the annotated file
+## Remove data as it is only needed for producing the table and to keep workspace clean
+rm(obs_laus_pop_orig, obs_shapes_2011, obs_shapes_2012)
 
 # !!add column that denotes which shapes version is actually used for each country!!
 
@@ -86,16 +88,16 @@ shapes_2012 |> filter(shapes_2012$CNTR_LAU_ID != gsub("_", "", shapes_2012$GISCO
 ### With the exception of Budapest (HU) in the shapefiles of 2012 (EuroGeographics v7.0),
 ### the newly created column corresponds to the other two.
 ## Correct CNTR_LAU_ID for Budapest in EuroGeographics v7.0 shapefile, such that
-## it corresponds to the EuroGeographics v5.0 shapefile (and the population data
+## it corresponds to the EuroGeographics v5.0 shapefile (and to the population data
 ## that is transformed later)
 shapes_2012 <- shapes_2012 |>
   mutate(CNTR_LAU_ID = if_else(CNTR_LAU_ID == "HU13578", "HU1357", CNTR_LAU_ID))
 ## Reduce shapefiles to the columns needed
 shapes_2011 <- shapes_2011 |>
-  select(CNTR_LAU_ID, POP_2011, POP_DENS_2011, AREA_KM2, geometry) |>
+  select(CNTR_LAU_ID, LAU_NAME, POP_2011, POP_DENS_2011, AREA_KM2, geometry) |>
   rename("AREA_KM2_2011" = AREA_KM2, "geometry_2011" = geometry)
 shapes_2012 <- shapes_2012 |>
-  select(CNTR_LAU_ID, POP_2012, POP_DENS_2012, AREA_KM2, geometry) |>
+  select(CNTR_LAU_ID, LAU_NAME, POP_2012, POP_DENS_2012, AREA_KM2, geometry) |>
   rename("AREA_KM2_2012" = AREA_KM2, "geometry_2012" = geometry)
 
 # Shapefiles delivered with data set: GR, IE, TR
@@ -131,7 +133,7 @@ nrow(pop_orig)
 pop_orig |> filter(pop_orig$CNTR_CODE != str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}")
                    | is.na(pop_orig$CNTR_CODE == str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}")))
 ### Yes, they do correspond, with the exception of two French LAUs that do not
-### have CNTR_LAU_CODE at all.
+### have a CNTR_LAU_CODE at all.
 ## The two French LAUs without the CNTR_LAU_CODE identifier are removed from the data set
 pop_orig <- pop_orig |> filter(!is.na(CNTR_LAU_CODE))
 
@@ -146,7 +148,7 @@ pop_orig <- pop_orig |>
   bind_rows(budap_aggreg) |>
   filter(!CNTR_LAU_CODE %in% budapest$CNTR_LAU_CODE)
 rm(budapest, budap_aggreg)
-# All Budapest population figures are aggregated to a single LAU and added to
+# All Budapest population figures are summed to a single LAU and added to
 # the population data set. The remaining disaggregated Budapest LAUs with no
 # further use are removed.
 
@@ -155,8 +157,8 @@ rm(budapest, budap_aggreg)
 # Join all shapefiles with population data --------------------------------
 
 pop_all_shapes <- pop_orig |>
-  left_join(shapes_2011, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
-  left_join(shapes_2012, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(select(shapes_2011, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(select(shapes_2012, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   left_join(shapes_gr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   left_join(shapes_ie, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   left_join(shapes_tr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)
@@ -181,8 +183,8 @@ version_shape_alt <- function(country, column1, column2) {
   case_when(
     country %in% c("PT", "SI") ~ "cannot join",
     country %in% c("EL", "IE", "TR") ~ "proprietary",
-    column1 >= column2 ~ "v5.0",
     column1 < column2 ~ "v7.0",
+    column1 >= column2 ~ "v5.0",
     .default = "cannot join"
   )
 
