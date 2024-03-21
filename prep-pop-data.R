@@ -1,4 +1,4 @@
-### This R script centrally loads packages, georeferences/shapefiles and corresponding population data for usage in the following steps of analysis and different chapters. ###
+### This R script centrally loads packages, LAU georeferences/shapefiles and corresponding population data for usage in the following steps of analysis and different chapters. ###
 ### It also cleans and combines the different population data attributes to prepare the georeferenced population data for mapping onto the climate data and its usage for further causal econometric analysis. ###
 
 
@@ -27,15 +27,18 @@ shapes_2012 <- giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles
 # 2. Load shapefiles from this project's cloud storage
 #### !! still missing !!
 
+# Load and transform separately delivered shapefiles: Greece, Ireland, Turkey
+shapes_gr <- read_sf('data/shapefiles/gr')
+shapes_ie <- read_sf('data/shapefiles/ie')
+shapes_tr <- read_sf('data/shapefiles/tr')
+#### !! also adjust these special cases for downloads from Google Drive !!
+
 # Transform coordinates of shapefiles to correspond to the projection of the weather grid data
 shapes_2011 <- shapes_2011 |> st_transform("OGC:CRS84")
 shapes_2012 <- shapes_2012 |> st_transform("OGC:CRS84")
-
-# Load and transform separately delivered shapefiles: Greece, Ireland, Turkey
-shapes_gr <- read_sf('data/shapefiles/gr') |> st_transform("OGC:CRS84")
-shapes_ie <- read_sf('data/shapefiles/ie') |> st_transform("OGC:CRS84")
-shapes_tr <- read_sf('data/shapefiles/tr') |> st_transform("OGC:CRS84")
-#### !! also adjust these special cases for downloads from Google Drive !!
+shapes_gr <- shapes_gr |> st_transform("OGC:CRS84")
+shapes_ie <- shapes_ie |> st_transform("OGC:CRS84")
+shapes_tr <- shapes_tr |> st_transform("OGC:CRS84")
 
 
 
@@ -61,7 +64,7 @@ table_obs <- obs_laus_pop_orig |>
   left_join(obs_shapes_2011) |> left_join(obs_shapes_2012)
 # table_obs |> writexl::write_xlsx("obs-pop-figures-shapes.xlsx")
 ### Save as Excel file is commented out so as to not overwrite the annotated file
-## Remove data as it is only needed for producing the table and to keep workspace clean
+## Remove data to free up work space; it is only needed for producing the table
 rm(obs_laus_pop_orig, obs_shapes_2011, obs_shapes_2012)
 
 # !!add column that denotes which shapes version is actually used for each country!!
@@ -148,9 +151,9 @@ pop_orig <- pop_orig |>
   bind_rows(budap_aggreg) |>
   filter(!CNTR_LAU_CODE %in% budapest$CNTR_LAU_CODE)
 rm(budapest, budap_aggreg)
-# All Budapest population figures are summed to a single LAU and added to
-# the population data set. The remaining disaggregated Budapest LAUs with no
-# further use are removed.
+## All Budapest population figures are summed up to a single LAU and added to
+## the population data set. The remaining disaggregated Budapest LAUs with no
+## further use are removed.
 
 
 
@@ -161,51 +164,40 @@ pop_all_shapes <- pop_orig |>
   left_join(select(shapes_2012, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   left_join(shapes_gr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   left_join(shapes_ie, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
-  left_join(shapes_tr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)
-  )
+  left_join(shapes_tr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID))
 
-# Function for assigning EuroGeographics version or other shapefile in column
-# for overview of matching succes table
+# Function for assigning EuroGeographics version or other shapefile version for
+# each country of the LAUs
 version_shape <- function(country) {
   case_when(
     country %in% c("PT", "SI") ~ "cannot join",
     country %in% c("EL", "IE", "TR") ~ "proprietary",
-    country %in% c("CY", "DE", "LI", "LT", "LU", "LV", "UK") ~ "v7.0",
-    .default = "v5.0" # AT, BE, BG, CH, CZ, DK, EE, ES, FI, FR, HU, IS, IT, MK, MT, NL, NO, PL, RO, SE, SK
-  ) # not yet sure: HR, LU
+    country %in% c("CY", "HR", "LI", "LT", "LU", "LV", "UK") ~ "v7.0",
+    .default = "v5.0" # AT, BE, BG, CH, CZ, DE, DK, EE, ES, FI, FR, HU, IS, IT, MK, MT, NL, NO, PL, RO, SE, SK
+  )
 }
 # alternative function that determines the max between two columns and returns
 # "v5.0" or "v7.0", depending on which column has the high number of non-NA values
-
-## !!CHECK AGAIN: Not sure whether to go from particular to general or vice versa!!
-
 version_shape_alt <- function(country, column1, column2) {
   case_when(
     country %in% c("PT", "SI") ~ "cannot join",
     country %in% c("EL", "IE", "TR") ~ "proprietary",
+    country == "DE" ~ "v5.0",
     column1 < column2 ~ "v7.0",
     column1 >= column2 ~ "v5.0",
     .default = "cannot join"
   )
-
-  # if (country %in% c("PT", "SI")) {
-  #   return("cannot join")
-  # } else if (country %in% c("EL", "IE", "TR")) {
-  #   return("proprietary")
-  # } else {
-  #   case_when(
-  #     column1 >= column2 ~ "v5.0",
-  #     column1 < column2 ~ "v7.0",
-  #     .default = "cannot join"
-  #   )
-  # }
 }
+# Shapefile version with higher match rates are taken
+# If match rates are equal, v5.0 is taken
+# (DE is exception)
 
 # Check: How do the two EuroGeographics shapefile versions compare to each other
 # regarding the successful join to the population data?
-pop_all_shapes |>
+table_match_rates <- pop_all_shapes |>
   group_by(CNTR_CODE) |>
-  summarise(HIST_POP_OBS_LAUS = n(), SHAPES_2011_JOINED = sum(!st_is_empty(geometry_2011)),
+  summarise(HIST_POP_OBS_LAUS = n(),
+            SHAPES_2011_JOINED = sum(!st_is_empty(geometry_2011)),
             SHAPES_2012_JOINED = sum(!st_is_empty(geometry_2012))) |>
   mutate(VERS_SHAPEFILE = version_shape(CNTR_CODE)) |>
-  mutate(VERS_SHAPEFILE_ALT = version_shape_alt(CNTR_CODE, SHAPES_2011_JOINED, SHAPES_2012_JOINED)) |> View()
+  mutate(VERS_SHAPEFILE_ALT = version_shape_alt(CNTR_CODE, SHAPES_2011_JOINED, SHAPES_2012_JOINED))
