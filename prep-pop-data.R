@@ -155,6 +155,25 @@ rm(budapest, budap_aggreg)
 ## the population data set. The remaining disaggregated Budapest LAUs with no
 ## further use are removed.
 
+# Croatia (HR): Extract last five digits of CNTR_LAU_CODE to correspond to the
+# CNTR_LAU_ID structure of shapefile of 2012 (EuroGeographics v7.0)
+pop_orig <- pop_orig |>
+  mutate(CNTR_LAU_CODE = if_else(CNTR_CODE == "HR",
+                                 paste0(CNTR_CODE, str_sub(CNTR_LAU_CODE, 5, 9)),
+                                 CNTR_LAU_CODE))
+
+# Luxembourg (LU): Add population figures of Eschweiler to Wiltz, since they
+# have a combined georeference in the shapefile of 2012 (EuroGeographics v7.0)
+eschweiler_wiltz <- pop_orig |>
+  filter(CNTR_CODE == "LU" & LAU_LABEL %in% c("Eschweiler", "Wiltz"))
+eschweiler_wiltz_aggreg <- eschweiler_wiltz |>
+  summarize(CNTR_CODE = "LU", CNTR_LAU_CODE = "LU0807", LAU_LABEL = "Eschweiler u. Wiltz",
+            across(starts_with("POP_"), ~ sum(.x, na.rm = TRUE)))
+pop_orig <- pop_orig |>
+  filter(!CNTR_LAU_CODE %in% eschweiler_wiltz$CNTR_LAU_CODE) |>
+  bind_rows(eschweiler_wiltz_aggreg)
+rm(eschweiler_wiltz, eschweiler_wiltz_aggreg)
+
 
 
 # Join all shapefiles with population data --------------------------------
