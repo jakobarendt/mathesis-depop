@@ -220,3 +220,25 @@ table_match_rates <- pop_all_shapes |>
             SHAPES_2012_JOINED = sum(!st_is_empty(geometry_2012))) |>
   mutate(VERS_SHAPEFILE = version_shape(CNTR_CODE)) |>
   mutate(VERS_SHAPEFILE_ALT = version_shape_alt(CNTR_CODE, SHAPES_2011_JOINED, SHAPES_2012_JOINED))
+
+# Final georeferenced population data
+
+population <- pop_all_shapes |>
+  left_join(table_match_rates, by = join_by(CNTR_CODE == CNTR_CODE)) |>
+  select(-c(HIST_POP_OBS_LAUS, SHAPES_2011_JOINED, SHAPES_2012_JOINED, VERS_SHAPEFILE)) |>
+  rename(VERS_SHAPEFILE = VERS_SHAPEFILE_ALT) |>
+  mutate(geometry = case_when(
+    CNTR_CODE == "TR" ~ geometry_TR,
+    CNTR_CODE == "IE" ~ geometry_IE,
+    CNTR_CODE == "EL" ~ geometry_EL,
+    VERS_SHAPEFILE == "v7.0" ~ geometry_2012,
+    VERS_SHAPEFILE == "v5.0" ~ geometry_2011
+  )) |>
+
+  filter(VERS_SHAPEFILE != "cannot join")
+## Assign shapefile version to each LAU
+
+
+
+
+save(pop, file = 'data/temp/population.RData')
