@@ -22,6 +22,15 @@
     The dimensions and sizes of the geographical units under investigation are disproportionately bigger than any of the potential datum shifts caused by the differing WGS84 versions.
     Besides, potential misalignents due to tectonic plate movement are unlikely as this investigation focuses on a single continent, and almost all of the investigated land mass lies on the same principal tectonic plates (with Macaronesia and Iceland being only minor exceptions, **are there any other exceptions?? --\> plot map quickly with leaflet**)
 
+```{r}
+#| eval: false
+
+shapes_2011 |> filter(startsWith(CNTR_LAU_ID, "LU")) |> ggplot() + geom_sf(aes(fill = ifelse(LAU_NAME == "Eschweiler" | LAU_NAME == "Wiltz", "Highlight", "Default"))) + scale_fill_manual(values = c("Highlight" = "red", "Default" = "grey")) +
+  theme(legend.position = "none")
+shapes_2012 |> filter(startsWith(CNTR_LAU_ID, "LU")) |> ggplot() + geom_sf()
+
+```
+
 | Country | Observations (Individ. File) | Geo Version (Individ. File) |
 |---------|------------------------------|-----------------------------|
 | AT      | 2357                         | 1 Jan 2012                  |
@@ -60,3 +69,5 @@
 |         |                              |                             |
 
 : Countries, their observations and geolocation characteristics
+
+The R script [`prep-pop-data.R`](./prep-pop-data.R) documents all of the steps taken as part of the cleaning, reorganizing and georeferecing of the historic LAU population data.
