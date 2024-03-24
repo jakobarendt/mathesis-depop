@@ -175,6 +175,10 @@ pop_orig <- pop_orig |>
   bind_rows(eschweiler_wiltz_aggreg)
 rm(eschweiler_wiltz, eschweiler_wiltz_aggreg)
 
+# Population values below zero: Set to NA
+pop_orig <- pop_orig |>
+  mutate(across(POP_1961_01_01:POP_2011_01_01, ~ if_else(. < 0, NA, .)))
+
 
 
 # Join all shapefiles with population data --------------------------------
