@@ -186,32 +186,6 @@ pop_all_shapes <- pop_orig |>
   left_join(shapes_ie, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   left_join(shapes_tr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID))
 
-# Function for assigning EuroGeographics version or other shapefile version for
-# each country of the LAUs
-version_shape <- function(country) {
-  case_when(
-    country %in% c("PT", "SI") ~ "cannot join",
-    country %in% c("EL", "IE", "TR") ~ "proprietary",
-    country %in% c("CY", "HR", "LI", "LT", "LU", "LV", "UK") ~ "v7.0",
-    .default = "v5.0" # AT, BE, BG, CH, CZ, DE, DK, EE, ES, FI, FR, HU, IS, IT, MK, MT, NL, NO, PL, RO, SE, SK
-  )
-}
-# alternative function that determines the max between two columns and returns
-# "v5.0" or "v7.0", depending on which column has the high number of non-NA values
-version_shape_alt <- function(country, column1, column2) {
-  case_when(
-    country %in% c("PT", "SI") ~ "cannot join",
-    country %in% c("EL", "IE", "TR") ~ "proprietary",
-    country == "DE" ~ "v5.0",
-    column1 < column2 ~ "v7.0",
-    column1 >= column2 ~ "v5.0",
-    .default = "cannot join"
-  )
-}
-# Shapefile version with higher match rates are taken
-# If match rates are equal, v5.0 is taken
-# (DE is exception)
-
 # Check: How do the two EuroGeographics shapefile versions compare to each other
 # regarding the successful join to the population data?
 table_match_rates <- pop_all_shapes |>
@@ -219,11 +193,19 @@ table_match_rates <- pop_all_shapes |>
   summarise(HIST_POP_OBS_LAUS = n(),
             SHAPES_2011_JOINED = sum(!st_is_empty(geometry_2011)),
             SHAPES_2012_JOINED = sum(!st_is_empty(geometry_2012))) |>
-  mutate(VERS_SHAPEFILE = version_shape(CNTR_CODE)) |>
-  mutate(VERS_SHAPEFILE_ALT = version_shape_alt(CNTR_CODE, SHAPES_2011_JOINED, SHAPES_2012_JOINED))
+  mutate(VERS_SHAPEFILE = case_when(
+    CNTR_CODE %in% c("PT", "SI") ~ "cannot join",
+    CNTR_CODE %in% c("EL", "IE", "TR") ~ "proprietary",
+    CNTR_CODE == "DE" ~ "v5.0",
+    SHAPES_2011_JOINED < SHAPES_2012_JOINED ~ "v7.0",
+    SHAPES_2011_JOINED >= SHAPES_2012_JOINED ~ "v5.0",
+    .default = "cannot join"
+  ))
+# For the column denoting the appropriate shapefile version for each country,
+# the version with higher match rate is taken. If match rates are equal, v5.0 is
+# taken (except DE).
 
 # Final georeferenced population data
-
 population <- pop_all_shapes |>
   left_join(table_match_rates, by = join_by(CNTR_CODE == CNTR_CODE)) |>
   select(-c(HIST_POP_OBS_LAUS, SHAPES_2011_JOINED, SHAPES_2012_JOINED, VERS_SHAPEFILE)) |>
