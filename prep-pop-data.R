@@ -207,9 +207,8 @@ table_match_rates <- pop_all_shapes |>
 
 # Final georeferenced population data
 population <- pop_all_shapes |>
-  left_join(table_match_rates, by = join_by(CNTR_CODE == CNTR_CODE)) |>
-  select(-c(HIST_POP_OBS_LAUS, SHAPES_2011_JOINED, SHAPES_2012_JOINED, VERS_SHAPEFILE)) |>
-  rename(VERS_SHAPEFILE = VERS_SHAPEFILE_ALT) |>
+  left_join(select(table_match_rates, CNTR_CODE, VERS_SHAPEFILE),
+            by = join_by(CNTR_CODE == CNTR_CODE)) |>
   mutate(geometry = case_when(
     CNTR_CODE == "TR" ~ geometry_TR,
     CNTR_CODE == "IE" ~ geometry_IE,
@@ -217,11 +216,34 @@ population <- pop_all_shapes |>
     VERS_SHAPEFILE == "v7.0" ~ geometry_2012,
     VERS_SHAPEFILE == "v5.0" ~ geometry_2011
   )) |>
+  mutate(POP_2011_2012 = case_when(
+    VERS_SHAPEFILE == "v7.0" ~ POP_2012,
+    VERS_SHAPEFILE == "v5.0" ~ POP_2011
+  )) |>
+  mutate(POP_DENS_2011_2012 = case_when(
+    VERS_SHAPEFILE == "v7.0" ~ POP_DENS_2012,
+    VERS_SHAPEFILE == "v5.0" ~ POP_DENS_2011
+  )) |>
+  mutate(AREA_KM2_2011_2012 = case_when(
+    VERS_SHAPEFILE == "v7.0" ~ AREA_KM2_2012,
+    VERS_SHAPEFILE == "v5.0" ~ AREA_KM2_2011
+  )) |>
+  select(CNTR_CODE, CNTR_LAU_CODE, VERS_SHAPEFILE, LAU_LABEL,
+         POP_1961_01_01, POP_1971_01_01, POP_1981_01_01, POP_1991_01_01,
+         POP_2001_01_01, POP_2011_01_01,
+         POP_2011_2012, POP_DENS_2011_2012, AREA_KM2_2011_2012,
+         geometry,
+         SHAPE_AREA_EL, SHAPE_AREA_IE, SHAPE_AREA_TR) |>
+  filter(VERS_SHAPEFILE != "cannot join") |>
+  filter(!st_is_empty(geometry)) |>
+  st_as_sf()
+## Aggregate final version of historic population data: The georeferences are
+## now combined to a single geometry column; all columns are reorded and reduced
+## to only the ones needed in the further analysis. The LAUs without
+## georeferences are also filtered out.
 
-  filter(VERS_SHAPEFILE != "cannot join")
-## Assign shapefile version to each LAU
 
 
+# Save combined population and geolocation data and metadata tables -------
 
-
-save(pop, file = 'data/temp/population.RData')
+save(population, table_match_rates, table_obs, file = 'data/temp/population.RData')
