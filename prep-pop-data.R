@@ -27,18 +27,19 @@ shapes_2012 <- giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles
 # 2. Load shapefiles from this project's cloud storage
 #### !! still missing !!
 
-# Load and transform separately delivered shapefiles: Greece, Ireland, Turkey
+# Load separately delivered shapefiles: Greece, Ireland, Turkey
 shapes_gr <- read_sf('data/shapefiles/gr')
 shapes_ie <- read_sf('data/shapefiles/ie')
 shapes_tr <- read_sf('data/shapefiles/tr')
 #### !! also adjust these special cases for downloads from Google Drive !!
 
-# Transform coordinates of shapefiles to correspond to the projection of the weather grid data
-shapes_2011 <- shapes_2011 |> st_transform("OGC:CRS84")
-shapes_2012 <- shapes_2012 |> st_transform("OGC:CRS84")
-shapes_gr <- shapes_gr |> st_transform("OGC:CRS84")
-shapes_ie <- shapes_ie |> st_transform("OGC:CRS84")
-shapes_tr <- shapes_tr |> st_transform("OGC:CRS84")
+# Transform coordinate reference systems of shapefiles to correspond to the
+# projection of the weather grid data
+shapes_2011 <- shapes_2011 |> st_transform(crs = "OGC:CRS84")
+shapes_2012 <- shapes_2012 |> st_transform(crs = "OGC:CRS84")
+shapes_gr <- shapes_gr |> st_transform(crs = "OGC:CRS84")
+shapes_ie <- shapes_ie |> st_transform(crs = "OGC:CRS84")
+shapes_tr <- shapes_tr |> st_transform(crs = "OGC:CRS84")
 
 
 
