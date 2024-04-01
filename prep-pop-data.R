@@ -250,4 +250,5 @@ population <- pop_all_shapes |>
 
 # Save combined population and geolocation data and metadata tables -------
 
+dir.create("data/temp")
 save(population, table_match_rates, table_obs, file = 'data/temp/population.RData')
