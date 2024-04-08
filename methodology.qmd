@@ -1,9 +1,41 @@
-# Methodology
+# Identification, Methodology and Setup
 
-abc
+-   Rename this chapter "Identification and Methodology"?
+-   Mention and define *social costs of carbon (SCC)*
+-   Path: results.qmd Discuss causal channels of climate change (agricultural productivity, overall economic productivity and wealth levels, consequent effects on wages and living standards)
+-   **Research design** as key word
+-   Data generating process not well know, high potential for OVB problem
+-   **Identifying variation** as a key word
 
-```{r}
-1 + 1
-mean(2, 5, 6)
-print("This is an R code chunk to test the freeze code capabilities for rendering and publishing with GitHub Actions.")
-```
+Isolating climate information either from weather data or a model of the climate is a non-trivial task.
+Similarly non-trivial is identifying the causal impacts that climatic states described by such information can have onto societal and economic outcomes.
+The following sub chapter entails a quick overview of what common climate-related identification problems look like and what econometric research designs have mostly been applied to them.
+After that, the sub chapters describe the specific identification problem of this study, and then argue for and specify the research design chosen for this problem.
+
+## Common Approaches in Climate Econometrics
+
+In his comprehensive survey article of climate-related econometric methodology, @hsiang-2016-climate-econometrics provides a formal definition of climate, that underlies many empirical studies that relate climate to economic and societal variables.
+In essence, climate is described by a vector $\mathbf{C}_{i \tau}$ consisting of $K$ relevant parameters indexed by $k$ that characterize a joint probability distribution $\psi ( \mathbf{C}_{i \tau} )$.
+In theory, a vector $\mathbf{v}_{it}$ of random variables of weather conditions relevant to economic and societal outcomes (e.g. temperature or precipitation) at any time point $t$ within time period $\tau = [ \underline{t}, \overline{t} )$ and in space $i$ could be drawn from this distribution, such that
+
+$$
+\mathbf{v}_{it} \sim \psi ( \mathbf{C}_{i \tau} ) \quad \forall \, t \in \tau .
+$$ {#eq-climate-distr}
+
+In other words, climate is the parametrization of the joint distribution $\psi ( \cdot )$ of which certain states of weather could realize during time period $\tau$ and at place $i$.
+**(mention theoretical counterparts to c and v??)** Ultimately, the goal of the econometric research design would then be to find an appropriate description of the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate their effects onto any the outcome variable in question.
+
+A multitude of consequences follow from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes observed weather states $\mathbf{v}_{i, t \in \tau}$.
+After all, the observed states could have also realized differently from the theoretical distribution.
+The advantage of this definition is that it allows for climate parameters to be derived from theoretical or numerical models such as reanalyses.
+Second however, the fact that true climate is not known does not imply that observed weather cannot be used to estimate climate impacts.
+After all, the realized weather characteristics $\mathbf{c}$ are still realized of climate characteristics $\mathbf{C}$, mathematically put $\mathbf{c} ( \mathbf{C} )$.
+This consequence might be the most important as it provides the foundation for identification of climate effects from weather data and variation.
+
+## Identification Problem and Methodology
+
+## Econometric Setup
+
+## Questions
+
+-   Reverse causality? More populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions, right?
