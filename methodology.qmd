@@ -1,20 +1,13 @@
-# Identification, Methodology and Setup
-
--   Rename this chapter "Identification and Methodology"?
--   Mention and define *social costs of carbon (SCC)*
--   Path: results.qmd Discuss causal channels of climate change (agricultural productivity, overall economic productivity and wealth levels, consequent effects on wages and living standards)
--   **Research design** as key word
--   Data generating process not well know, high potential for OVB problem
--   **Identifying variation** as a key word
+# Identification, Methodology and Research Design
 
 Isolating climate information either from weather data or a model of the climate is a non-trivial task.
 Similarly non-trivial is identifying the causal impacts that climatic states described by such information can have onto societal and economic outcomes.
 The following sub chapter entails a quick overview of what common climate-related identification problems look like and what econometric research designs have mostly been applied to them.
-After that, the sub chapters describe the specific identification problem of this study, and then argue for and specify the research design chosen for this problem.
+After that, the sub chapters describe the specific identification problem for this study, and then argue for and specify the research design chosen for this problem.
 
 ## Common Approaches in Climate Econometrics
 
-In his comprehensive survey article of climate-related econometric methodology, @hsiang-2016-climate-econometrics provides a formal definition of climate, that underlies many empirical studies that relate climate to economic and societal variables.
+In their comprehensive survey article of climate-related econometric methodology, @hsiang-2016-climate-econometrics provide a formal definition of climate, that underlies many empirical studies that relate climate to economic and societal variables.
 In essence, climate is described by a vector $\mathbf{C}_{i \tau}$ consisting of $K$ relevant parameters indexed by $k$ that characterize a joint probability distribution $\psi ( \mathbf{C}_{i \tau} )$.
 In theory, a vector $\mathbf{v}_{it}$ of random variables of weather conditions relevant to economic and societal outcomes (e.g. temperature or precipitation) at any time point $t$ within time period $\tau = [ \underline{t}, \overline{t} )$ and in space $i$ could be drawn from this distribution, such that
 
@@ -22,20 +15,41 @@ $$
 \mathbf{v}_{it} \sim \psi ( \mathbf{C}_{i \tau} ) \quad \forall \, t \in \tau .
 $$ {#eq-climate-distr}
 
-In other words, climate is the parametrization of the joint distribution $\psi ( \cdot )$ of which certain states of weather could realize during time period $\tau$ and at place $i$.
-**(mention theoretical counterparts to c and v??)** Ultimately, the goal of the econometric research design would then be to find an appropriate description of the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate their effects onto any the outcome variable in question.
+In other words, climate is the parametrization of the joint distribution $\psi ( \cdot )$, based on which certain potential states of weather could realize during time period $\tau$ and at place $i$.
+Ultimately, the goal of the econometric research design would then be to find an appropriate description of the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate its effects onto any of the outcome variables in question.
+**(mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$??)
 
-A multitude of consequences follow from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes observed weather states $\mathbf{v}_{i, t \in \tau}$.
-After all, the observed states could have also realized differently from the theoretical distribution.
-The advantage of this definition is that it allows for climate parameters to be derived from theoretical or numerical models such as reanalyses.
+A multitude of remarks can be drawn from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes observed weather states $\mathbf{v}_{i, t \in \tau}$.
+After all, the observed states are weather measurements, and they could have also realized differently from the theoretical distribution.
+The advantage of this definition is that it also allows for climate parameters to be derived from partly or fully theoretical or numerical models, such as reanalyses.
 Second however, the fact that true climate is not known does not imply that observed weather cannot be used to estimate climate impacts.
-After all, the realized weather characteristics $\mathbf{c}$ are still realized of climate characteristics $\mathbf{C}$, mathematically put $\mathbf{c} ( \mathbf{C} )$.
-This consequence might be the most important as it provides the foundation for identification of climate effects from weather data and variation.
+After all, the observed weather characteristics $\mathbf{c}$ are still realizations conditional on climate characteristics $\mathbf{C}$; this is expressed mathematically as $\mathbf{c} ( \mathbf{C} )$.
+This remark might be the most important one as it provides the foundation for identification of climate effects from weather data and weather variation.
+Third, and this is a direct consequence of the second remark, the above definition does not impose any specific rules on which weather parameters to use for summarizing and afterward describing climate $\mathbf{C}$, nor on the lengths of the time periods $\tau$ that should be studied.
+Since $\mathbf{c} ( \mathbf{C} )$ holds, any set of parameters and any time lengths would be a description of true climate $\mathbf{C}$ --- at least to some extent and likely with varying quality.
+As @hsiang-2016-climate-econometrics notes for the choice of parameters, throughout the years that climate econometric models have been studied and applied, the numbers of weather parameters to summarize climate have increased in the studies.
+Regarding the choice of time length over which to aggregate the climate parameters, I have the impression from the literature that this very much depends on the time lengths of the dependent (economic or social outcome) variable.
+Often the same time period (or, in panels, frequency) or some functional form of it is chosen for the weather parameter aggregation, e.g. a yearly mean of daily average temperaturs for estimating a climate effect on production that is calculated on a yearly basis.
+
+-   paragraph on direct and indirect effect
+-   paragraph explaining how this links to the ATE identification introduced by Holland (1986)
+-   paragraph comparing major research designs (cross-sectional, panel, long differences) with each other, including their strengths and weaknesses; also how recent developments have tried improve upon their weaknesses, i.e. spatial first differences for weaknesses in cross-section (Druckenmiller and Hsiang, 2018, Linsenmeier 2023)
+-   paragraph on what again (?)... I had something else
 
 ## Identification Problem and Methodology
 
-## Econometric Setup
+-   Path: results.qmd Discuss causal channels of climate change (agricultural productivity, overall economic productivity and wealth levels, consequent effects on wages and living standards)
+-   **Identifying variation** as a key word
+-   Data generating process not well known, high potential for OVB problem (mostly in cross-sectional econometric research designs!)
+-   Mention mostly hardless econometrics ?
+
+## Econometric Research Design
+
+-   Mention mostly hardless econometrics ?
+-   interaction term between weather aggregates and controls??
+-   balanced panel (!)
 
 ## Questions
 
 -   Reverse causality? More populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions, right?
+-   Mention and define *social costs of carbon (SCC)*
