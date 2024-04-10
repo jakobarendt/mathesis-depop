@@ -19,7 +19,7 @@ In other words, climate is the parametrization of the joint distribution $\psi (
 Ultimately, the goal of the econometric research design would then be to find an appropriate description of the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate its effects onto any of the outcome variables in question.
 **(mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$??)
 
-A multitude of remarks can be drawn from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes the distribution observed weather states $\mathbf{v}_{i, t \in \tau}$.
+A multitude of remarks can be drawn from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes the distribution of observed weather states $\mathbf{v}_{i, t \in \tau}$.
 After all, the observed states are weather measurements, and they could have also realized differently from the theoretical distribution.
 The advantage of this definition is that it also allows for climate parameters to be derived from partly or fully theoretical or numerical models, such as reanalyses.
 Second however, the fact that the true climate is not known does not imply that observed weather cannot be used to estimate climate impacts.
@@ -31,8 +31,8 @@ As @hsiang-2016-climate-econometrics notes on the choice of parameters, since cl
 Regarding the choice of which time length to consider for the climate to be described, I am of the impression from the literature that this very much depends on the time lengths of the dependent (economic or social outcome) variable.
 Often the same time period (or, in panels, frequency) or some functional form of it is chosen for the weather parameter aggregation, e.g. a yearly mean of daily average temperaturs for estimating a climate effect on production that is calculated on a yearly basis.
 
--   paragraph on direct and indirect effect
--   paragraph explaining how this links to the ATE identification introduced by Holland (1986); **see also in Bachelor's thesis**
+-   paragraph on direct and indirect (adaptation) effect
+-   paragraph explaining how this links to the ATE identification introduced by Holland (1986); **see also in Bachelor's thesis for Rubin Causal Model**
 -   paragraph comparing major research designs (cross-sectional, panel, long differences) with each other, including their strengths and weaknesses; also how recent developments have tried improve upon their weaknesses, i.e. spatial first differences for weaknesses in cross-section (Druckenmiller and Hsiang, 2018, Linsenmeier 2023)
 -   paragraph on what else again (?)... I had something else
 
@@ -41,7 +41,9 @@ Often the same time period (or, in panels, frequency) or some functional form of
 -   Path: results.qmd Discuss causal channels of climate change (agricultural productivity, overall economic productivity and wealth levels, consequent effects on wages and living standards)
 -   **Identifying variation** as a key word
 -   Data generating process not well known, high potential for OVB problem (mostly in cross-sectional econometric research designs!)
--   Also, unit homogeneity assumption does not hold, which makes OVB problem even harder to avoid
+-   Also, unit homogeneity assumption does not hold (very little comparability in unknown confounders for some LAUs), which makes OVB problem even harder to avoid: panel/time-series approach with adequate fixed effects as solution for this
+-   Argue well for **marginal treatment comparability assumption** in time-series approach (less strongly needed for long differences); add in formula for it as well
+-   Identifying assumption: Exogeneity of temperature and precipitation, i.e. identifying variation stems from temperature levels and precipitation amounts and it is assumed to be exogenous to population amounts
 -   Mention mostly harmless econometrics ?
 
 ## Econometric Research Design
@@ -50,10 +52,44 @@ Often the same time period (or, in panels, frequency) or some functional form of
 -   interaction term between weather aggregates and controls??
 -   balanced panel (!)
 -   decennial panel model
--   one with pure means for temperatures and means of yearly precipitation sum
+-   one with pure means for temperatures and means of yearly precipitation sum:
+
+$$
+\mathrm{pop}_{ict} = \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \epsilon_{ict}
+$$
+
+-   where:
+
+    -   $\mathrm{temp}_{ict}$ denote the mean temperature of the decade preceding each population data reference time point $t$ in LAU $i$
+    -   $g ( \mathrm{prec}_{ict} )$ represents different functional forms (linear, quadratic, cubic) of the average yearly precipitation sum (again of the preceding decade)
+    -   $omega_i$ are LAU-fixed effects accounting for unobservable differences correlated to the weather parameter and influencing population amounts
+    -   $\rho_c$ are country-fixed effects considering country-specific unobservables
+    -   $\epsilon_{ict}$ is the regression error
+
+-   Similarly, a long differences model:
+
+$$
+\begin{split}
+\mathrm{pop}_{ic, t=T} - \mathrm{pop}_{ic, t=1} = \alpha &+ \beta_{\mathrm{LD}} \, ( \mathrm{temp}_{ic, t=T} - \mathrm{temp}_{ic, t=1} ) \\
+&+ g ( \mathrm{prec}_{ic, t=T} - \mathrm{prec}_{ic, t=1} ) + \omega_i + \rho_c + \phi_{ic}
+\end{split}
+$$
+
+-   This is a simple OLS model testing whether any changes caused by weather differences between the last and the first decade can be attributed to any population differences:
+    -   $\alpha$ captures any overall changes over time relevant to all LAUs
+    -   $g ( \cdot )$ again represents different functional forms for precipitation that are tested
+    -   $\omega_i$ is a dummy that control for LAU-specific particularities
+    -   similarly, $\rho$ is a country-specific dummy, and
+    -   $\phi_{ic}$ is the regression error.
 -   one with variation as implemented in Linsenmeier (2023)?
 
 ## Questions
 
+-   Do the first panel model instead with log- or percent-growth rates, and then also introduce time-specific fixed effects?
 -   Reverse causality? More populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions, right?
+
+## Personal ToDos
+
 -   Mention and define *social costs of carbon (SCC)*
+-   Research more on non-linear effects, and how they could be argued for (and if they are needed)
+-   Similarly, research more on alternative climate representations, e.g. degree days
