@@ -32,6 +32,27 @@ As @hsiang-2016-climate-econometrics notes on the choice of parameters, the weat
 Regarding the question of which time length to consider for the climate to be described adequately, I am of the impression from the literature that this very much depends on the time lengths of the dependent (economic or social) outcome variable.
 Often the same time period (or, in panels, frequency) or some preponed **(?)** or other functional form of it is chosen for the weather parameter aggregation, e.g. a yearly mean of daily average temperatures for estimating a climate effect on production that is calculated on a yearly basis.
 
+When discussing climate econometric methodology, a differentiation between direct and indirect effects of climate on socioeconomic outcome variables is necessary.
+An example for the direct effect would be that more sunburns among humans are typically caused in areas or time periods of more intense ultraviolet (UV) radiation.
+In such a case, the realizations of climate, $\mathbf{c} ,$ occurring during time period $\tau$ and resulting of true climate $\mathbf{C}$, have a direct effect on the human population.
+In contrast to that, the indirect effects channel via the beliefs that humans have about the climate $\mathbf{C}$, e.g. if people expect high sun exposure and intense UV radiation, some of them will buy and apply sunscreen.
+These belief effects are independent of climate realizations $\mathbf{c}$, e.g. not every time an individual had expected high UV exposure and applied sunscreen, ended the weather up being in a state that allowed for high amounts of UV light to reach Earth's surface.
+However, beliefs may certainly change over time due to the experience an individual makes.
+Actions, $\mathbf{b},$ that are taken on the basis of these beliefs and that influence socioeconomic outcomes are therefore subject to the structure of the true climate $\mathbf{C}$ and its potential changes, expressed mathematically as $\mathbf{b} ( \mathbf{C} )$.
+In addition, the mentioned experience gained over time allows the individual to adapt to changes in the structure of $\mathbf{C}$.
+Such adaptation, in turn, can influence the direct effects over time if it includes measures that the individual undertakes and that change how climate affects the socioeconomic outcome variables.
+In practice, it is often difficult to separately identify and estimate belief effects.
+Similarly, adaptation, i.e. the interaction between direct and belief effects, and the interaction between different belief effects themselves can make reliable identification very complex.
+No econometric research design handles all of these problems well at the same time, but rather each have their differently aligned strengths and weaknesses in accounting for them.
+The different econometric research designs each come with their own strengths weaknesses in accounting for these different problems.
+**(explain strategies to account for adaptation)**
+
+Adaptation
+
+Generally, it is difficult to measure these two effects separately in empirical studies.
+
+Or put adaptation here?
+
 -   paragraph on direct and indirect (adaptation) effect
 -   paragraph explaining how this links to the ATE identification introduced by Holland (1986); **see also in Bachelor's thesis for Rubin Causal Model**
 -   paragraph comparing major research designs (cross-sectional, panel, long differences) with each other, including their strengths and weaknesses; also how recent developments have tried improve upon their weaknesses, i.e. spatial first differences for weaknesses in cross-section (Druckenmiller and Hsiang, 2018, Linsenmeier 2023)
@@ -88,6 +109,7 @@ $$
 
 -   Do the first panel model instead with log- or percent-growth rates, and then also introduce time-specific fixed effects?
 -   Reverse causality? More populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions, right?
+-   Correct to say: Adaptation effects are accounted for as long as adaptation happens at the same pace in each period?
 
 ## Personal ToDos
 
