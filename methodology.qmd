@@ -2,8 +2,8 @@
 
 Isolating climate information either from weather data or a model of the climate is a non-trivial task.
 Similarly non-trivial is identifying the causal impacts that climatic states described by such information can have onto societal and economic outcomes.
-The following sub chapter entails a quick overview of what common climate-related identification problems look like and what econometric research designs have mostly been applied to them.
-After that, the sub chapters describe the specific identification problem for this study, and then argue for and specify the research design chosen for this problem.
+The following sub chapter entails a quick overview of what common climate-related identification problems look like and what econometric research designs have mostly been applied to solve them.
+The sub chapters following after that describe the specific identification problem for this study, and then argue for and specify the research design chosen for this case.
 
 ## Common Approaches in Climate Econometrics
 
@@ -16,20 +16,21 @@ $$
 $$ {#eq-climate-distr}
 
 In other words, climate is the parametrization of the joint distribution $\psi ( \cdot )$, based on which certain potential states of weather could realize during time period $\tau$ and at place $i$.
-Ultimately, the goal of the econometric research design would then be to find an appropriate description of the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate its effects onto any of the outcome variables in question.
-**(mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$??)
+Ultimately, the goal of the econometric research design would then be to find an appropriate description $\mathbf{c}_{i \tau}$ for the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate its effects onto any of the outcome variables in question.
+**(mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$ **??**)
 
-A multitude of remarks can be drawn from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes the distribution of observed weather states $\mathbf{v}_{i, t \in \tau}$.
-After all, the observed states are weather measurements, and they could have also realized differently from the theoretical distribution.
-The advantage of this definition is that it also allows for climate parameters to be derived from partly or fully theoretical or numerical models, such as reanalyses.
-Second however, the fact that the true climate is not known does not imply that observed weather cannot be used to estimate climate impacts.
-After all, the observed weather characteristics $\mathbf{c}$ are still realizations conditional on climate characteristics $\mathbf{C}$; this is expressed mathematically as $\mathbf{c} ( \mathbf{C} )$.
+A multitude of remarks can be drawn from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes the distribution of realized (and, in an empirical study, observed) weather states $\mathbf{v}_{i, t \in \tau}$.
+After all, the observations are measurements of weather states, that could have also realized differently from the theoretical distribution.
+This definition has the advantage that it also allows for climate parameters to be derived from partly or fully theoretical or numerical models, such as reanalyses.
+Second, however, the fact that the true climate is not known does not imply that realized weather cannot be used to estimate climate impacts.
+After all, the observed weather characteristics $\mathbf{c}$ are still realizations conditional on climate characteristics $\mathbf{C}$, mathematically expressed as $\mathbf{c} ( \mathbf{C} )$.
 This remark might be the most important one as it provides the foundation for identification of climate effects from weather data and weather variation.
 Third, and this is a direct consequence of the second remark, the above definition does not impose any specific rules on which weather parameters to use for summarizing and describing climate $\mathbf{C}$, nor on the lengths of the time periods $\tau$ that should be studied.
-Since $\mathbf{c} ( \mathbf{C} )$ holds, any set of parameters and any time lengths would be a description of true climate $\mathbf{C}$ --- at least to some extent and likely with varying quality.
-As @hsiang-2016-climate-econometrics notes on the choice of parameters, since climate econometric models have first been studied and applied, the numbers of weather parameters to summarize climate have, in tendency, increased with each new study.
-Regarding the choice of which time length to consider for the climate to be described, I am of the impression from the literature that this very much depends on the time lengths of the dependent (economic or social outcome) variable.
-Often the same time period (or, in panels, frequency) or some functional form of it is chosen for the weather parameter aggregation, e.g. a yearly mean of daily average temperaturs for estimating a climate effect on production that is calculated on a yearly basis.
+Since $\mathbf{c} ( \mathbf{C} )$ holds, any set of parameters and any time lengths would be a description of true climate $\mathbf{C}$.
+Certainly, the extent and the quality of the description would likely vary with the chosen parameters and time lengths.
+As @hsiang-2016-climate-econometrics notes on the choice of parameters, ever since climate econometric models have first been studied and applied, the weather parameters to summarize climate have, in tendency, increased in number with each new study.
+Regarding the question of which time length to consider for the climate to be described adequately, I am of the impression from the literature that this very much depends on the time lengths of the dependent (economic or social) outcome variable.
+Often the same time period (or, in panels, frequency) or some preponed **(?)** or other functional form of it is chosen for the weather parameter aggregation, e.g. a yearly mean of daily average temperatures for estimating a climate effect on production that is calculated on a yearly basis.
 
 -   paragraph on direct and indirect (adaptation) effect
 -   paragraph explaining how this links to the ATE identification introduced by Holland (1986); **see also in Bachelor's thesis for Rubin Causal Model**
