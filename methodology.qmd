@@ -40,23 +40,31 @@ These belief effects are independent of climate realizations $\mathbf{c}$, e.g. 
 However, beliefs may certainly change over time due to the experience an individual makes.
 Actions, $\mathbf{b},$ that are taken on the basis of these beliefs and that influence socioeconomic outcomes are therefore subject to the structure of the true climate $\mathbf{C}$ and its potential changes, expressed mathematically as $\mathbf{b} ( \mathbf{C} )$.
 In addition, the mentioned experience gained over time allows the individual to adapt to changes in the structure of $\mathbf{C}$.
-Such adaptation, in turn, can influence the direct effects over time if it includes measures that the individual undertakes and that change how climate affects the socioeconomic outcome variables.
+Such adaptation, in turn, can influence the direct effects if it includes measures that the individual undertakes and that change how climate affects the socioeconomic outcome variables.
 In practice, it is often difficult to separately identify and estimate belief effects.
-Similarly, adaptation, i.e. the interaction between direct and belief effects, and the interaction between different belief effects themselves can make reliable identification very complex.
+Similarly, adaptation, i.e. the interaction between direct and belief effects **(put this where adaptation is mentioned for the first time)**, and the interaction between different belief effects themselves can make reliable identification very complex.
 No econometric research design handles all of these problems well at the same time, but rather each have their differently aligned strengths and weaknesses in accounting for them.
 The different econometric research designs each come with their own strengths weaknesses in accounting for these different problems.
 **(explain strategies to account for adaptation)**
 
 Adaptation
 
+Mention also for the sunscreen example that (assuming there is sun and the counterfactual is that people do not have/ do not apply sunscreen), it changes the socioeconomic effect of UV radiation
+
 Generally, it is difficult to measure these two effects separately in empirical studies.
 
 Or put adaptation here?
 
 -   paragraph on direct and indirect (adaptation) effect
+
 -   paragraph explaining how this links to the ATE identification introduced by Holland (1986); **see also in Bachelor's thesis for Rubin Causal Model**
+
 -   paragraph comparing major research designs (cross-sectional, panel, long differences) with each other, including their strengths and weaknesses; also how recent developments have tried improve upon their weaknesses, i.e. spatial first differences for weaknesses in cross-section (Druckenmiller and Hsiang, 2018, Linsenmeier 2023)
--   paragraph on what else again (?)... I had something else
+
+-   paragraph on what else again (?)...
+    I had something else
+
+-   Internal vs. external validity (or maybe put that in the second subchapter?)
 
 ## Identification Problem and Methodology
 
@@ -77,7 +85,10 @@ Or put adaptation here?
 -   one with pure means for temperatures and means of yearly precipitation sum:
 
 $$
-\mathrm{pop}_{ict} = \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \epsilon_{ict}
+\begin{aligned}
+\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \epsilon_{ict}\\
+\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + \mathrm{temp}_{ict} \cdot \pi_{i} + \pi_i + g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \epsilon_{ict}
+\end{aligned}
 $$
 
 -   where:
@@ -87,6 +98,10 @@ $$
     -   $omega_i$ are LAU-fixed effects accounting for unobservable differences correlated to the weather parameter and influencing population amounts
     -   $\rho_c$ are country-fixed effects considering country-specific unobservables
     -   $\epsilon_{ict}$ is the regression error
+
+This model is a simple OLS model that tests whether any population differences can be attributed to differences in weather parameters.
+The interaction term $\mathrm{temp}_{ict} \cdot \pi_{i}$ is included to account for the fact that the effect of temperature on population might differ between LAUs, and that this difference is not captured by the LAU-fixed effects.
++ - einzelner dummy für ländlich und nicht nicht notwendig, kein Interesse + - FEs noch: country-zeit oder zeit (ersteres wahrscheinlich besser) + - $\delta \cdot \text{year}$ trend faktor + - am besten log-lin model (oder alternativ first differences, wenn zu viele rausfallen weil log(0)), ansonsten beobachtungen mit 0 rausnehmen, dann halt unbalanced panel (aber das ist ok, sofern die 0 random ist) - 2-part-modell als sonstige Lösung
 
 -   Similarly, a long differences model:
 
@@ -104,15 +119,33 @@ $$
     -   similarly, $\rho$ is a country-specific dummy, and
     -   $\phi_{ic}$ is the regression error.
 -   one with variation as implemented in Linsenmeier (2023)?
+-   Interaktionsterm temp und ländlich fehlt noch
 
 ## Questions
 
 -   Do the first panel model instead with log- or percent-growth rates, and then also introduce time-specific fixed effects?
 -   Reverse causality? More populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions, right?
+
+Einschub:
+
+-   nur wenn bebauungsgrad konstant im LAU-FE geschluckt, aber sonst ist das ja in der gemessenen Temperatur im Grid mitgemessen
+
+-   modellierung als discrete choice modell (tortenstücke), also wenn ein Individuum sich für ein LAU entscheidet, entscheidet es sich dann für ein kühles LAU (das in den in meinen Daten stärkeres Pop Wachstum verzeichnet)
+
+-   landwirtschaftlich: wasser, wirtschaft&produktivität: temp
+
 -   Correct to say: Adaptation effects are accounted for as long as adaptation happens at the same pace in each period?
+
+-   **New:** (On adaptation) In my case, adaptation would likely lead to an attenuation bias in the effect estimations.
+    For the panel model, would it be right to say that adaptations that influence the climate-socioeconomic causal relationship in a constant way over time are account for due to the time series nature of the panel model?
+
+    -   country-FE, LAU-FE catch differences in adaptation capability of LAUs
+    -   trend-variable captures influence of adaptation on climate-socioecon relationship that is constant over time (even better: trend\*LAU)
+    -   fixed effects each for every year can control for adaptation effects that are irregular over time
 
 ## Personal ToDos
 
 -   Mention and define *social costs of carbon (SCC)*
 -   Research more on non-linear effects, and how they could be argued for (and if they are needed)
 -   Similarly, research more on alternative climate representations, e.g. degree days
+-   Research and think about how the long differences model deals with adaptation effects
