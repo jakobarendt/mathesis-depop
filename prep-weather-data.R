@@ -4,14 +4,74 @@
 
 # Packages ----------------------------------------------------------------
 
+require(ecmwfr)
 require(terra)
-require(exactextractr)
+require(tidyverse)
 
 
 
-# Weather data ------------------------------------------------------------
+# Download weather data ---------------------------------------------------
 
-weather <- rast("data/weather/tg_ens_mean_0.1deg_reg_v28.0e.nc")
+# set a key to the keychain interactively
+# user <- wf_set_key(service = "cds")
 
-hist_pop <- hist_pop |>
-  mutate(TEST_TEMP = exact_extract(weather[[1]], hist_pop, 'mean'))
+
+
+request <- list(
+  dataset_short_name = "insitu-gridded-observations-europe",
+  product_type = "ensemble_mean",
+  variable = c("mean_temperature", "precipitation_amount"),
+  grid_resolution = "0.1deg",
+  period = "full_period",
+  version = "29.0e",
+  format = "zip",
+  target = "mean-temp-precipitation.zip"
+)
+zipfile_mean_temp_precipitation <- wf_request(request, user, path = 'data/weather', time_out = 7200)
+
+
+
+# # Resample weather data online and download -------------------------------
+#
+# # set a key to the keychain interactively
+# user <- wf_set_key(service = "cds")
+#
+# # Down-sample daily mean temperatures to yearly average on CDS servers
+# # and download them
+# # see https://cran.r-project.org/web/packages/ecmwfr/vignettes/cds_workflow_vignette.html
+# # for detailed explanations
+# code_mean_temp_resample <- readLines('resample-mean-temp.py') |>
+#   paste0(collapse = "\n")
+# request_mean_temp <- list(
+#   code = code_mean_temp_resample,
+#   kwargs = list(placeholder_var = 1),
+#   workflow_name = "download_resample_mean_temp_grid",
+#   target = "mean-temp-resampled.nc"
+# )
+# file_mean_temp_resampled <- wf_request(request_mean_temp, user, path = 'data/weather', time_out = 7200)
+#
+# # Down-sample daily precipitation amounts to yearly sums on CDS servers
+# # and download them
+# # see https://cran.r-project.org/web/packages/ecmwfr/vignettes/cds_workflow_vignette.html
+# # for detailed explanations
+# code_precipitation_resample <- readLines('resample-precipitation.py') |>
+#   paste0(collapse = "\n")
+# request_precipitation <- list(
+#   code = code_precipitation_resample,
+#   kwargs = list(placeholder_var = 1),
+#   workflow_name = "download_resample_precipitation_grid",
+#   target = "precipitation-resampled.nc"
+# )
+# file_precipitation_resampled <- wf_request(request_precipitation,
+#                                            user,
+#                                            path = 'data/weather',
+#                                            time_out = 7200)
+#
+#
+#
+# # Join all raster data ----------------------------------------------------
+#
+# weather <- c(rast(file_mean_temp_resampled),
+#              rast(file_precipitation_resampled))
+# dir.create("data/temp")
+# writeRaster(weather, 'data/temp/weather.tif')
