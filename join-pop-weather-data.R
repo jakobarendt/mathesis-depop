@@ -10,7 +10,8 @@ require(terra)
 require(tidyverse)
 require(parallel)
 require(sf)
-
+require(plm)
+require(fixest)
 
 
 
@@ -53,25 +54,47 @@ joined_data <- exact_extract(weather,
 joined_data <- panel_data |> as_tibble()
 
 # !! Add na.rm = true to fun = 'mean' ??
+# Check whether the numbering in the weather variables is actually chronological
 
 
 
 # Reformat table for panel estimations ------------------------------------
 
+## Year mapping for renaming weather data columns with year
+# year_mapping <- setNames(c("1961", "1971", "1981", "1991", "2001", "2011"), 1:6)
+map_year <- function(string) {
+  years <- seq(1961, 2011, 10)
+  key <- str_extract(string, "\\d") |> as.numeric()
+  variable_name <- str_extract(string, "^[^0-9]*")
+  return(paste0(variable_name, years[key]))
+}
+
 panel_data <- joined_data |>
-  select(CNTR_LAU_CODE, ends_with("1_01_01"), starts_with("mean.")) |>
+  select(CNTR_LAU_CODE, CNTR_CODE, ends_with("1_01_01"), starts_with("mean.")) |>
+  rename_with(~ map_year(.), .cols = starts_with("mean.")) |>
   pivot_longer(
     cols = starts_with("POP_") | starts_with("mean."),
-    names_to = c(".value", "date"),
+    names_to = c(".value", "YEAR"),
     names_sep = "_",
     # names_pattern = "(.*)_(.*)"
   )
 
-  pivot_longer(starts_with("POP_"), names_to = "YEAR", names_prefix = "POP_",
-               )
 
+panel_data_frame <- panel_data |>
+  # mutate(CNTR_LAU_CODE = as.factor(CNTR_LAU_CODE), YEAR = as.factor(YEAR)) |>
+  pdata.frame(index = c("CNTR_LAU_CODE", "YEAR"))
+plm(POP ~ mean.mean.daily.mean.temperature + mean.sum.daily.precipitation.amount,
+    data = panel_data_frame,
+    effect = "individual") |>
+  summary()
 
+feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
+        CNTR_LAU_CODE + CNTR_CODE,
+      data = panel_data) |>
+  summary()
 
+# !! Investigate warning message that is thrown when pivot_longer
+# !! Investigate warning message that is thrown pdata.frame
 # !! Check what is up with Poian, must be in data set twice
 
 pop |>
