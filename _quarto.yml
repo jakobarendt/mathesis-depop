@@ -28,5 +28,5 @@ execute:
 format:
   html:
     theme: cosmo
-#  pdf:
+  pdf: default
 #    documentclass: scrbook
