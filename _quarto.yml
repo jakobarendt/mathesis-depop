@@ -24,6 +24,7 @@ book:
     - appx-weat-data.qmd
 
 bibliography: references.bib
+csl: econometrica.csl
 
 execute:
   freeze: auto
@@ -31,5 +32,9 @@ execute:
 format:
   html:
     theme: cosmo
-#  pdf:
-#    documentclass: scrbook
+  pdf: default
+    # documentclass: scrbook
+    # cite-method: natbib
+    # header-includes: |
+      # \bibliographystyle{ecta}
+  docx: default

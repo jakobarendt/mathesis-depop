@@ -1,6 +1,6 @@
 # mathesis-depop
 
-This repository contains all of the code, text and files needed to reproduce my thesis in its entirety.
+This repository contains all of the code, text and files needed to reproduce my master's thesis in its entirety.
 It also contains parts of the data needed for the calculation of the econometric estimates.
 More precisely, the data delivered with this repository are the historical population data linked to shape files, allowing for its spatial interpretation.
 It is stored in the Excel file `LAU2_REFERENCE_DATES_POPL.xlsx` the folder `data`, as it cannot be easily attained via an API and was still small enough to be stored with Git.
@@ -20,3 +20,6 @@ Hence, if you ever try reproducing my work and it fails, please feel free to [co
 Please ensure all of the conditions are met before running these thesis calculations on your machine:
 
 -   [ ] Account on CDS
+
+!! If you want to render this Quarto book project yourself, render the book in its entirety and **not** individual chapters.
+There are dependencies in the R code among the different chapters, and it might not calculate correctly if executed in the wrong order.
