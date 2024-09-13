@@ -4,7 +4,7 @@ Naturally, the final submission of the thesis will be rendered to PDF.
 
 I kindly ask for your understanding for the incompleteness of this website.
 At the moment, my master's thesis is still a work in process, and this website will be updated accordingly on a regular basis.
-The final version is to be submitted until January 31 of 2024, and it will also be published here as the final update of this website.
+<!-- The final version is to be submitted until January 31 of 2024, and it will also be published here as the final update of this website. -->
 
 # Abstract {.unnumbered}
 
