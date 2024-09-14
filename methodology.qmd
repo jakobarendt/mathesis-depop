@@ -107,9 +107,14 @@ $$
 
 This model is a simple OLS model that tests whether any population differences can be attributed to differences in weather parameters.
 The interaction term $\mathrm{temp}_{ict} \cdot \pi_{i}$ is included to account for the fact that the effect of temperature on population might differ between LAUs, and that this difference is not captured by the LAU-fixed effects.
-+ - einzelner dummy für ländlich und nicht nicht notwendig, kein Interesse + - FEs noch: country-zeit oder zeit (ersteres wahrscheinlich besser) + - $\delta \cdot \text{year}$ trend faktor + - am besten log-lin model (oder alternativ first differences, wenn zu viele rausfallen weil log(0)), ansonsten beobachtungen mit 0 rausnehmen, dann halt unbalanced panel (aber das ist ok, sofern die 0 random ist) - 2-part-modell als sonstige Lösung
 
--   Similarly, a long differences model:
+-   einzelner dummy für ländlich und nicht nicht notwendig, kein Interesse
+-   FEs noch: country-zeit oder zeit (ersteres wahrscheinlich besser)
+-   $\delta \cdot \text{year}$ trend faktor
+-   am besten log-lin model (oder alternativ first differences, wenn zu viele rausfallen weil log(0)), ansonsten beobachtungen mit 0 rausnehmen, dann halt unbalanced panel (aber das ist ok, sofern die 0 random ist)
+-   2-part-modell als sonstige Lösung
+
+Similarly, a long differences model:
 
 $$
 \begin{split}
