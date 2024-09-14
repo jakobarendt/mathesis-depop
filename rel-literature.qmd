@@ -1,7 +1,7 @@
 # Related Literature
 
 | Authors            | Economic Area                   | Issue investigated                                 | Main Results                                                                              | Econometric Methodology                                             | Resolution            | Measure for Climate         | Further Comments                    |
-|---------|---------|---------|----------|---------|---------|---------|---------|
+|--------------------|---------------------------------|----------------------------------------------------|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------|-----------------------|-----------------------------|-------------------------------------|
 | @burke2015         | Conflict                        | Meta analysis of 55 studies                        | Of all climate measures, contemporaneous temperature has the strongest impact on conflict | Panel data analysis with contemporaneous or lagged climate measures | Diverse               | Diverse                     |                                     |
 | @bohra-mishra2014  | Environmental Migration         | Disaster vs. climate impacts on HH migration       | Overall effects stronger for temperature than for precipitation                           | "Lagged" panel analysis                                             | Sub-national/regional | Precipitation & Temperature | Probability to Migrate as Dependent |
 | @barrios2006       | Rural-urban migration           | Urbanization of Climate Change                     | Decreasing Precipitation has increased urbanization in Sub-Saharan Africa                 | Plan Cross-Section (Pooled Panel Data)                              | National              | Precipitation ("Rainfall")  |                                     |
@@ -15,3 +15,13 @@
 
 -   List literature that explore *Social Cost of Carbon (SCC)*
 -   Use Spatial First Differences?
+-   For my case, particularly the literature with a similar setup -- in terms of measures used for climate, economic/subject area being demographic development, econometric methodology making use of the additional time-dimension of the data, and the spatial dimension being relatively small (e.g. not entire countries)
+
+## What (potentially) differentiates this investigation from other, already published, literature?
+
+Combination of different factors:
+
+-   its relatively small spatial resolution
+-   the time span of the underlying data going relatively far back (first period 1961)
+-   its panel nature allowing for control of many unobserved confounders with repeated influence stable in magnitude in every period
+-   Unique in the geographical and economic area it covers, many studies seemed to have focused more on developing countries, using nightlights as a proxy for economic development. Using data from European sources, where independent statistical and meteorological institutions responsible for collecting the data underlying this study have been, at least historically, comparably strong and reliable.

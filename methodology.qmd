@@ -1,9 +1,9 @@
-# Identification, Methodology and Research Design
+# Identification, Methodology and Research Design {#sec-methodology}
 
-Isolating climate information either from weather data or a model of the climate is a non-trivial task.
+Isolating climate information either from directly collected weather data or partially or fully from models of the climate (e.g. reanalysis) is a non-trivial task.
 Similarly non-trivial is identifying the causal impacts that climatic states described by such information can have onto societal and economic outcomes.
 The following sub chapter entails a quick overview of what common climate-related identification problems look like and what econometric research designs have mostly been applied to solve them.
-The sub chapters following after that describe the specific identification problem for this study, and then argue for and specify the research design chosen for this case.
+The sub chapters following afterward describe the specific identification problem for this study, and then argue for and specify the research design chosen for this case.
 
 ## Common Approaches in Climate Econometrics
 
@@ -17,11 +17,12 @@ $$ {#eq-climate-distr}
 
 In other words, climate is the parametrization of the joint distribution $\psi ( \cdot )$, based on which certain potential states of weather could realize during time period $\tau$ and at place $i$.
 Ultimately, the goal of the econometric research design would then be to find an appropriate description $\mathbf{c}_{i \tau}$ for the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate its effects onto any of the outcome variables in question.
-**(mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$ **??**)
+**(mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$ and give an example such as for the mean **??**)
 
-A multitude of remarks can be drawn from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes the distribution of realized (and, in an empirical study, observed) weather states $\mathbf{v}_{i, t \in \tau}$.
-After all, the observations are measurements of weather states, that could have also realized differently from the theoretical distribution.
-This definition has the advantage that it also allows for climate parameters to be derived from partly or fully theoretical or numerical models, such as reanalyses.
+A multitude of remarks can be drawn from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes the distribution of realized (and, in an empirical study, observed **?** calculated if weather data set values are model-based) weather states $\mathbf{v}_{i, t \in \tau}$.
+After all, the observations are measurements (or, calculations) of weather states, that could have also realized differently from the theoretical distribution.
+According to the definition from @hsiang-2016-climate-econometrics, climate is not only the weather we observe, be it over a short or a long period of time, but it is also the weather that could have happened with similar probability (**??** revisit this sentence).
+Thus, this definition has the advantage that it also allows for climate parameters to be derived from partly or fully theoretical or numerical models, such as reanalyses.
 Second, however, the fact that the true climate is not known does not imply that realized weather cannot be used to estimate climate impacts.
 After all, the observed weather characteristics $\mathbf{c}$ are still realizations conditional on climate characteristics $\mathbf{C}$, mathematically expressed as $\mathbf{c} ( \mathbf{C} )$.
 This remark might be the most important one as it provides the foundation for identification of climate effects from weather data and weather variation.
@@ -75,6 +76,11 @@ Or put adaptation here?
 -   Argue well for **marginal treatment comparability assumption** in time-series approach (less strongly needed for long differences); add in formula for it as well
 -   Identifying assumption: Exogeneity of temperature and precipitation, i.e. identifying variation stems from temperature levels and precipitation amounts and it is assumed to be exogenous to population amounts
 -   Mention mostly harmless econometrics ?
+-   Considering the distinctive richness of the data, providing dependent and explanatory characteristics of the same units throughout multiple time periods, this time dimension additionally provided allows leveraging on the advantages of panels analyses vs. cross-section. In particular, fixed effects and long-differences models provide powerful capabilities to control for unobserved confounders. In this setup, they are those unobserved *time-invariant* characteristics that influence the climate-demographic causal relationship and are different among the LAUs, such as natural resources, distance to other LAUs and potential economic hubs, consequent potential for economic growth etc.
+-   Long-differences, essentially a difference-in-difference approach comparing potential outcomes at two relatively distant time points, may better regard the spatially detailed yet aggregated nature of the data. After all, as the data is only available on the LAU-level, it can only provide a macroscopic insight into the decisions of the economic agents of the respective LAUs. Remember that the underlying panel data for this analysis does not follow individuals nor firms but LAUs. Hence, considering the macroscopic nature of the data and the long-run time focus of the research question, a panel model based on multiple cohorts lying relatively closely together in terms of time might take out too much of the identifying variation and correct for the wrong kinds of unobserved confounders. **bring examples for short-term and long-term unobserved confounders**
+
+considering unobservable LAU-level characteristics particularly prevalant in the long-run, might prove a better fit to the data at hand and the research question on the long-run demographic consequences of climate change.
+**include also attenuation bias and citation for mostly harmless econometrics**
 
 ## Econometric Research Design
 
@@ -95,7 +101,7 @@ $$
 
     -   $\mathrm{temp}_{ict}$ denote the mean temperature of the decade preceding each population data reference time point $t$ in LAU $i$
     -   $g ( \mathrm{prec}_{ict} )$ represents different functional forms (linear, quadratic, cubic) of the average yearly precipitation sum (again of the preceding decade)
-    -   $omega_i$ are LAU-fixed effects accounting for unobservable differences correlated to the weather parameter and influencing population amounts
+    -   $\omega_i$ are LAU-fixed effects accounting for unobservable differences correlated to the weather parameter and influencing population amounts
     -   $\rho_c$ are country-fixed effects considering country-specific unobservables
     -   $\epsilon_{ict}$ is the regression error
 
@@ -145,7 +151,33 @@ Einschub:
 
 ## Personal ToDos
 
+### General ToDos / Further Steps
+
 -   Mention and define *social costs of carbon (SCC)*
 -   Research more on non-linear effects, and how they could be argued for (and if they are needed)
 -   Similarly, research more on alternative climate representations, e.g. degree days
 -   Research and think about how the long differences model deals with adaptation effects
+-   In Climate Econometrics, is there anything similar to the random assignment assumption that we typically have in program evaluation?
+-   What about heterogenous treatment effects?
+-   Search studies/give examples why population figures correlate with absolute gdp and other economic variables of the corresponding region (or at least their respective growth/decline go in the same direction)
+
+### Points from Mostly Harmless Econometrics (not entirely sure though)
+
+-   Mention that the choice for an individual effects model helps dealing with confounding heterogeneity that is unobserved or difficult to capture with explanatory variables at hand
+-   Mention: Choice of fixed-effect model since individual-specific unobserved properties are assumed to be correlated with the other explanatory variables as well as the dependent, causing endogeneity and the known explanatory variables to be correlated with the error in the cohort-agnostic pooled model
+-   **within estimator** = deviations from means estimator --\> **absorbing fixed effects**
+-   Can I really assume a homoscedastic standard error? --\> would be the underlying assumption for standard within estimator
+-   **Caveat:** FE estimation susceptible to attenuation bias from measurement error (very likely here as well!) --\> benchmark estimates against simple, cohort-ignorant/cohort-agnostic OLS
+
+### Points from Koop (2008)
+
+-   Argue why fixed effects model and not random effects model
+    -   Considering the setup, LAU-specific effects might not be random and the error correlated with the explanatory variables (do a test for endogeneity? Hausman?). After all, there are very likely other variables, whether unobservable or with hardly attainable data at the small LAU resolution, that are correlated with weather and have an effect on population sizes.
+    -   Also do a Lagrange multiplier/likelihood ratio test for the pooled model to see whether individual effects models are actually needed
+-   **!! double check!!**: Can I really use the first-differences estimator?
+    -   It is only possible to use this estimation methodology if I don't have any important time-invariant explanatory variables to include in my model equations!
+    -   In the case that time-invariant explanatory variables need to be included, an alternative would be the random effects-model
+
+### Points Johnston and DiNardo (2007)
+
+-   Random vs FE Model - Random when individual effects not correlated with explanatory variables - FE when individual effects are correlated with explanatory variables
