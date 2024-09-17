@@ -12,16 +12,16 @@ book:
   repo-actions: [issue,edit,source]
   chapters:
     - index.qmd
-    - introduction.qmd
-    - rel-literature.qmd
-    - data.qmd
-    - methodology.qmd
-    - results.qmd
-    - conclusion.qmd
+    - ch-1-introduction.qmd
+    - ch-2-rel-literature.qmd
+    - ch-3-data.qmd
+    - ch-4-methodology.qmd
+    - ch-5-results.qmd
+    - ch-6-conclusion.qmd
     - references.qmd
   appendices:
-    - appx-pop-data.qmd
-    - appx-weat-data.qmd
+    - appx-1-pop-data.qmd
+    - appx-2-weat-data.qmd
 
 bibliography: references.bib
 
