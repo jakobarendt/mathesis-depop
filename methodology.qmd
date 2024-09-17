@@ -165,6 +165,7 @@ Einschub:
 -   In Climate Econometrics, is there anything similar to the random assignment assumption that we typically have in program evaluation?
 -   What about heterogenous treatment effects?
 -   Search studies/give examples why population figures correlate with absolute gdp and other economic variables of the corresponding region (or at least their respective growth/decline go in the same direction)
+-   Mention ways of transmission the climate effects, i.e. decline in agricultural yields and, hence, a decline agriculture-related employment opportunities
 
 ### Points from Mostly Harmless Econometrics (not entirely sure though)
 

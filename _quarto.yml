@@ -24,7 +24,6 @@ book:
     - appx-weat-data.qmd
 
 bibliography: references.bib
-csl: econometrica.csl
 
 execute:
   freeze: auto

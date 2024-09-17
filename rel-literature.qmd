@@ -25,3 +25,4 @@ Combination of different factors:
 -   the time span of the underlying data going relatively far back (first period 1961)
 -   its panel nature allowing for control of many unobserved confounders with repeated influence stable in magnitude in every period
 -   Unique in the geographical and economic area it covers, many studies seemed to have focused more on developing countries, using nightlights as a proxy for economic development. Using data from European sources, where independent statistical and meteorological institutions responsible for collecting the data underlying this study have been, at least historically, comparably strong and reliable.
+-   To my knowledge, no one has so far pursued such a climate-related analysis with this exact population data set, particular contribution with geographical area it investigates (Europe) and the spatial level of detail
