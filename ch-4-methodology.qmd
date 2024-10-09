@@ -154,6 +154,9 @@ Einschub:
     -   trend-variable captures influence of adaptation on climate-socioecon relationship that is constant over time (even better: trend\*LAU)
     -   fixed effects each for every year can control for adaptation effects that are irregular over time
 
+-   If FE-estimations rely on variation across time within a unit and not variation across units as the source of identifying variation, why do I not get N (no. of units) effect estimations?
+    How is the within unit variation aggregated for all units?
+
 ## Personal ToDos
 
 ### General ToDos / Further Steps

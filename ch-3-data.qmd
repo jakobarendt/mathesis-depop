@@ -4,7 +4,7 @@ The empirical analysis of the effect of climate change on population size in rur
 The essential characteristics of these data sources are described in this chapter.
 However, both of these data sets come with peculiarities, that require further separate cleaning and preparation before joining them together and using them in the panel analysis.
 The steps undertaken for their preparation are described more extensively in @sec-AppxPopData and @sec-AppxWeatData, analogously.
-The spatial join of the two data sets, that relates the LAUs' historical population data with the weather data on the basis of their geographic locations, is discussed in the last of the following subchapters (@sec-SpatialJoin).
+The spatial join of the two data sets, that relates the LAUs' historical population data with the weather data on the basis of their geographic locations, is discussed in the last of the following sub-chapters (@sec-SpatialJoin).
 
 ## Historical LAU Population Data Set
 
@@ -62,9 +62,29 @@ Similarly, there are also exceptions regarding the spatial level of detail: For 
 
 : Types of LAU-levels and underlying sources for geographic attributes for all countries in the data set {#tbl-lau-levels-maps}
 
-## Climate Data
+-   Quote here the Eurostat guidance on rural and urban typologies
+-   And maybe some other definition (UN? ILO? Commission? DG AGRI? DG EMPL, ask Paola?)
 
-abc
+## Weather Data
+
+Station data is complemented by interpolation for those locations without station or with missing weather data points
+
+Disadvantages of weather grid data according to @auffhammer-etal-2013-weather-data-econ-analysis:
+
+1.  Many weather grid data products are similar in average temperatures for each of their grids, they differ greatly in variance from these means.
+2.  Measurement errors caused by spatial interpolation for regions with missing data.
+    -   Likely less of a problem for this investigation, Europe still has one of the highest densities of weather stations
+    -   Rather an issue for some areas of the grid, in particular for regions in Europe with high prevalence of weather fronts, high variance of surface heights or any other circumstances causing great differences of weather states within a grid cell at the same time point
+3.  Lack of full set of weather variables/failure to include other weather variables can lead to indeterminate OVB as correlation among different weather variables varies greatly depending on location.
+4.  Spatial correlation in weather data grids can lead to multicollinearity in econometric estimation, in turn overestimating standard errors for weather variable coefficients.
+5.  Unwanted exogeinity from artificial variation and breakpoints in weather data time series, caused by anthropogenic changes in weather station availability and other changes in methodology, strategy and management of weather data measurement and recording.
+
+## From Weather Data Variables to Measures of Climate and Climate Change
+
+Main points from @auffhammer-etal-2013-weather-data-econ-analysis
+
+-   Climate as long average of weather at given location
+-   Differentiation between climate responses (explained by climate normals, e.g. long averages in cross-sections) and short-run weather elasticities (explained by short-term weather fluctuations)
 
 ## Mapping Climate onto Weather Data and Descriptive Evidence {#sec-SpatialJoin}
 

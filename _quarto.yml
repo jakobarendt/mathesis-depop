@@ -10,6 +10,7 @@ book:
   site-url: https://mathesis.jakobarendt.com
   repo-url: https://github.com/jakobarendt/mathesis-depop
   repo-actions: [issue,edit,source]
+  downloads: [pdf,docx]
   chapters:
     - index.qmd
     - ch-1-introduction.qmd

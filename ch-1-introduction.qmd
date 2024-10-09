@@ -9,3 +9,7 @@
 -   Understanding of relationships between climate and demographic developments is essential for developing adequate and well-targeted policies that respond efficiently to the already ongoing and future climate change
 -   A great part of investments in public infrastructure, whether be it for schools, hospitals, transport or something else, takes place in densely populated areas. Likely, these areas also often dominate the considerations for adapting such infrastructure to increasing temperatures, more extreme weather events and other consequences of climate change. By showing that rural areas are equally or even more vulnerable to climate change than their urban counterparts, I am able to underscore their significance when deciding where to allocate resources for climate change adaptation.
 -   One/two sentences about the remaining strucuture of the thesis. "The remainder of this thesis paper is organized as follows..." (do not forget to mention the appendix)
+
+**Research question / Overall perspective:**
+
+-   How has climate shaped European municipal demographics since WW2?

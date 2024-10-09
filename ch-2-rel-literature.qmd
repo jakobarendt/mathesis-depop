@@ -13,8 +13,15 @@
 |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |
 
+Name some papers to make a differentiation by economic area/variable, i.e. agriculture, migration, productivity
+
+Name some papers (the same as already mentioned or others) to make a differentiation by methodology, i.e. simple cross-section analysis, panel analysis, *spatial first differences* etc
+
+*Cite those three mentioned in the @auffhammer-etal-2013-weather-data-econ-analysis paper:*
+
+Among the first to introduce panel models in the context of estimation economic impacts of climate were Auffhammer, Ramanathan, and Vincent 2006; Deschenes and Greenstone 2007; Schlenker and Roberts 2009...
+
 -   List literature that explore *Social Cost of Carbon (SCC)*
--   Use Spatial First Differences?
 -   For my case, particularly the literature with a similar setup -- in terms of measures used for climate, economic/subject area being demographic development, econometric methodology making use of the additional time-dimension of the data, and the spatial dimension being relatively small (e.g. not entire countries)
 
 ## What (potentially) differentiates this investigation from other, already published, literature?
