@@ -32,9 +32,23 @@ execute:
 format:
   html:
     theme: cosmo
-  pdf: default
+  pdf:
+    papersize: a4
+    geometry:
+      - top=25mm
+      - bottom=30mm
+      - left=40mm
+      - right=25mm
+      - footskip=15mm
+    mainfont: "Times New Roman"
+    sansfont: "Arial"
+    fontsize: 12pt
+    linestretch: 1.5
     # documentclass: scrbook
     # cite-method: natbib
     # header-includes: |
       # \bibliographystyle{ecta}
-  docx: default
+  docx:
+    papersize: a4
+    mainfont: "Times New Roman"
+    fontsize: 12pt

@@ -34,10 +34,10 @@ vignettes/*.pdf
 /cache/
 
 # files produced by TinyTeX during rendering for PDF
-.aux
-.log
-.tex
-.toc
+*.aux
+*.log
+*.tex
+*.toc
 
 # Temporary files created by R markdown
 *.utf8.md
