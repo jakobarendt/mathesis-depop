@@ -85,6 +85,7 @@ considering unobservable LAU-level characteristics particularly prevalant in the
 ## Econometric Research Design
 
 -   Mention mostly harmless econometrics ?
+-   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue against correlation matrix between all available weather variables, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)**
 -   interaction term between weather aggregates and controls??
 -   balanced panel (!)
 -   decennial panel model
@@ -136,6 +137,7 @@ $$
 
 -   Do the first panel model instead with log- or percent-growth rates, and then also introduce time-specific fixed effects?
 -   Reverse causality? More populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions, right?
+-   Also introduce controls for trends? Which, country-, LAU- and/or time-specific trends? All three would probably be overcontrol.
 
 Einschub:
 
@@ -169,6 +171,7 @@ Einschub:
 -   What about heterogenous treatment effects?
 -   Search studies/give examples why population figures correlate with absolute gdp and other economic variables of the corresponding region (or at least their respective growth/decline go in the same direction)
 -   Mention ways of transmission the climate effects, i.e. decline in agricultural yields and, hence, a decline agriculture-related employment opportunities
+-   Three ways of controlling for spatial correlation (according to @auffhammer-etal-2013-weather-data-econ-analysis)
 
 ### Points from Mostly Harmless Econometrics (not entirely sure though)
 

@@ -9,3 +9,13 @@ abc
 ## Simulated Impacts of Future Climate Change on Municipal Demographics
 
 Provide graphs with past vs future population growth/decline rates.
+
+Should be able to use climate projections from IPCC Global Climate Models (GCMs), look further under [http://www.ipcc-data.org/]().
+
+To enable comparability among the projections of future climate and the GCMs that calculate them, researchers have agreed on different CO~2~ emissions scenarios that the GCMs take as exogenous.
+For the same emissions scenario, projections and their underlying GCMs therefore mainly differ in their @humanin2023
+
+For a more detailed account on the differences, advantages and disadvantages of the different Global Climate Models (GCMs), refer to @auffhammer-etal-2013-weather-data-econ-analysis.
+
+After estimating the coefficients of the response functions of demographics to climate, these results can now be used for extrapolation.
+For predicting future climate impacts...

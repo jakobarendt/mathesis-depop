@@ -67,25 +67,32 @@ Similarly, there are also exceptions regarding the spatial level of detail: For 
 
 ## Weather Data
 
+-   **Resolution of raster** 0.1 deg, mention also what that would be equivalent to in km (for different latitudes)
+-   Raster would be balanced panel of weather data (assuming it is available for multiple time points)
+
 Station data is complemented by interpolation for those locations without station or with missing weather data points
 
-Disadvantages of weather grid data according to @auffhammer-etal-2013-weather-data-econ-analysis:
+Disadvantages of weather grid data according to @auffhammer-etal-2013-weather-data-econ-analysis: **attenuation bias** (in particular for points 1, 2 and 5)
 
-1.  Many weather grid data products are similar in average temperatures for each of their grids, they differ greatly in variance from these means.
-2.  Measurement errors caused by spatial interpolation for regions with missing data.
+1.  Many weather grid data products are similar in average temperatures for each of their grids, but they differ greatly in variance from these means.
+2.  Measurement errors caused by spatial interpolation done by averaging for regions with missing data.
     -   Likely less of a problem for this investigation, Europe still has one of the highest densities of weather stations
-    -   Rather an issue for some areas of the grid, in particular for regions in Europe with high prevalence of weather fronts, high variance of surface heights or any other circumstances causing great differences of weather states within a grid cell at the same time point
+    -   Rather an issue for selected areas of the grid, in particular for regions in Europe with high prevalence of weather fronts, high variance of territorial surface heights or any other circumstances causing consequential differences of weather states within a grid cell at the same time point
+    -   **Important consequence:** A bias in measurement error towards more rural areas!
 3.  Lack of full set of weather variables/failure to include other weather variables can lead to indeterminate OVB as correlation among different weather variables varies greatly depending on location.
 4.  Spatial correlation in weather data grids can lead to multicollinearity in econometric estimation, in turn overestimating standard errors for weather variable coefficients.
+    -   Only a problem for cross-section estimation? Or also for panel data?
 5.  Unwanted exogeinity from artificial variation and breakpoints in weather data time series, caused by anthropogenic changes in weather station availability and other changes in methodology, strategy and management of weather data measurement and recording.
+    -   Mainly a problem when investigating smaller geographic areas.
+    -   Criterion: Weather station coverage does not change with (policy) intervention; here: Demographic changes should have no connection to changes in weather station coverage, i.e. might only be noticeable in countries and regions with profound and sudden systemic change such as former east block
 
 ## From Weather Data Variables to Measures of Climate and Climate Change
 
 Main points from @auffhammer-etal-2013-weather-data-econ-analysis
 
--   Climate as long average of weather at given location
+-   Climate as long average of weather at given location (difference between weather and climate a matter of time)
 -   Differentiation between climate responses (explained by climate normals, e.g. long averages in cross-sections) and short-run weather elasticities (explained by short-term weather fluctuations)
 
 ## Mapping Climate onto Weather Data and Descriptive Evidence {#sec-SpatialJoin}
 
-abc
+-   Compare size of grid (and consequently the size of its area) with the territorial size of the smallest LAU

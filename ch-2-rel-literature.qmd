@@ -1,7 +1,7 @@
 # Related Literature
 
 | Authors | Economic Area | Issue investigated | Main Results | Econometric Methodology | Resolution | Measure for Climate | Further Comments |
-|---------|---------|---------|---------|---------|---------|---------|---------|
+|----|----|----|----|----|----|----|----|
 | @burke-etal-2015-climate-conflict | Conflict | Meta analysis of 55 studies | Of all climate measures, contemporaneous temperature has the strongest impact on conflict | Panel data analysis with contemporaneous or lagged climate measures | Diverse | Diverse |  |
 | @bohramishra-etal-2014-permanent-migration-climate | Environmental Migration | Disaster vs. climate impacts on HH migration | Overall effects stronger for temperature than for precipitation | "Lagged" panel analysis | Sub-national/regional | Precipitation & Temperature | Probability to Migrate as Dependent |
 | @barrios-etal-2006-rural-urban-mig-africa | Rural-urban migration | Urbanization of Climate Change | Decreasing Precipitation has increased urbanization in Sub-Saharan Africa | Plan Cross-Section (Pooled Panel Data) | National | Precipitation ("Rainfall") |  |
@@ -13,13 +13,14 @@
 |  |  |  |  |  |  |  |  |
 |  |  |  |  |  |  |  |  |
 
-Name some papers to make a differentiation by economic area/variable, i.e. agriculture, migration, productivity
+Name some papers to make a differentiation by economic area/variable, i.e. agriculture, migration, productivity –\> **unobservables differentiating spatial units and also correlated with weather/climate may cause bias**
 
 Name some papers (the same as already mentioned or others) to make a differentiation by methodology, i.e. simple cross-section analysis, panel analysis, *spatial first differences* etc
 
 *Cite those three mentioned in the @auffhammer-etal-2013-weather-data-econ-analysis paper:*
 
 Among the first to introduce panel models in the context of estimation economic impacts of climate were Auffhammer, Ramanathan, and Vincent 2006; Deschenes and Greenstone 2007; Schlenker and Roberts 2009...
+also quote Fisher et al (2012)
 
 -   List literature that explore *Social Cost of Carbon (SCC)*
 -   For my case, particularly the literature with a similar setup -- in terms of measures used for climate, economic/subject area being demographic development, econometric methodology making use of the additional time-dimension of the data, and the spatial dimension being relatively small (e.g. not entire countries)
