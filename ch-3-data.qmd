@@ -8,12 +8,6 @@ The spatial join of the two data sets, that relates the LAUs' historical populat
 
 ## Historical LAU Population Data Set
 
-**Think about where to mention the different base years in this subchapter!! Also reference Appendix A for this!!**
-
-<!-- use wording 'geoposition' in explanatory text below -->
-
-<!-- CITATION of the report by Glørsen and Lüer (Spatial Foresight) -->
-
 <!-- Specify states more exactly -->
 
 The source of the historical population data for European LAUs is Eurostat.
@@ -26,10 +20,10 @@ The creators of the data set took this into account and estimated harmonized pop
 
 Due to the above-mentioned continuous changes of the administrative boundaries of the LAUs throughout time, their boundaries were fixed to the base years 2011 or 2012 to allow for comparability across time points.
 Frequency and scope of reforms of administrative boundaries was diverse among countries.
-For this reason, the techniques chosen to harmonize the population figures with respect to their spatial attributes **(geopositions?)** vary with the country and in two cases even with the region (Germany and the UK).
+For this reason, the techniques chosen to harmonize the population figures with respect to their spatial attributes \[(geopositions?)\] vary with the country and in two cases even with the region (Germany and the UK).
 For example, while for some countries a backward approach adjusting only the figures subject to known boundary changes was applied, for others spatial overlay of decade-specific boundary maps was necessary.
 Special cases, for instance where two LAUs were combined to a single one, are also labeled with footnotes pointing to metadata distributed alongside the data tables.
-The report of the data collectors outlines this in more detail @gloersen-luer-2013-report-data-collect**(add citation)**.
+The report of the data collectors outlines this in more detail @gloersen-luer-2013-report-data-collect.
 <!-- no interpolation here!! -->
 
 Besides space, the second dimension that needed harmonization to ensure comparability is time.
@@ -39,16 +33,10 @@ While figures for some countries were exactly on or only few days apart from the
 Finally, population data for the reference dates January 1st of 1961, 1971, 1981, 1991, 2001, and 2011 were derived.
 
 In addition to the estimated figures for harmonization along with the original ones, the data is also delivered with geographic references such that the population figures can be integrated into maps and other spatial analyses.
-For the majority of the countries, these references correspond to the *EuroGeographics EuroBoundaryMaps* of the year 2011/2012, as the population figures were harmonized for 2011/2012 LAU boundaries.
+For the majority of the countries, these references correspond to the *EuroGeographics EuroBoundaryMaps* \[provide citation\] of the year 2011/2012, as the population figures were harmonized for 2011/2012 LAU boundaries.
 However, some countries' LAU population figures are delivered with different geographic referencing systems, for which the maps (more precisely, their shapefiles) are provided.
 Similarly, there are also exceptions regarding the spatial level of detail: For most countries, the population figures are geographically referenced to the LAU2-level that has a higher spatial resolution, but for some countries population data could only be estimated for the coarser LAU1-level.
 @tbl-lau-levels-maps gives a complete overview of these aspects.
-
-<!-- LAU-2 level: Highest resolution of Eurostat regional typology) -->
-
-<!-- **Add another column to table denoting whether bias due to spatial overlay may be present** -->
-
-<!-- Add another column to table denoting for each country the year for which its boundaries have been recalculated (either 2011 or 2012) -->
 
 |             Country | LAU-Level | Corresponding Geographic Attributes/Maps |
 |--------------------:|:---------:|------------------------------------------|
@@ -62,15 +50,26 @@ Similarly, there are also exceptions regarding the spatial level of detail: For 
 
 : Types of LAU-levels and underlying sources for geographic attributes for all countries in the data set {#tbl-lau-levels-maps}
 
+\[Further notes to myself for historical population data:\]
+
 -   Quote here the Eurostat guidance on rural and urban typologies
--   And maybe some other definition (UN? ILO? Commission? DG AGRI? DG EMPL, ask Paola?)
+-   And maybe some other definition to determine which LAUs are rural and not (UN? ILO? Commission? DG AGRI? DG EMPL, ask Paola?)
+-   Think about where to mention the different base years in this subchapter. Also reference Appendix A for this!!
+-   LAU-2 level: Highest resolution of Eurostat regional typology)
+-   Add another column to table denoting whether bias due to spatial overlay may be present
+-   Add another column to table denoting for each country the year for which its boundaries have been recalculated (either 2011 or 2012) --\>
 
 ## Weather Data
 
--   **Resolution of raster** 0.1 deg, mention also what that would be equivalent to in km (for different latitudes)
--   Raster would be balanced panel of weather data (assuming it is available for multiple time points)
+\[Discuss in this sub-chapter:\]
 
-Station data is complemented by interpolation for those locations without station or with missing weather data points
+-   **Resolution of raster** 0.1 deg, mention also what that would be equivalent to in km (for different latitudes)
+-   Raster is balanced panel of weather data (it provides repeated observations for the same units, i.e. grids, throughout multiple time points)
+-   Briefly discuss publisher of the data (ECMWF), consider further information from the documentation of the grid, in particular:
+    -   The number of stations that provide data for the grid and its interpolations/reanlyses and whether there were significant changes in distribution and total amount of stations
+    -   Reanalysis or original station data and interpolated where needed?
+    -   How is station data interpolated? (Station data is complemented by interpolation for those locations without station or with missing weather data points)
+-   Mention which weather parameters are downloaded: Temperature, precipitation etc
 
 Disadvantages of weather grid data according to @auffhammer-etal-2013-weather-data-econ-analysis: **attenuation bias** (in particular for points 1, 2 and 5)
 
@@ -88,11 +87,24 @@ Disadvantages of weather grid data according to @auffhammer-etal-2013-weather-da
 
 ## From Weather Data Variables to Measures of Climate and Climate Change
 
-Main points from @auffhammer-etal-2013-weather-data-econ-analysis
+\[Discuss in this sub-chapter:\]
+
+-   How are the different weather parameters aggregated on the time dimension to correspond to the time points of historical population data:
+    -   "Classical" approach with decade averages of yearly mean temperature, yearly precipitation sum, and potentially other parameters?
+    -   Alternatively, consider variability-based indicators (but probably more likely to measure short-term responses)
+    -   Consider measures suggested in @roberts-etal-2012-agronomic-weather-measures as examples for how to aggregate weather data
+
+\[Put main parts of chapter *Common Approaches in Climate Econometrics* in this chapter?\]
+
+Main points from @auffhammer-etal-2013-weather-data-econ-analysis:
 
 -   Climate as long average of weather at given location (difference between weather and climate a matter of time)
 -   Differentiation between climate responses (explained by climate normals, e.g. long averages in cross-sections) and short-run weather elasticities (explained by short-term weather fluctuations)
 
 ## Mapping Climate onto Weather Data and Descriptive Evidence {#sec-SpatialJoin}
 
--   Compare size of grid (and consequently the size of its area) with the territorial size of the smallest LAU
+\[Discuss in this sub-chapter:\]
+
+-   Compare size of grid (and consequently the size of its area) with the territorial size of the smallest and biggest LAU
+-   Mention & cite exactextractr package
+-   Provide graphics to demonstrate spatial overlay
