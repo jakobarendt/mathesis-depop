@@ -14,7 +14,7 @@ The source of the historical population data for European LAUs is Eurostat.
 The data includes LAUs of European Union (EU) member states, certain candidate and European Free Trade Association (EFTA) countries, as well as the United Kingdom, and can be downloaded from its website [@eurostat-2023-lau-website].
 
 Since LAUs are (public) Local Administrative Units, their structural and geographic compositions are subject to adjustments as local, national, and European policies change.
-For this investigation in particular, reforms of administrative boundaries can highly complicate the analysis of the LAUs' demographic characteristics because the statistical units lose inter- and intra-unit comparability over time when their spatial dimensions change.
+For this investigation in particular, reforms of administrative boundaries can highly complicate the analysis of the LAUs' population figures because the statistical units lose inter- and intra-unit comparability over time when their spatial dimensions change.
 Additionally, census time points vary among countries and regions, which complicates cross-section comparability as it requires unified time points.
 The creators of the data set took this into account and estimated harmonized population figures to enable further analysis and research.
 
@@ -83,7 +83,7 @@ Disadvantages of weather grid data according to @auffhammer-etal-2013-weather-da
     -   Only a problem for cross-section estimation? Or also for panel data?
 5.  Unwanted exogeinity from artificial variation and breakpoints in weather data time series, caused by anthropogenic changes in weather station availability and other changes in methodology, strategy and management of weather data measurement and recording.
     -   Mainly a problem when investigating smaller geographic areas.
-    -   Criterion: Weather station coverage does not change with (policy) intervention; here: Demographic changes should have no connection to changes in weather station coverage, i.e. might only be noticeable in countries and regions with profound and sudden systemic change such as former east block
+    -   Criterion: Weather station coverage does not change with (policy) intervention; here: Population figure changes should have no connection to changes in weather station coverage, i.e. might only be noticeable in countries and regions with profound and sudden systemic change such as former east block
 
 ## From Weather Data Variables to Measures of Climate and Climate Change
 

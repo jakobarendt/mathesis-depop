@@ -4,7 +4,9 @@ In chapter @sec-methodology, I also provide the formal argument that allows for 
 
 Potential further extensions:
 
-Improve how the econometric models in this investigation account for overall demographic trends in each of the countries in the sample and in Europe as a whole.
+Improve how the econometric models in this investigation account for overall population trends in each of the countries in the sample and in Europe as a whole.
+<!--was genau meine ich denn da?!?!?-->
+
 After all, some European countries and the continent as a whole are on the forefront of deep demographic changes that can also be observed globally.
 In that regard, potential extensions for the research presented in this thesis could range from including more variables likely correlated to population figures and weather (e.g. (child) mortality rates, life expectancy) to an improved argumentation as to how such currently unobserved confounders and trends not yet explicitly specified need or need not be considered to validate the results.
 Such considerations might also resemble a fruitful opportunity to test the population dynamics derived in Malthusian and post-Malthusian [e.g. @galor-weil-2000-growth-population-post-malthus] models.

@@ -10,7 +10,7 @@
 The authors find that the overall effects onto emigration are stronger for temperature than for precipitation.
 They also compare this to lagged shares of permanent emigration resulting from natural disasters and find that \[...\].
 
-**Urbanisation** A study that aims to relate climate change with shifts in rural and urban demographics is from @barrios-etal-2006-rural-urban-mig-africa.
+**Urbanisation** A study that aims to relate climate change with shifts in rural and urban population amounts is from @barrios-etal-2006-rural-urban-mig-africa.
 With the help of a cross-section analysis that considers the underlying multi-period panel data only in pooled format, the authors estimate that decreasing precipitation has increased urbanisation in Sub-Saharan Africa by \[...\] for every milliliter less of rainfall \[clarify the quantitative results, also which resolution\].
 Similarly, @henderson-etal-2017-cc-urbanization-africa also investigate urbanisation.
 **provide more background on the Henderson paper**
@@ -33,4 +33,4 @@ also quote Fisher et al (2012)
 \[Further notes for myself\]
 
 -   List literature that explore *Social Cost of Carbon (SCC)*
--   For my case, particularly the literature with a similar setup -- in terms of measures used for climate, economic/subject area being demographic development, econometric methodology making use of the additional time-dimension of the data, and the spatial dimension being relatively small (e.g. not entire countries)
+-   For my case, particularly the literature with a similar setup -- in terms of measures used for climate, population figure development as economic/subject area, econometric methodology making use of the additional time-dimension of the data, and the spatial dimension being relatively small (e.g. not entire countries)

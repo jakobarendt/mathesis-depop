@@ -51,7 +51,8 @@ joined_data <- exact_extract(weather,
                             fun = 'mean',
                             append_cols = names(population)[-(15:17)],
                             progress = TRUE)
-joined_data <- panel_data |> as_tibble()
+joined_data <- joined_data |> as_tibble() # initially it was panel_data |> as_tibble() here
+# clarify why !?!?!
 
 # !! Add na.rm = true to fun = 'mean' ??
 # Check whether the numbering in the weather variables is actually chronological
@@ -88,14 +89,48 @@ plm(POP ~ mean.mean.daily.mean.temperature + mean.sum.daily.precipitation.amount
     effect = "individual") |>
   summary()
 
+# Finish code for aggregation to form interaction term of country-year-FEs
+# (or, alternatively, interaction of country-year-trend)
+panel_data <- panel_data |>
+  mutate(CNTR_CODE_YEAR = CNTR_CODE)
+
+# Also transform population figures to log(POP), such that I have log-level eco-
+# nometric models
+
+# Overview of foreseen models:
+# 1. Pooled model without&with rural(urban) dummy --> spatial autocorrelation-SEs
+# also possible to estimate?
+# 2. Panel without rural(urban) dummy with clustered & with Conley HAC SEs
+# 3. Panel with rural(urban) dummy with clustered & with Conley HAC SEs
+
+feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
+        CNTR_LAU_CODE + CNTR_CODE*YEAR,
+      data = panel_data) |> # find reason why panel_data_frame cannot be used
+  summary()
+
 feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
         CNTR_LAU_CODE + CNTR_CODE,
-      data = panel_data) |>
+      data = panel_data) |> # find reason why panel_data_frame cannot be used
+  summary()
+
+feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
+        CNTR_LAU_CODE + CNTR_CODE + YEAR,
+      data = panel_data) |> # find reason why panel_data_frame cannot be used
   summary()
 
 # !! Investigate warning message that is thrown when pivot_longer
 # !! Investigate warning message that is thrown pdata.frame
 # !! Check what is up with Poian, must be in data set twice
+
+
+# Estimation of standard errors -------------------------------------------
+
+# 1st Option: Standard error cluster
+
+# 2st Option: Conley HAC errors
+# install.packages("conleyreg")
+# Borsky: Spatial autocorrelation wahrscheinlich estimated über long & lat
+# --> über sf mittelpunkt zu jedem shape berechnen und in tibble mitgeben
 
 pop |>
   filter(is.na(POP_1961)) |>

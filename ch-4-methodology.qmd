@@ -76,9 +76,9 @@ Generally, it is difficult to measure these two effects separately in empirical 
 -   Also, unit homogeneity assumption does not hold (very little comparability in unknown confounders for some LAUs), which makes OVB problem even harder to avoid: panel/time-series approach with adequate fixed effects as solution for this
 -   Argue well for **marginal treatment comparability assumption** in time-series approach (less strongly needed for long differences); add in formula for it as well
 -   Identifying assumption: Exogeneity of temperature and precipitation, i.e. identifying variation stems from temperature levels and precipitation amounts and it is assumed to be exogenous to population amounts
--   Considering the distinctive richness of the data, providing dependent and explanatory characteristics of the same units throughout multiple time periods, this time dimension additionally provided allows leveraging on the advantages of panels analyses vs. cross-section. In particular, fixed effects and long-differences models provide powerful capabilities to control for unobserved confounders. In this setup, they are those unobserved *time-invariant* characteristics that influence the climate-demographic causal relationship and are different among the LAUs, such as natural resources, distance to other LAUs and potential economic hubs, consequent potential for economic growth etc.
+-   Considering the distinctive richness of the data, providing dependent and explanatory characteristics of the same units throughout multiple time periods, this time dimension additionally provided allows leveraging on the advantages of panels analyses vs. cross-section. In particular, fixed effects and long-differences models provide powerful capabilities to control for unobserved confounders/heterogeneity. In this setup, they are those unobserved *time-invariant* characteristics that influence the climate-population causal relationship and are different among the LAUs, such as natural resources, distance to other LAUs and potential economic hubs, consequent potential for economic growth etc.
 -   Long-differences, essentially a difference-in-difference approach comparing potential outcomes at two relatively distant time points, may better regard the spatially detailed yet aggregated nature of the data. After all, as the data is only available on the LAU-level, it can only provide a macroscopic insight into the decisions of the economic agents of the respective LAUs. Remember that the underlying panel data for this analysis does not follow individuals nor firms but LAUs. Hence, considering the macroscopic nature of the data and the long-run time focus of the research question, a panel model based on multiple cohorts lying relatively closely together in terms of time might take out too much of the identifying variation and correct for the wrong kinds of unobserved confounders. **bring examples for short-term and long-term unobserved confounders**
-    -   considering unobservable LAU-level characteristics particularly prevalant in the long-run, might prove a better fit to the data at hand and the research question on the long-run demographic consequences of climate change. **include also attenuation bias and citation for mostly harmless econometrics**
+    -   considering unobservable LAU-level characteristics particularly prevalant in the long-run, might prove a better fit to the data at hand and the research question on the long-run population consequences of climate change. **include also attenuation bias and citation for mostly harmless econometrics**
 
 \[Further discuss in this sub-chapter:\]
 
@@ -88,17 +88,24 @@ Generally, it is difficult to measure these two effects separately in empirical 
 ## Econometric Research Design
 
 -   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)** <!--
-                                                -   interaction term between weather aggregates and controls??
-                                                -   balanced panel (!)
-                                                -->
+                                                                                    -   interaction term between weather aggregates and controls??
+                                                                                    -   balanced panel (!)
+                                                                                    -->
 -   decennial panel model
+
+Currently foreseen control variables and FEs:
+
+-   LAU-FEs
+-   **remember that Country-FEs are not needed as they are already captured by LAU-FEs**
+-   Time-FEs or, alternatively,
+-   Country-Time-FEs (generally captures more, i.e. better control in theory, but try Country-Time-trend if the Country-Time-FEs capture too much)
 
 The following equations display the baseline panel model, with decade-averages of temperatures and decade-averages of yearly precipitation sums:
 
 $$
 \begin{aligned}
-\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \epsilon_{ict}\\
-\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + \mathrm{temp}_{ict} \cdot \pi_{i} + \pi_i + g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \epsilon_{ict}
+\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + \beta_{\mathrm{P}} \, g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \epsilon_{ict}\\
+\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + \beta_{\mathrm{TDR}} \, ( \mathrm{temp}_{ict} \cdot \pi_{i} ) + \beta_{\mathrm{P}} \, g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \epsilon_{ict}
 \end{aligned}
 $$
 
@@ -110,7 +117,7 @@ $$
     -   $\rho_c$ are country-fixed effects considering country-specific unobservables
     -   $\epsilon_{ict}$ is the regression error
 
-This model can simply be estimated with OLS, it tests whether any population differences can be attributed to differences in weather parameters.
+This model can simply be estimated with OLS, it tests whether any population changes can be attributed to changes in weather.
 The interaction term $\mathrm{temp}_{ict} \cdot \pi_{i}$ is included to account for the fact that the effect of temperature on population might differ between LAUs, and that this difference is not captured by the LAU-fixed effects.
 \[**Not sure about whether this interaction term is correct**\]
 
@@ -118,7 +125,7 @@ Similarly, a more extensive version the above model, including trend effects is 
 
 $$
 \begin{aligned}
-\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + \mathrm{temp}_{ict} \cdot \pi_{i} + \pi_i + g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \delta \cdot \text{t} + \epsilon_{ict}
+\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + \beta_{\mathrm{TDR}} \, ( \mathrm{temp}_{ict} \cdot \pi_{i} ) + \beta_{\mathrm{P}} g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \delta \cdot \text{t} + \epsilon_{ict}
 \end{aligned}
 $$
 
@@ -133,7 +140,7 @@ $$
 \end{split}
 $$
 
--   This can also simply be estimated with OLS to determine whether any changes caused by weather differences between the last and the first decade can be attributed to any population differences:
+-   This can also simply be estimated with OLS to determine whether any changes caused by weather differences between the last and the first decade can be attributed to any population changes:
     -   $\alpha$ captures any overall changes over time relevant to all LAUs
     -   $g ( \cdot )$ again represents different functional forms for precipitation that are tested
     -   $\omega_i$ is a dummy that controls for LAU-specific particularities
