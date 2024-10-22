@@ -1,5 +1,7 @@
 # Related Literature
 
+**Relevant literature is the literature that is touching upon and relevant to my research question: How has climate shaped (or: influenced) European municipal population figures since WW2?**
+
 \[Name & differentiate papers by economic subject area/independent variable (e.g. agriculture, conflict, economic growth & activity, migration, productivity, urbanisation) and weather variable\]
 
 **Conflict** @burke-etal-2015-climate-conflict find in their meta analysis of 55 studies on the relationship between climate and conflict that of all weather dimensions, temperature has the strongest impact on conflict.
@@ -21,6 +23,11 @@ Similarly, @henderson-etal-2017-cc-urbanization-africa also investigate urbanisa
 
 Among the first to introduce panel models in the context of estimation economic impacts of climate were Auffhammer, Ramanathan, and Vincent 2006; Deschenes and Greenstone 2007; Schlenker and Roberts 2009...
 also quote Fisher et al (2012)
+
+\[Consider literature in the context of these two argumentation strands & causal channels:\]
+
+1.  Climate literature: What influences does climate have on socioeconomic outcomes and how have they been measured? (I already have some literature on this)
+2.  Population literature: What has shaped population shifts and urbanization (and migration), and which role have climate and socioeconomic factors played in these shifts? How have they been measured? (Still need to find more literature on that)
 
 \[Differentiators to other, already published, literature:\]
 

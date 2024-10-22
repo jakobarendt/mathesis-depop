@@ -102,6 +102,11 @@ panel_data <- panel_data |>
 # also possible to estimate?
 # 2. Panel without rural(urban) dummy with clustered & with Conley HAC SEs
 # 3. Panel with rural(urban) dummy with clustered & with Conley HAC SEs
+# --> Estimate model with rural-urban effect for temperature only, for precipi-
+# tation only, and lastly also temperature-specific and precipitation-specific
+# rural-urban effects together in the same model
+# --> Do I also consider non-linear functional forms of climate variables in the
+# model equations (and estimate them)?
 
 feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
         CNTR_LAU_CODE + CNTR_CODE*YEAR,
