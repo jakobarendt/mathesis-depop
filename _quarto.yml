@@ -15,8 +15,8 @@ book:
     - index.qmd
     - ch-1-introduction.qmd
     - ch-2-rel-literature.qmd
-    - ch-3-data.qmd
-    - ch-4-methodology.qmd
+    - ch-3-methodology.qmd
+    - ch-4-data.qmd
     - ch-5-results.qmd
     - ch-6-conclusion.qmd
     - references.qmd

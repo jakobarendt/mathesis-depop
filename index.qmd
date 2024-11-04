@@ -6,7 +6,7 @@ Naturally, the final submission of the thesis will be rendered to PDF.
 *To those that were incredibly patient with me. And to those that believed in me in those times when I did not anymore. In particular, thank you to SB and to F.*
 -->
 
-## Abstract
+## Abstract {.unnumbered}
 
 \[...\] This thesis is also an exercise in reproducibility in quantitative economic and social sciences.
 I tested tools aimed at enhancing reproducibility and explored their usability and limitations in everyday research life, in particular tools for integrated reporting to incentivize along-text computations (**Quarto**), version control (Git) and third-party hosted computation along with open-source publishing (GitHub Actions & GitHub Pages).
