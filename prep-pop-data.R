@@ -11,7 +11,7 @@ dir.create("data")
 
 
 
-# Load geographic shapefiles for historic LAU population data -------------
+# Load geographic shapefiles for historical LAU population data -----------
 
 dir.create("data/shapefiles")
 
@@ -33,8 +33,9 @@ shapes_ie <- read_sf('data/shapefiles/ie')
 shapes_tr <- read_sf('data/shapefiles/tr')
 #### !! also adjust these special cases for downloads from Google Drive !!
 
-# Transform coordinate reference systems of shapefiles to correspond to the
+# Transform coordinate reference systems (CRS) of shapefiles to correspond to the
 # projection of the weather grid data
+# (st_crs() returns the current CRS of an sf object)
 shapes_2011 <- shapes_2011 |> st_transform(crs = "OGC:CRS84")
 shapes_2012 <- shapes_2012 |> st_transform(crs = "OGC:CRS84")
 shapes_gr <- shapes_gr |> st_transform(crs = "OGC:CRS84")
@@ -43,7 +44,7 @@ shapes_tr <- shapes_tr |> st_transform(crs = "OGC:CRS84")
 
 
 
-# Load historic LAU population data ---------------------------------------
+# Load historical LAU population data -------------------------------------
 
 pop_orig <- readxl::read_xlsx(path = 'data/LAU2_REFERENCE_DATES_POPL.xlsx')
 
@@ -69,7 +70,7 @@ table_obs <- obs_laus_pop_orig |>
 rm(obs_laus_pop_orig, obs_shapes_2011, obs_shapes_2012)
 
 # !!add column that denotes which shapes version is actually used for each country!!
-
+### ToDo
 
 
 # Shapefiles: Streamline identifiers and reduce to columns needed ---------
@@ -81,6 +82,7 @@ shapes_2011 <- shapes_2011 |>
   mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID))
 shapes_2012 <- shapes_2012 |>
   mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID))
+## sf object for 2011 ???
 ## Check: Do values in columns GISCO_ID and FID correspond? Yes, they do fully.
 sum(shapes_2011$GISCO_ID != shapes_2011$FID)
 sum(shapes_2012$GISCO_ID != shapes_2012$FID)
@@ -129,7 +131,7 @@ st_crs(shapes_tr)
 
 
 
-# Historic LAU population data: Correct minor peculiarities ---------------
+# Historical LAU population data: Correct minor peculiarities -------------
 
 # Check: Do values in CNTR_CODE correspond with the country-determiner in CNTR_LAU_CODE?
 sum(pop_orig$CNTR_CODE == str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}"), na.rm = TRUE)
@@ -241,7 +243,7 @@ population <- pop_all_shapes |>
   filter(VERS_SHAPEFILE != "cannot join") |>
   filter(!st_is_empty(geometry)) |>
   st_as_sf()
-## Aggregate final version of historic population data: The georeferences are
+## Aggregate final version of historical population data: The georeferences are
 ## now combined to a single geometry column; all columns are reorded and reduced
 ## to only the ones needed in the further analysis. The LAUs without
 ## georeferences are also filtered out.
