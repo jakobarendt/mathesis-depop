@@ -110,6 +110,7 @@ shapes_2012 <- shapes_2012 |>
   select(CNTR_LAU_ID, LAU_NAME, POP_2012, POP_DENS_2012, AREA_KM2, geometry) |>
   rename("AREA_KM2_2012" = AREA_KM2, "geometry_2012" = geometry)
 
+
 # Exceptional cases - Shapefiles delivered with population data set: GR, IE, TR
 
 ## For GR, IE and TR: Also streamline identifiers, also reduce to columns needed
@@ -140,17 +141,23 @@ st_crs(shapes_2011) == st_crs(shapes_tr)
 # Historical LAU population data: Correct minor peculiarities -------------
 
 # Check: Do values in CNTR_CODE correspond with the country-determiner in CNTR_LAU_CODE?
-sum(pop_orig$CNTR_CODE == str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}"), na.rm = TRUE)
-nrow(pop_orig)
-pop_orig |> filter(pop_orig$CNTR_CODE != str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}")
-                   | is.na(pop_orig$CNTR_CODE == str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}")))
+
+sum(pop_orig$CNTR_CODE ==
+      str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}"), na.rm = TRUE) ==
+  nrow(pop_orig)
+pop_orig |> filter(CNTR_CODE != str_extract(CNTR_LAU_CODE, "^.{2}")
+                   | is.na(CNTR_CODE == str_extract(CNTR_LAU_CODE, "^.{2}")))
 ### Yes, they do correspond, with the exception of two French LAUs that do not
 ### have a CNTR_LAU_CODE at all.
-## The two French LAUs without the CNTR_LAU_CODE identifier are removed from the data set
+
+## The two French LAUs without the CNTR_LAU_CODE identifier are removed from the
+## data set
 pop_orig <- pop_orig |> filter(!is.na(CNTR_LAU_CODE))
+
 
 # Hungary: Aggregate (sum up) population figures of all Budapest districts to
 # correspond to the city's single shape file
+
 budapest <- pop_orig |>
   filter(str_starts(LAU_LABEL, "Budapest_"))
 budap_aggreg <- budapest |>
@@ -166,13 +173,17 @@ rm(budapest, budap_aggreg)
 
 # Croatia (HR): Extract last five digits of CNTR_LAU_CODE to correspond to the
 # CNTR_LAU_ID structure of shapefile of 2012 (EuroGeographics v7.0)
+
 pop_orig <- pop_orig |>
   mutate(CNTR_LAU_CODE = if_else(CNTR_CODE == "HR",
                                  paste0(CNTR_CODE, str_sub(CNTR_LAU_CODE, 5, 9)),
                                  CNTR_LAU_CODE))
 
+# HERE
+
 # Luxembourg (LU): Add population figures of Eschweiler to Wiltz, since they
 # have a combined georeference in the shapefile of 2012 (EuroGeographics v7.0)
+
 eschweiler_wiltz <- pop_orig |>
   filter(CNTR_CODE == "LU" & LAU_LABEL %in% c("Eschweiler", "Wiltz"))
 eschweiler_wiltz_aggreg <- eschweiler_wiltz |>
@@ -184,12 +195,15 @@ pop_orig <- pop_orig |>
 rm(eschweiler_wiltz, eschweiler_wiltz_aggreg)
 
 # Population values below zero: Set to NA
+
 pop_orig <- pop_orig |>
   mutate(across(POP_1961_01_01:POP_2011_01_01, ~ if_else(. < 0, NA, .)))
 
 
 
 # Join all shapefiles with population data --------------------------------
+
+# Check: Uniqueness of identifiers in the population and shapefile data sets
 
 pop_all_shapes <- pop_orig |>
   left_join(select(shapes_2011, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
