@@ -82,22 +82,26 @@ shapes_2011 <- shapes_2011 |>
   mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID))
 shapes_2012 <- shapes_2012 |>
   mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID))
-## sf object for 2011 ???
-## Check: Do values in columns GISCO_ID and FID correspond? Yes, they do fully.
-sum(shapes_2011$GISCO_ID != shapes_2011$FID)
-sum(shapes_2012$GISCO_ID != shapes_2012$FID)
+
+## Check: Do values in columns GISCO_ID and FID correspond? Yes, for shapefiles of 2011.
+sum(shapes_2011$GISCO_ID == shapes_2011$FID) == nrow(shapes_2011)
+sum(shapes_2012$GISCO_ID == shapes_2012$FID) == nrow(shapes_2012)
+### The shapefiles of 2012 (EuroGeographics v7.0) do not have a column 'FID'.
+
 ## Check: Does the newly created column CNTR_LAU_ID correspond to both of the
-## columns investigated in the previous paragraph?
-sum(shapes_2011$CNTR_LAU_ID != gsub("_", "", shapes_2011$GISCO_ID))
-sum(shapes_2012$CNTR_LAU_ID != gsub("_", "", shapes_2012$GISCO_ID))
+## columns investigated in the previous paragraph (i.e. GISCO_ID and, hence, FID) ?
+sum(shapes_2011$CNTR_LAU_ID == gsub("_", "", shapes_2011$GISCO_ID)) == nrow(shapes_2011)
+sum(shapes_2012$CNTR_LAU_ID == gsub("_", "", shapes_2012$GISCO_ID)) == nrow(shapes_2012)
 shapes_2012 |> filter(shapes_2012$CNTR_LAU_ID != gsub("_", "", shapes_2012$GISCO_ID))
 ### With the exception of Budapest (HU) in the shapefiles of 2012 (EuroGeographics v7.0),
 ### the newly created column corresponds to the other two.
+
 ## Correct CNTR_LAU_ID for Budapest in EuroGeographics v7.0 shapefile, such that
 ## it corresponds to the EuroGeographics v5.0 shapefile (and to the population data
-## that is transformed later)
+## points that are aggregated later)
 shapes_2012 <- shapes_2012 |>
   mutate(CNTR_LAU_ID = if_else(CNTR_LAU_ID == "HU13578", "HU1357", CNTR_LAU_ID))
+
 ## Reduce shapefiles to the columns needed
 shapes_2011 <- shapes_2011 |>
   select(CNTR_LAU_ID, LAU_NAME, POP_2011, POP_DENS_2011, AREA_KM2, geometry) |>
@@ -106,8 +110,11 @@ shapes_2012 <- shapes_2012 |>
   select(CNTR_LAU_ID, LAU_NAME, POP_2012, POP_DENS_2012, AREA_KM2, geometry) |>
   rename("AREA_KM2_2012" = AREA_KM2, "geometry_2012" = geometry)
 
-# Shapefiles delivered with data set: GR, IE, TR
+# Exceptional cases - Shapefiles delivered with population data set: GR, IE, TR
 
+## For GR, IE and TR: Also streamline identifiers, also reduce to columns needed
+## and rename remaining columns for better base-year- and country-distinction
+## after total collation of sf tables
 shapes_gr <- shapes_gr |>
   mutate(CNTR_LAU_ID = paste0("EL", NSI_CODE)) |>
   select(CNTR_LAU_ID, SHAPE_Area, geometry) |>
@@ -123,11 +130,10 @@ shapes_tr <- shapes_tr |>
 
 # Check coordinate reference systems (CRS) of all shapefiles
 
-st_crs(shapes_2011)
-st_crs(shapes_2012)
-st_crs(shapes_gr)
-st_crs(shapes_ie)
-st_crs(shapes_tr)
+st_crs(shapes_2011) == st_crs(shapes_2012)
+st_crs(shapes_2011) == st_crs(shapes_gr)
+st_crs(shapes_2011) == st_crs(shapes_ie)
+st_crs(shapes_2011) == st_crs(shapes_tr)
 
 
 
