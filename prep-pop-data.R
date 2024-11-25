@@ -26,12 +26,14 @@ shapes_2012 <- giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles
 
 # 2. Load shapefiles from this project's cloud storage
 #### !! still missing !!
+### ToDo
 
 # Load separately delivered shapefiles: Greece, Ireland, Turkey
 shapes_gr <- read_sf('data/shapefiles/gr')
 shapes_ie <- read_sf('data/shapefiles/ie')
 shapes_tr <- read_sf('data/shapefiles/tr')
 #### !! also adjust these special cases for downloads from Google Drive !!
+### ToDo
 
 # Transform coordinate reference systems (CRS) of shapefiles to correspond to the
 # projection of the weather grid data
@@ -164,8 +166,8 @@ budap_aggreg <- budapest |>
   summarize(CNTR_CODE = "HU", CNTR_LAU_CODE = "HU1357", LAU_LABEL = "Budapest (aggreg.)",
             across(starts_with("POP_"), ~ sum(.x, na.rm = TRUE)))
 pop_orig <- pop_orig |>
-  bind_rows(budap_aggreg) |>
-  filter(!CNTR_LAU_CODE %in% budapest$CNTR_LAU_CODE)
+  filter(!(CNTR_LAU_CODE %in% budapest$CNTR_LAU_CODE)) |>
+  bind_rows(budap_aggreg)
 rm(budapest, budap_aggreg)
 ## All Budapest population figures are summed up to a single LAU and added to
 ## the population data set. The remaining disaggregated Budapest LAUs with no
@@ -179,8 +181,6 @@ pop_orig <- pop_orig |>
                                  paste0(CNTR_CODE, str_sub(CNTR_LAU_CODE, 5, 9)),
                                  CNTR_LAU_CODE))
 
-# HERE
-
 # Luxembourg (LU): Add population figures of Eschweiler to Wiltz, since they
 # have a combined georeference in the shapefile of 2012 (EuroGeographics v7.0)
 
@@ -190,7 +190,7 @@ eschweiler_wiltz_aggreg <- eschweiler_wiltz |>
   summarize(CNTR_CODE = "LU", CNTR_LAU_CODE = "LU0807", LAU_LABEL = "Eschweiler u. Wiltz",
             across(starts_with("POP_"), ~ sum(.x, na.rm = TRUE)))
 pop_orig <- pop_orig |>
-  filter(!CNTR_LAU_CODE %in% eschweiler_wiltz$CNTR_LAU_CODE) |>
+  filter(!(CNTR_LAU_CODE %in% eschweiler_wiltz$CNTR_LAU_CODE)) |>
   bind_rows(eschweiler_wiltz_aggreg)
 rm(eschweiler_wiltz, eschweiler_wiltz_aggreg)
 
@@ -198,12 +198,18 @@ rm(eschweiler_wiltz, eschweiler_wiltz_aggreg)
 
 pop_orig <- pop_orig |>
   mutate(across(POP_1961_01_01:POP_2011_01_01, ~ if_else(. < 0, NA, .)))
+## Adjust that O. (zero-comma) values are "true" zero values and non-decimal
+## zeros are (supposedly) NA?
+### ToDo
 
 
 
 # Join all shapefiles with population data --------------------------------
 
-# Check: Uniqueness of identifiers in the population and shapefile data sets
+# Check: Uniqueness of and no NAs in identifiers in the population and
+# shapefile data sets
+# HERE
+pop_orig$CNTR_LAU_CODE |> duplicated() |> sum()
 
 pop_all_shapes <- pop_orig |>
   left_join(select(shapes_2011, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
