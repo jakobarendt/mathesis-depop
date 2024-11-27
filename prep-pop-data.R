@@ -131,12 +131,24 @@ shapes_tr <- shapes_tr |>
   rename("CNTR_LAU_ID" = ICC_LAU_CO, "SHAPE_AREA_TR" = SHAPE_AREA,
          "geometry_TR" = geometry)
 
+# Check: Are there any duplicates in the unique identifier CNTR_LAU_ID?
+
+## There should be no duplicates to ensure that shapes are matched correctly to
+## the historical population time series
+shapes_2011 |> filter(duplicated(CNTR_LAU_ID))
+shapes_2012 |> filter(duplicated(CNTR_LAU_ID))
+shapes_gr |> filter(duplicated(CNTR_LAU_ID))
+shapes_ie |> filter(duplicated(CNTR_LAU_ID))
+shapes_tr |> filter(duplicated(CNTR_LAU_ID))
+## Indeed, none of the shapefiles have duplicates in their unique identifiers
+
 # Check coordinate reference systems (CRS) of all shapefiles
 
 st_crs(shapes_2011) == st_crs(shapes_2012)
 st_crs(shapes_2011) == st_crs(shapes_gr)
 st_crs(shapes_2011) == st_crs(shapes_ie)
 st_crs(shapes_2011) == st_crs(shapes_tr)
+## All shapefiles have the same CRS
 
 
 
@@ -156,6 +168,20 @@ pop_orig |> filter(CNTR_CODE != str_extract(CNTR_LAU_CODE, "^.{2}")
 ## data set
 pop_orig <- pop_orig |> filter(!is.na(CNTR_LAU_CODE))
 
+# Check: Are there any duplicates in the unique identifier CNTR_LAU_CODE?
+
+## There should be no duplicates to ensure that matching can be done correctly
+## and none of the historical population time series overlap geospatially
+pop_orig |>
+  filter(duplicated(CNTR_LAU_CODE) | duplicated(CNTR_LAU_CODE, fromLast = TRUE))
+### There is one identifier duplicated and pointing to two different time series
+
+## The time series with duplicated identifiers cannot be fully explained by the
+## dataset's metadata nor can one of the LAU names be uniquely identified on the
+## map, summation is therefore also not possible.
+## Original and duplicate are removed:
+pop_orig <- pop_orig |>
+  filter(!duplicated(CNTR_LAU_CODE) & !duplicated(CNTR_LAU_CODE, fromLast = TRUE))
 
 # Hungary: Aggregate (sum up) population figures of all Budapest districts to
 # correspond to the city's single shape file
@@ -197,7 +223,7 @@ rm(eschweiler_wiltz, eschweiler_wiltz_aggreg)
 # Population values below zero: Set to NA
 
 pop_orig <- pop_orig |>
-  mutate(across(POP_1961_01_01:POP_2011_01_01, ~ if_else(. < 0, NA, .)))
+  mutate(across(starts_with("POP_", ignore.case = FALSE), ~ if_else(. < 0, NA, .)))
 ## Adjust that O. (zero-comma) values are "true" zero values and non-decimal
 ## zeros are (supposedly) NA?
 ### ToDo
@@ -206,10 +232,7 @@ pop_orig <- pop_orig |>
 
 # Join all shapefiles with population data --------------------------------
 
-# Check: Uniqueness of and no NAs in identifiers in the population and
-# shapefile data sets
 # HERE
-pop_orig$CNTR_LAU_CODE |> duplicated() |> sum()
 
 pop_all_shapes <- pop_orig |>
   left_join(select(shapes_2011, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
