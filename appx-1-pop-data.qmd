@@ -71,3 +71,5 @@ shapes_2012 |> filter(startsWith(CNTR_LAU_ID, "LU")) |> ggplot() + geom_sf()
 : Countries, their observations and geolocation characteristics
 
 The R script [`prep-pop-data.R`](./prep-pop-data.R) documents all of the steps taken as part of the cleaning, reorganizing and georeferecing of the historic LAU population data.
+
+ToDo: Add scatterplot for representing correlation between historic population figures and population figures delivered with shapefiles to represent strong correlation between historic interpolation and real figures.

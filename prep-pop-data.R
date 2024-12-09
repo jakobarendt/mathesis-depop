@@ -5,6 +5,7 @@
 
 # Packages and directory --------------------------------------------------
 
+options(scipen = 10)
 require(tidyverse)
 require(sf)
 dir.create("data")
@@ -71,8 +72,6 @@ table_obs <- obs_laus_pop_orig |>
 ## Remove data to free up work space; it is only needed for producing the table
 rm(obs_laus_pop_orig, obs_shapes_2011, obs_shapes_2012)
 
-# !!add column that denotes which shapes version is actually used for each country!!
-### ToDo
 
 
 # Shapefiles: Streamline identifiers and reduce to columns needed ---------
@@ -220,19 +219,12 @@ pop_orig <- pop_orig |>
   bind_rows(eschweiler_wiltz_aggreg)
 rm(eschweiler_wiltz, eschweiler_wiltz_aggreg)
 
-# Population values below zero: Set to NA
 
-pop_orig <- pop_orig |>
-  mutate(across(starts_with("POP_", ignore.case = FALSE), ~ if_else(. < 0, NA, .)))
-## Adjust that O. (zero-comma) values are "true" zero values and non-decimal
-## zeros are (supposedly) NA?
-### ToDo
-
-
+# ToDo: Make another table with observations per country, now that all files
+# have been cleaned
+# !!add column that denotes which shapes version is actually used for each country!!
 
 # Join all shapefiles with population data --------------------------------
-
-# HERE
 
 pop_all_shapes <- pop_orig |>
   left_join(select(shapes_2011, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
@@ -248,7 +240,7 @@ table_match_rates <- pop_all_shapes |>
   summarise(HIST_POP_OBS_LAUS = n(),
             SHAPES_2011_JOINED = sum(!st_is_empty(geometry_2011)),
             SHAPES_2012_JOINED = sum(!st_is_empty(geometry_2012))) |>
-  mutate(VERS_SHAPEFILE = case_when(
+  mutate(VERS_SHAPEFILE = case_when( #HERE
     CNTR_CODE %in% c("PT", "SI") ~ "cannot join",
     CNTR_CODE %in% c("EL", "IE", "TR") ~ "proprietary",
     CNTR_CODE == "DE" ~ "v5.0",
@@ -296,6 +288,24 @@ population <- pop_all_shapes |>
 ## now combined to a single geometry column; all columns are reorded and reduced
 ## to only the ones needed in the further analysis. The LAUs without
 ## georeferences are also filtered out.
+
+
+
+# Combined georeferenced data: Final cleaning of population figures -------
+
+# Population values below zero: Set to NA
+
+pop_orig <- pop_orig |>
+  mutate(across(starts_with("POP_", ignore.case = FALSE), ~ if_else(. < 0, NA, .)))
+## Adjust that O. (zero-comma) values are "true" zero values and non-decimal
+## zeros are (supposedly) NA?
+### ToDo
+
+# ToDo: Adjust for zeros
+# 1. Throw out observations with all zeros or NAs
+pop_orig_zeros_treated <- pop_orig |>
+  filter(if_all(starts_with("POP_", ignore.case = FALSE),
+                ~ !is.na(.x) & ))
 
 
 
