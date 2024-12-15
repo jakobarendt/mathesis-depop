@@ -73,3 +73,15 @@ shapes_2012 |> filter(startsWith(CNTR_LAU_ID, "LU")) |> ggplot() + geom_sf()
 The R script [`prep-pop-data.R`](./prep-pop-data.R) documents all of the steps taken as part of the cleaning, reorganizing and georeferecing of the historic LAU population data.
 
 ToDo: Add scatterplot for representing correlation between historic population figures and population figures delivered with shapefiles to represent strong correlation between historic interpolation and real figures.
+
+```{r}
+population |> 
+  ggplot(mapping = aes(x = POP_2011_01_01, y = EUROGEOGRAPHICS_POP_2011_2012)) +
+  geom_point() +
+  geom_abline(slope = 1)
+
+population |> 
+  mutate(DEVIATION_POP_2011_EUROG = EUROGEOGRAPHICS_POP_2011_2012 / POP_2011_01_01) |> 
+  filter(DEVIATION_POP_2011_EUROG > 1.05 | DEVIATION_POP_2011_EUROG < 0.95) |> 
+  filter(DEVIATION_POP_2011_EUROG != 0) |> View()
+```

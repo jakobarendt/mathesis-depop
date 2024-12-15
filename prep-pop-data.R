@@ -220,9 +220,6 @@ pop_orig <- pop_orig |>
 rm(eschweiler_wiltz, eschweiler_wiltz_aggreg)
 
 
-# ToDo: Make another table with observations per country, now that all files
-# have been cleaned
-# !!add column that denotes which shapes version is actually used for each country!!
 
 # Join all shapefiles with population data --------------------------------
 
@@ -240,7 +237,7 @@ table_match_rates <- pop_all_shapes |>
   summarise(HIST_POP_OBS_LAUS = n(),
             SHAPES_2011_JOINED = sum(!st_is_empty(geometry_2011)),
             SHAPES_2012_JOINED = sum(!st_is_empty(geometry_2012))) |>
-  mutate(VERS_SHAPEFILE = case_when( #HERE
+  mutate(VERS_SHAPEFILE = case_when(
     CNTR_CODE %in% c("PT", "SI") ~ "cannot join",
     CNTR_CODE %in% c("EL", "IE", "TR") ~ "proprietary",
     CNTR_CODE == "DE" ~ "v5.0",
@@ -263,22 +260,23 @@ population <- pop_all_shapes |>
     VERS_SHAPEFILE == "v7.0" ~ geometry_2012,
     VERS_SHAPEFILE == "v5.0" ~ geometry_2011
   )) |>
-  mutate(POP_2011_2012 = case_when(
+  mutate(EUROGEOGRAPHICS_POP_2011_2012 = case_when(
     VERS_SHAPEFILE == "v7.0" ~ POP_2012,
     VERS_SHAPEFILE == "v5.0" ~ POP_2011
   )) |>
-  mutate(POP_DENS_2011_2012 = case_when(
+  mutate(EUROGEOGRAPHICS_POP_DENS_2011_2012 = case_when(
     VERS_SHAPEFILE == "v7.0" ~ POP_DENS_2012,
     VERS_SHAPEFILE == "v5.0" ~ POP_DENS_2011
   )) |>
-  mutate(AREA_KM2_2011_2012 = case_when(
+  mutate(EUROGEOGRAPHICS_AREA_KM2_2011_2012 = case_when(
     VERS_SHAPEFILE == "v7.0" ~ AREA_KM2_2012,
     VERS_SHAPEFILE == "v5.0" ~ AREA_KM2_2011
   )) |>
   select(CNTR_CODE, CNTR_LAU_CODE, VERS_SHAPEFILE, LAU_LABEL,
          POP_1961_01_01, POP_1971_01_01, POP_1981_01_01, POP_1991_01_01,
          POP_2001_01_01, POP_2011_01_01,
-         POP_2011_2012, POP_DENS_2011_2012, AREA_KM2_2011_2012,
+         EUROGEOGRAPHICS_POP_2011_2012, EUROGEOGRAPHICS_POP_DENS_2011_2012,
+         EUROGEOGRAPHICS_AREA_KM2_2011_2012,
          geometry,
          SHAPE_AREA_EL, SHAPE_AREA_IE, SHAPE_AREA_TR) |>
   filter(VERS_SHAPEFILE != "cannot join") |>
@@ -295,17 +293,22 @@ population <- pop_all_shapes |>
 
 # Population values below zero: Set to NA
 
-pop_orig <- pop_orig |>
-  mutate(across(starts_with("POP_", ignore.case = FALSE), ~ if_else(. < 0, NA, .)))
-## Adjust that O. (zero-comma) values are "true" zero values and non-decimal
-## zeros are (supposedly) NA?
-### ToDo
+population <- population |>
+  mutate(across(starts_with("POP_", ignore.case = FALSE),
+                ~ if_else(. < 0, NA, .)))
 
-# ToDo: Adjust for zeros
-# 1. Throw out observations with all zeros or NAs
-pop_orig_zeros_treated <- pop_orig |>
+# Remove any LAU that has one or multiple decades with NA observations
+
+population <- population |>
   filter(if_all(starts_with("POP_", ignore.case = FALSE),
-                ~ !is.na(.x) & ))
+                ~ !is.na(.x)))
+
+# Remove all LAUs that only have 0 values in all of their decade-wise
+# observations
+
+population <- population |>
+  filter(if_any(starts_with("POP_", ignore.case = FALSE),
+                ~ .x != 0))
 
 
 
