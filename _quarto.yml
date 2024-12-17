@@ -6,7 +6,7 @@ project:
 book:
   title: "Climate Change und Rural Depopulation"
   author: "Jakob Arendt"
-  date: today
+  date: 2024-12-19
   site-url: https://mathesis.jakobarendt.com
   repo-url: https://github.com/jakobarendt/mathesis-depop
   repo-actions: [issue,edit,source]
@@ -28,11 +28,16 @@ bibliography: references.bib
 
 execute:
   freeze: auto
+  echo: false
+  warning: false
 
 format:
   html:
+    lang: en
     theme: cosmo
+    # code-fold: true
   pdf:
+    lang: en
     papersize: a4
     geometry:
       - top=25mm
@@ -49,6 +54,7 @@ format:
     # header-includes: |
       # \bibliographystyle{ecta}
   docx:
+    lang: en
     papersize: a4
     mainfont: "Times New Roman"
     fontsize: 12pt

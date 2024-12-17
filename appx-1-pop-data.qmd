@@ -1,5 +1,20 @@
 # Historic Population Data and its Georeferences {#sec-AppxPopData}
 
+```{r}
+#| label: appx1-packages-data
+
+require(tidyverse)
+
+options(scipen = 10)
+
+# Load population data
+if (!file.exists('data/temp/population.RData')) {
+  stop('Please run prep-population-data.R before running this script')
+} else {
+  load('data/temp/population.RData')
+}
+```
+
 -   grid weather data is based on the WGS84 geodetic reference datum and geographic coordinate reference system (CRS), therefore shapes are retrieved as projections that are referenced to the same datum or they are transformed accordingly
 
 -   **difference again between geodetic reference datum and geographic coordinate reference system?? (and also own sheets of notes)**
@@ -79,6 +94,10 @@ population |>
   ggplot(mapping = aes(x = POP_2011_01_01, y = EUROGEOGRAPHICS_POP_2011_2012)) +
   geom_point() +
   geom_abline(slope = 1)
+```
+
+```{r}
+#| eval: false
 
 population |> 
   mutate(DEVIATION_POP_2011_EUROG = EUROGEOGRAPHICS_POP_2011_2012 / POP_2011_01_01) |> 
