@@ -54,9 +54,11 @@ Mention also for the sunscreen example that (assuming there is sun and the count
 
 Generally, it is difficult to measure these two effects separately in empirical studies.
 
+```{=html}
 <!-- Or put adaptation here?
 
 -   paragraph on direct and indirect (adaptation) effect -->
+```
 
 \[Further discuss in this sub-chapter:\]
 
@@ -88,9 +90,9 @@ Generally, it is difficult to measure these two effects separately in empirical 
 ## Econometric Research Design
 
 -   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)** <!--
-                                                                                    -   interaction term between weather aggregates and controls??
-                                                                                    -   balanced panel (!)
-                                                                                    -->
+                                                                                        -   interaction term between weather aggregates and controls??
+                                                                                        -   balanced panel (!)
+                                                                                        -->
 -   decennial panel model
 
 Currently foreseen control variables and FEs:
@@ -157,6 +159,8 @@ $$
 
 \[Open to-do's for this sub-chapter\]
 
+-   Quote here the Eurostat guidance on rural and urban typologies
+-   And maybe some other definition to determine which LAUs are rural and not (UN? ILO? Commission? DG AGRI? DG EMPL, ask Paola?)
 -   am besten log-lin model (oder alternativ first differences, wenn zu viele rausfallen weil log(0)), ansonsten beobachtungen mit 0 rausnehmen, dann halt unbalanced panel (aber das ist ok, sofern die 0 random ist)
 -   2-part-modell als sonstige Lösung
 -   Reverse causality? More populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions?
@@ -169,6 +173,7 @@ $$
     -   fixed effects each for every year can control for adaptation effects that are irregular over time
 -   If FE-estimations rely on variation across time within a unit and not variation across units as the source of identifying variation, why do I not get N (no. of units) effect estimations? How is the within unit variation aggregated for all units?
 
+```{=html}
 <!--
 ## Personal ToDos
 
@@ -184,6 +189,7 @@ $$
 -   Mention ways of transmission the climate effects, i.e. decline in agricultural yields and, hence, a decline agriculture-related employment opportunities
 -   Three ways of controlling for spatial correlation (according to @auffhammer-etal-2013-weather-data-econ-analysis)
 -->
+```
 
 ### Points from Mostly Harmless Econometrics (not entirely sure though)
 

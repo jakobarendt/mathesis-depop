@@ -37,6 +37,8 @@ if (!file.exists('data/temp/population.RData')) {
     The dimensions and sizes of the geographical units under investigation are disproportionately bigger than any of the potential datum shifts caused by the differing WGS84 versions.
     Besides, potential misalignents due to tectonic plate movement are unlikely as this investigation focuses on a single continent, and almost all of the investigated land mass lies on the same principal tectonic plates (with Macaronesia and Iceland being only minor exceptions, **are there any other exceptions?? --\> plot map quickly with leaflet**)
 
+-   Add another column to table denoting for each country the year for which its boundaries have been recalculated (either 2011 or 2012)
+
 ```{r}
 #| eval: false
 

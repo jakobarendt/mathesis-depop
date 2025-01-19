@@ -25,6 +25,13 @@ book:
     - appx-2-weat-data.qmd
 
 bibliography: references.bib
+link-citations: true
+
+crossref:
+  sec-prefix: section
+
+linkcolor: black
+citecolor: black
 
 execute:
   freeze: auto
@@ -35,6 +42,7 @@ format:
   html:
     lang: en
     theme: cosmo
+    # css: styles.css
     # code-fold: true
   pdf:
     lang: en

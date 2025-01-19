@@ -2,62 +2,55 @@
 
 The empirical analysis of the effect of climate change on population size in rural areas relies on two main data sets: Historical climate data and historical population data.
 The essential characteristics of these data sources are described in this chapter.
-However, both of these data sets come with peculiarities, that require further separate cleaning and preparation before joining them together and using them in the panel analysis.
-The steps undertaken for their preparation are described more extensively in @sec-AppxPopData and @sec-AppxWeatData, analogously.
-The spatial join of the two data sets, that relates the LAUs' historical population data with the weather data on the basis of their geographic locations, is discussed in the last of the following sub-chapters (@sec-SpatialJoin).
+However, both of these data sets come with peculiarities, that require further individual cleaning and preparation before joining them together and using them in the panel analysis.
+The steps undertaken for their preparation are described more extensively in [appendix @sec-AppxPopData] and [appendix @sec-AppxWeatData], analogously.
+The spatial join of the two data sets, that relates the historical population data with the weather data on the basis of their geographic locations, is discussed in the last one of the following sub-chapters (@sec-SpatialJoin).
 
 ## Historical LAU Population Data Set
 
-<!-- Specify states more exactly -->
-
-The source of the historical population data for European LAUs is Eurostat.
-The data includes LAUs of European Union (EU) member states, certain candidate and European Free Trade Association (EFTA) countries, as well as the United Kingdom, and can be downloaded from its website [@eurostat-2023-lau-website].
+The historical population data for European Local Administrative Units (LAUs) is available through Eurostat.
+LAU is a statistical classification set out by Eurostat for referencing municipalities and other small administrative regions.
+It is also just below level 3 of Eurostat's *Nomenclature of Territorial Units for Statistics* (NUTS) classification.
+The data covers LAUs of European Union (EU) member states, certain candidate and European Free Trade Association (EFTA) countries, as well as the United Kingdom, and can be downloaded from its website [@eurostat-2023-lau-website].
 
 Since LAUs are (public) Local Administrative Units, their structural and geographic compositions are subject to adjustments as local, national, and European policies change.
-For this investigation in particular, reforms of administrative boundaries can highly complicate the analysis of the LAUs' population figures because the statistical units lose inter- and intra-unit comparability over time when their spatial dimensions change.
-Additionally, census time points vary among countries and regions, which complicates cross-section comparability as it requires unified time points.
-The creators of the data set took this into account and estimated harmonized population figures to enable further analysis and research.
+For this investigation in particular, reforms of administrative boundaries can highly complicate the analysis of the LAUs' population figures because the statistical units lose inter- and intra-unit comparability across time periods when their spatial dimensions change.
+Additionally, census time points vary among countries and regions, which complicates cross-section (intra-period) comparability as this requires unified time points.
+The collectors of the data took this into account and estimated or interpolated population figures whenever and/or wherever that was needed to construct a spatially and temporally harmonised data set.
 
-Due to the above-mentioned continuous changes of the administrative boundaries of the LAUs throughout time, their boundaries were fixed to the base years 2011 or 2012 to allow for comparability across time points.
-Frequency and scope of reforms of administrative boundaries was diverse among countries.
-For this reason, the techniques chosen to harmonize the population figures with respect to their spatial attributes \[(geopositions?)\] vary with the country and in two cases even with the region (Germany and the UK).
-For example, while for some countries a backward approach adjusting only the figures subject to known boundary changes was applied, for others spatial overlay of decade-specific boundary maps was necessary.
-Special cases, for instance where two LAUs were combined to a single one, are also labeled with footnotes pointing to metadata distributed alongside the data tables.
-The report of the data collectors outlines this in more detail @gloersen-luer-2013-report-data-collect.
-<!-- no interpolation here!! -->
+Due to the above-mentioned persistent changes of the LAUs' administrative boundaries throughout time, their boundaries were fixed to the base year 2011 (or 2012, depending on country) to allow for comparability across time points.
+Frequency and scope of such reforms of administrative boundaries was diverse among countries.
+For this reason, the techniques chosen to adjust the spatial attributes of the population figures to the same base year vary with the country and in two cases even with the region (Germany and the UK).
+For example, for some countries a backward approach was applied that adjusted only the figures of those LAUs subject to known boundary changes.
+For other countries however, spatial overlays of decade-specific boundary maps were performed to adjust all LAU figures of an entire or even multiple time periods.
+Special cases, for instance where two LAUs were combined to a single one, are also labeled with footnotes pointing to metadata distributed alongside the country-wise data tables.
+The report of the data collectors outlines these adjustments for harmonisation to the same base year in more detail [@gloersen-luer-2013-report-data-collect].
 
-Besides space, the second dimension that needed harmonization to ensure comparability is time.
+Besides space in form of the boundaries, the second dimension that needed harmonisation to ensure comparability is time.
 Expectedly, countries did not collect their census data at the same points in time.
-Instead, the creators of the data set aimed to collect LAU population figures for at least one year in each decade of the years 1960 to 2011.
-While figures for some countries were exactly on or only few days apart from the proposed reference dates and could be used directly, others had to be estimated with a geometric interpolation method.
+Hence, the creators of the data set aimed to collect LAU population figures for at least one year in each decade of the years 1960 to 2011, and decided to make adjustments if census collection dates were lying too far apart within a decade.
+While figures for some countries were only few days apart from or exactly on the proposed reference dates and could be used directly, others had to be estimated for the reference dates with a geometric interpolation method.
 Finally, population data for the reference dates January 1st of 1961, 1971, 1981, 1991, 2001, and 2011 were derived.
 
-In addition to the estimated figures for harmonization along with the original ones, the data is also delivered with geographic references such that the population figures can be integrated into maps and other spatial analyses.
-For the majority of the countries, these references correspond to the *EuroGeographics EuroBoundaryMaps* \[provide citation\] of the year 2011/2012, as the population figures were harmonized for 2011/2012 LAU boundaries.
-However, some countries' LAU population figures are delivered with different geographic referencing systems, for which the maps (more precisely, their shapefiles) are provided.
-Similarly, there are also exceptions regarding the spatial level of detail: For most countries, the population figures are geographically referenced to the LAU2-level that has a higher spatial resolution, but for some countries population data could only be estimated for the coarser LAU1-level.
-@tbl-lau-levels-maps gives a complete overview of these aspects.
+In addition to the partially estimated figures to ensure their harmonisation as well as the original ones, the data is delivered with unique identifiers that can reference the figures to geospatial vector data, more specifically shapefiles.
+This way, the historical population figures can be integrated into maps and other spatial analyses.
+For the majority of the countries, these georeferences correspond to the *EuroBoundaryMaps* [@eurogeographics-2025-euroboundarymap-website; @eurostat-2025-gisco-copyright-website] versions of the years 2011 or 2012, as the population figures were harmonized to LAU boundaries of either of the two years.
+Nonetheless, some countries' LAU population figures are delivered with references to different geospatial vector data, for which the shapefiles are provided.
+Similarly, there are also exceptions regarding the spatial level of detail: For most countries, the population figures are geographically referenced to the LAU2-level that has the highest spatial resolution in Eurostat's LAU classification.
+However, for some countries population data could only be estimated for the coarser LAU1-level.
+While @tbl-lau-levels-maps gives a rough overview of these different characteristics of the geospatial attributes that the population figures are referenced to, @sec-AppxPopData provides more context and detail, for example which georeference base year was assumed for which country and why.
 
-|             Country | LAU-Level | Corresponding Geographic Attributes/Maps |
-|--------------------:|:---------:|------------------------------------------|
-|              Greece |   LAU1    | Delivered with data set                  |
-|             Ireland |   LAU2    | Delivered with data set                  |
-|           Lithuania |   LAU1    | Eurogeographics                          |
-|            Portugal |   LAU1    | Eurogeographics                          |
-|            Slovenia |   LAU1    | Eurogeographics                          |
-|              Turkey |   LAU1    | Delivered with data set                  |
-| All other countries |   LAU2    | Eurogeographics                          |
+| Country             | LAU-Level | Corresponding Geographic Attributes/Maps |
+|:--------------------|----------:|-----------------------------------------:|
+| Greece              |      LAU1 |           Delivered with population data |
+| Ireland             |      LAU2 |           Delivered with population data |
+| Lithuania           |      LAU1 |                         EuroBoundaryMaps |
+| Portugal            |      LAU1 |                         EuroBoundaryMaps |
+| Slovenia            |      LAU1 |                         EuroBoundaryMaps |
+| Turkey              |      LAU1 |           Delivered with population data |
+| All other countries |      LAU2 |                         EuroBoundaryMaps |
 
 : Types of LAU-levels and underlying sources for geographic attributes for all countries in the data set {#tbl-lau-levels-maps}
-
-\[Further notes to myself for historical population data:\]
-
--   Quote here the Eurostat guidance on rural and urban typologies
--   And maybe some other definition to determine which LAUs are rural and not (UN? ILO? Commission? DG AGRI? DG EMPL, ask Paola?)
--   Think about where to mention the different base years in this subchapter. Also reference Appendix A for this!!
--   LAU-2 level: Highest resolution of Eurostat regional typology)
--   Add another column to table denoting whether bias due to spatial overlay may be present
--   Add another column to table denoting for each country the year for which its boundaries have been recalculated (either 2011 or 2012) --\>
 
 ## Weather Data
 
