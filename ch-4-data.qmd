@@ -6,7 +6,7 @@ However, both of these data sets come with peculiarities, that require further i
 The steps undertaken for their preparation are described more extensively in [appendix @sec-AppxPopData] and [appendix @sec-AppxWeatData], analogously.
 The spatial join of the two data sets, that relates the historical population data with the weather data on the basis of their geographic locations, is discussed in the last one of the following sub-chapters (@sec-SpatialJoin).
 
-## Historical LAU Population Data Set
+## Historical LAU Population Data Set {#sec-SubsecPopData}
 
 The historical population data for European Local Administrative Units (LAUs) is available through Eurostat.
 LAU is a statistical classification set out by Eurostat for referencing municipalities and other small administrative regions.
@@ -34,7 +34,7 @@ Finally, population data for the reference dates January 1st of 1961, 1971, 1981
 
 In addition to the partially estimated figures to ensure their harmonisation as well as the original ones, the data is delivered with unique identifiers that can reference the figures to geospatial vector data, more specifically shapefiles.
 This way, the historical population figures can be integrated into maps and other spatial analyses.
-For the majority of the countries, these georeferences correspond to the *EuroBoundaryMaps* [@eurogeographics-2025-euroboundarymap-website; @eurostat-2025-gisco-copyright-website] versions of the years 2011 or 2012, as the population figures were harmonized to LAU boundaries of either of the two years.
+For the majority of the countries, these georeferences correspond to the *EuroBoundaryMap* [@eurogeographics-2025-euroboundarymap-website; @eurostat-2025-gisco-copyright-website] versions of the years 2011 or 2012, as the population figures were harmonized to LAU boundaries of either of the two years.
 Nonetheless, some countries' LAU population figures are delivered with references to different geospatial vector data, for which the shapefiles are provided.
 Similarly, there are also exceptions regarding the spatial level of detail: For most countries, the population figures are geographically referenced to the LAU2-level that has the highest spatial resolution in Eurostat's LAU classification.
 However, for some countries population data could only be estimated for the coarser LAU1-level.

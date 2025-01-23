@@ -1,5 +1,5 @@
 ### This R script centrally loads packages, LAU georeferences/shapefiles and corresponding population data for usage in the following steps of analysis and different chapters. ###
-### It also cleans and combines the different population data attributes to prepare the georeferenced population data for mapping onto the climate data and its usage for further causal econometric analysis. ###
+### It also cleans and combines the different population (geo-)data points to prepare the georeferenced population data for mapping onto the climate data and its usage for further causal econometric analysis. ###
 
 
 
