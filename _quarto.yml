@@ -27,11 +27,12 @@ book:
 bibliography: references.bib
 link-citations: true
 
-crossref:
-  sec-prefix: section
+# crossref:
+  # sec-prefix: section
 
 linkcolor: black
 citecolor: black
+urlcolor: black
 
 execute:
   freeze: auto
