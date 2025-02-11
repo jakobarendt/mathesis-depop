@@ -63,13 +63,13 @@ In the script, I also ensure that none of the LAU-wise observations have duplica
 I remove the figures of the original observation as well as those for the duplicate since I can not uniquely identify either of the two LAU observations by their natural language name on the map of Europe.
 As regards the LAUs' UIDs, the script adjusts the identifiers for the Croatian LAUs by extracting their last five digits since I find that only those correspond to the UIDs used in the *EuroBoundaryMap* v7.0 shapefiles belonging to Croatia.
 While the population data for the Hungarian capital *Budapest* is provided for the different districts of the city, the shapefiles covering the area of the city are not as granular.
-Hence, the script sums up period-wise all the population time series for Budapest to ensure congruence with the geospatial data.
-Similarly, there is one case in Luxembourg where the historical population data set has more granularity than the *EuroBoundaryMap* v7.0 shapefiles: The shapefiles consider the LAUs *Eschweiler* and *Wiltz* only with their combined boundaries, and therefore the script sums up the population figures of the two for each year.
+Hence, the script sums up period-wise all the population time series for *Budapest* to ensure congruence with the geospatial data.
+Similarly, there is one case in Luxembourg where the historical population data set has more granularity than the *EuroBoundaryMap* v7.0 shapefiles: The shapefiles consider the LAUs *Eschweiler* and *Wiltz* only with their combined boundaries, and therefore the script sums up the population figures of the two for each year as well.
 @tbl-appx1-pop-data-cleaning lists the countries for which the numbers of LAUs with historical population data changed as a result of the cleaning described in this paragraph.
 
 ```{r}
 #| label: tbl-appx1-pop-data-cleaning
-#| tbl-cap: "Countries with changes in their numbers of LAUs with historical population data before and after cleaning"
+#| tbl-cap: "Countries with changes in their numbers of considered LAUs with historical population data before and after cleaning"
 
 left_join(
   select(table_obs, CNTR_CODE, HIST_POP_OBS_LAUS),
@@ -79,16 +79,34 @@ left_join(
   filter(HIST_POP_OBS_LAUS.x != HIST_POP_OBS_LAUS.y) |> 
   rename(Country = CNTR_CODE, `No. of LAUs before cleaning` = HIST_POP_OBS_LAUS.x,
          `No. of LAUs after cleaning` = HIST_POP_OBS_LAUS.y) |> 
-  knitr::kable()
+  knitr::kable(format.args = list(big.mark = ','))
 ```
 
-**\[paragraph on joining process and selecting the right base year for each country\]** Finally, the script joins the *EuroBoundaryMap* v5.0 and v7.0 shapefiles and the shapefiles for Greece, Ireland and Turkey with the historical population figures data set.
+Finally, the script joins the *EuroBoundaryMap* v5.0 and v7.0 shapefiles and the shapefiles for Greece, Ireland and Turkey with the historical population figures data set.
+While for the last three countries it is clear that I need to use the shapefiles delivered specifically for them, the choice of the correct shapefiles is less clear for the remaining `{r} nrow(table_match_rates) - 3` countries.
+Unfortunately, the @gloersen-luer-2013-report-data-collect report on the collection of the historical population figures is somewhat imprecise on whether 2011 or 2012 is the base year for the LAU boundaries which the population figures are referred to.
+In some passages the report speaks of 2011 being the base year for the LAU boundaries [e.g. @gloersen-luer-2013-report-data-collect, p. 4], whereas in other passages the report indicates that LAU boundaries have been fixed to 2012 [e.g. @gloersen-luer-2013-report-data-collect, p. 8].
+The former year implies that *EuroBoundaryMap* v5.0 shapefiles would be the correct ones to use for geolocalisation, while the latter year implies the use of *EuroBoundaryMap* v7.0 shapefiles.
+Furthermore, Eurostat's website that makes the historical figures and the report available [@eurostat-2023-lau-website] only mentions 2011 as the base year for the boundaries.
 
-The @gloersen-luer-2013-report-data-collect report on the collection of the historical population figures is somewhat imprecise on whether 2011 or 2012 is the base year for the boundaries which the population figures are referred to.
+Consequently, I specify an algorithm that helps decide which base year, and hence *EuroBoundaryMap* version, should be the most suitable for each of the `{r} nrow(table_match_rates) - 3` countries for which this is still unclear.
+@tbl-appx1-pop-data-join-decisions gives a country-wise overview of the shapefile choices resulting from that algorithm.
+With the exception of Portugal, Slovenia, Germany and the three countries with separate shapefiles, the deciding factor for this algorithm is the amounts of successful matches based on the LAUs' UIDs: Whichever of the two *EuroBoundaryMap* versions that has a higher amount of shapefiles successfully linked to the LAUs in the population data serves as the reference boundaries and base year for the respective country.
+As for Portugal and Slovenia, the population figures are not reflected in either of the shapefiles versions in question and the two countries are taken out of the sample.
+The other exception is Germany, where I decide to use v5.0 of the *EuroBoundaryMap* shapefiles even though v7.0 amounts to more matches because ...**TODO**
 
-**\[add here a table for the amounts of LAU units per country for the raw shapefile and population data, i.e. table_obs, consider also again code paragraph that construct this table\]**
+```{r}
+#| label: tbl-appx1-pop-data-join-decisions
+#| tbl-cap: "Test caption"
 
--   Add another column to table denoting for each country the year for which its boundaries have been recalculated (either 2011 or 2012)
+table_match_rates |> 
+  rename(`Country` = CNTR_CODE,
+         `No. of LAUs with historical population data` = HIST_POP_OBS_LAUS,
+         `No. of matched LAUs in EuroBoundaryMap v5.0` = SHAPES_2011_JOINED,
+         `No. of matched LAUs in EuroBoundaryMap v7.0` = SHAPES_2012_JOINED,
+         `Shapefiles chosen for join` = VERS_SHAPEFILE) |> 
+  knitr::kable(format.args = list(big.mark = ','))
+```
 
 ```{r}
 #| eval: false
@@ -98,49 +116,6 @@ shapes_2011 |> filter(startsWith(CNTR_LAU_ID, "LU")) |> ggplot() + geom_sf(aes(f
 shapes_2012 |> filter(startsWith(CNTR_LAU_ID, "LU")) |> ggplot() + geom_sf()
 
 ```
-
-| Country | Observations (Individ. File) | Geo Version (Individ. File) |
-|---------|------------------------------|-----------------------------|
-| AT      | 2357                         | 1 Jan 2012                  |
-| BE      | 589                          | 1 Jan 2012                  |
-| BG      | 4619                         | not specified               |
-| CH      | 2499                         | not specified               |
-| CY      | 614                          | not specified               |
-| CZ      | 6251                         | 1 Jan 2012                  |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-|         |                              |                             |
-
-: Countries, their observations and geolocation characteristics
-
-The R script [`prep-pop-data.R`](./prep-pop-data.R) documents all of the steps taken as part of the cleaning, reorganizing and georeferecing of the historic LAU population data.
-
-ToDo: Add scatterplot for representing correlation between historic population figures and population figures delivered with shapefiles to represent strong correlation between historic interpolation and real figures.
 
 ```{r}
 population |> 
