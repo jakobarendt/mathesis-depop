@@ -1,0 +1,13 @@
+# Disclosures and Acknowledgments {.unnumbered}
+
+### Disclosure Statement {.unlisted}
+
+The author is not aware of any affililations, memberships, funding, or financial holdings that might be perceived as affecting the objectivity of this review.
+
+### Acknowledgments {.unlisted}
+
+I thank my supervisor, Prof Stefan Borsky.
+Without his continuous advice and never-ending patience, I might have never been able to finish this project.\
+Thank you to Falk Hemsing, who provided immeasurable just moral support.\
+I also express deep gratitude to all of my friends who came along for the ride.\
+Thank you to my family for supporting my studies ever since I started them.

@@ -19,6 +19,7 @@ book:
     - ch-4-data.qmd
     - ch-5-results.qmd
     - ch-6-conclusion.qmd
+    - disclosures-acknowledgments.qmd
     - references.qmd
   appendices:
     - appx-1-pop-data.qmd
