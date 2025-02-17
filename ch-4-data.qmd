@@ -66,6 +66,7 @@ While @tbl-lau-levels-maps gives a rough overview of these different characteris
     -   Reanalysis or original station data and interpolated where needed?
     -   How is station data interpolated? (Station data is complemented by interpolation for those locations without station or with missing weather data points)
 -   Mention which weather parameters are downloaded: Temperature, precipitation etc
+-   Consider whether this is reanalysis or observational weather data
 
 Disadvantages of weather grid data according to @auffhammer-etal-2013-weather-data-econ-analysis: **attenuation bias** (in particular for points 1, 2 and 5)
 
@@ -104,3 +105,4 @@ Main points from @auffhammer-etal-2013-weather-data-econ-analysis:
 -   Compare size of grid (and consequently the size of its area) with the territorial size of the smallest and biggest LAU
 -   Mention & cite exactextractr package
 -   Provide graphics to demonstrate spatial overlay
+-   Mention number of observations, number of LAUs they cover (and the number of countries), and the time length

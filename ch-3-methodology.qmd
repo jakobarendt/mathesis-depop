@@ -68,6 +68,9 @@ Generally, it is difficult to measure these two effects separately in empirical 
 
 ## Identification Problem and Methodology
 
+There are three different drivers for population growth at a place during a specific time: Birth, migration and mortality.
+When trying to identify the effects that climate has on population, all of these drivers need to be considered.
+
 \[Discuss in this sub-chapter:\]
 
 -   Path: Discuss causal channels of climate change
@@ -78,7 +81,7 @@ Generally, it is difficult to measure these two effects separately in empirical 
 -   Also, unit homogeneity assumption does not hold (very little comparability in unknown confounders for some LAUs), which makes OVB problem even harder to avoid: panel/time-series approach with adequate fixed effects as solution for this
 -   Argue well for **marginal treatment comparability assumption** in time-series approach (less strongly needed for long differences); add in formula for it as well
 -   Identifying assumption: Exogeneity of temperature and precipitation, i.e. identifying variation stems from temperature levels and precipitation amounts and it is assumed to be exogenous to population amounts
--   Considering the distinctive richness of the data, providing dependent and explanatory characteristics of the same units throughout multiple time periods, this time dimension additionally provided allows leveraging on the advantages of panels analyses vs. cross-section. In particular, fixed effects and long-differences models provide powerful capabilities to control for unobserved confounders/heterogeneity. In this setup, they are those unobserved *time-invariant* characteristics that influence the climate-population causal relationship and are different among the LAUs, such as natural resources, distance to other LAUs and potential economic hubs, consequent potential for economic growth etc.
+-   Considering the distinctive richness of the data, providing dependent and explanatory characteristics of the same units throughout multiple time periods, this time dimension additionally provided allows leveraging on the advantages of panels analyses vs. cross-section. In particular, fixed effects and long-differences models provide powerful capabilities to control for unobserved confounders/heterogeneity. In this setup, they are those unobserved *time-invariant* characteristics that influence the climate-population causal relationship and are different among the LAUs, such as natural resources, distance to other LAUs and potential economic hubs, consequent potential for economic growth, institutions etc.
 -   Long-differences, essentially a difference-in-difference approach comparing potential outcomes at two relatively distant time points, may better regard the spatially detailed yet aggregated nature of the data. After all, as the data is only available on the LAU-level, it can only provide a macroscopic insight into the decisions of the economic agents of the respective LAUs. Remember that the underlying panel data for this analysis does not follow individuals nor firms but LAUs. Hence, considering the macroscopic nature of the data and the long-run time focus of the research question, a panel model based on multiple cohorts lying relatively closely together in terms of time might take out too much of the identifying variation and correct for the wrong kinds of unobserved confounders. **bring examples for short-term and long-term unobserved confounders**
     -   considering unobservable LAU-level characteristics particularly prevalant in the long-run, might prove a better fit to the data at hand and the research question on the long-run population consequences of climate change. **include also attenuation bias and citation for mostly harmless econometrics**
 
@@ -90,9 +93,9 @@ Generally, it is difficult to measure these two effects separately in empirical 
 ## Econometric Research Design
 
 -   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)** <!--
-                                                                                        -   interaction term between weather aggregates and controls??
-                                                                                        -   balanced panel (!)
-                                                                                        -->
+                                                                                                            -   interaction term between weather aggregates and controls??
+                                                                                                            -   balanced panel (!)
+                                                                                                            -->
 -   decennial panel model
 
 Currently foreseen control variables and FEs:
@@ -161,7 +164,7 @@ $$
 
 -   Quote here the Eurostat guidance on rural and urban typologies
 -   And maybe some other definition to determine which LAUs are rural and not (UN? ILO? Commission? DG AGRI? DG EMPL, ask Paola?)
--   am besten log-lin model (oder alternativ first differences, wenn zu viele rausfallen weil log(0)), ansonsten beobachtungen mit 0 rausnehmen, dann halt unbalanced panel (aber das ist ok, sofern die 0 random ist)
+-   am besten log-lin model (oder alternativ first differences, wenn zu viele rausfallen weil log(0)), ansonsten beobachtungen mit 0 rausnehmen, dann halt unbalanced panel (aber das ist ok, sofern die 0 random ist) -- Warum? Hinweis: Trotzdem noch logs anwenden bevor first differences genommen werden
 -   2-part-modell als sonstige Lösung
 -   Reverse causality? More populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions?
     -   nur wenn bebauungsgrad konstant im LAU-FE geschluckt, aber sonst ist das ja in der gemessenen Temperatur im Grid mitgemessen
@@ -169,9 +172,10 @@ $$
 -   landwirtschaftlich: wasser, wirtschaft&produktivität: temp
 -   **New:** (On adaptation) In my case, adaptation would likely lead to an attenuation bias in the effect estimations. For the panel model, would it be right to say that adaptations that influence the climate-socioeconomic causal relationship in a constant way over time are account for due to the time series nature of the panel model?
     -   country-FE, LAU-FE catch differences in adaptation capability of LAUs
-    -   trend-variable captures influence of adaptation on climate-socioecon relationship that is constant over time (even better: trend\*LAU)
+    -   trend-variable captures influence of adaptation on climate-socioecon relationship that is constant over time (even better: trend\*LAU); account for potential spurious correlations, where climate and population accidentally exhibit the same development (?? see again Marbler 2024 for this)
     -   fixed effects each for every year can control for adaptation effects that are irregular over time
 -   If FE-estimations rely on variation across time within a unit and not variation across units as the source of identifying variation, why do I not get N (no. of units) effect estimations? How is the within unit variation aggregated for all units?
+-   Consider whether population data exhibits a unit root, and mention that first differences of population data have the advantage of accounting for potential unit roots
 
 ```{=html}
 <!--
