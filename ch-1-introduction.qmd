@@ -1,25 +1,32 @@
 # Introduction
 
-How have climate and its changes shaped European population growth on the communal and municipal level in the last decades?
+How have climate and its changes shaped the growth and distribution of population across European municipalities in the last decades?
 In this investigation, I attempt to identify the causal relationship between population growth and climate and I try to quantify the effect the latter has had on the former.
 
 Tremendous advances in computational power have enabled the research community to develop an understanding of the climate and its underlying physics, that has never been more profound.
 Similarly, the proofs that demonstrate how a multitude of human activity is the very likely cause for modern-day climate change through the continuous emission of greenhouse gases have never been less clear.
-While this shows that we have relatively good knowledge of what humans are capable of doing to the climate, the opposite direction seems less clear: We still stand a lot to gain from a better understanding of what the climate and its changes are capable of doing to us humans and our societies, not least as this varies greatly with the population and circumstances considered.
+While this shows that we have relatively good knowledge of what humans are capable of doing to the climate, the opposite direction seems less clear: We still stand a lot to gain from a better understanding of what the climate and its changes are doing to us humans and our societies, not least as this varies greatly with the specific population, area and circumstances considered.
 
 One such socioeconomic aspect likely influenced by the climate is the development of population figures in defined regions.
-Particularly the effects on small regions are interesting to estimate as they tend to exhibit less climate variation within the space they cover.
-The local climate is, therefore, more stringently defined, which, in turn, allows for a clearer attribution of climatic characteristics to the small region's outcomes.
+Particularly the effects on small regions are interesting to estimate as the climate variation across space tends to decrease with the size of the area a region covers.
+The regional climate can then often be more stringently defined, which, in turn, allows for a clearer attribution of climatic characteristics to the small region's outcomes.
 In the context of political boundaries, such small spatial units are present in almost every country and they are called "commune", "county", "municipality" or something similar.
 
-How the population of a country or continent is distributed among its communes and municipalities, and how and what makes this distribution evolve matters for a multitude of reasons.
+How the population of a country or continent is distributed across its communes and municipalities, and how and what makes this distribution evolve matters for a multitude of reasons.
 The population size of a municipality heavily determines its political influence and leverage.
 Consider that, for example, many of the most populous cities end up becoming capitals that house the most powerful political instutions of their nations.
-It also determines their access to (supra-) national funds as the distribution of public resources is often decided by population size.
-The population size of a municipality matters also for its economic constitution: In a scenario without economies of scale, where economic production per capita is the same for every inhabitant of a country, total economic production of a populous city will be much higher than that of a small town, resulting in much higher local resources for consumption, investment and taxation.
-In reality many of these conditions just assumed do not hold true -- consumption, investment, taxation and other redistributional measures are not as much confined locally anymore as was the case before the industrialisation.
-However, other conditions can still make a vast difference in economic opportunities of urban and rural areas, no matter the wealth of the overall country: For example, economies of scale are indeed present and along with a much bigger and likely more heterogenous workforce, this often allows urban areas to achieve higher diversification in economic sectors and more specialisation than their rural counterparts.
-These differences in economic structures between urban and rural areas can have significant consequences for their inhabitants, and among the ones most prevalent in the public debate are disparities in access to infrastructure, particularly healthcare, transport and other services essential to everyday life.
+It also determines their access to (supra-)national funds as the distribution of public resources is often decided by population size.
+
+The population size of a municipality matters also for its economic constitution: In a theoretical scenario without economies of scale and where economic output is evenly distributed across every inhabitant such that GDP per capita is uniform, total economic production of a populous city will be much higher than that of a small town.
+This would result in much higher local resources for consumption, investment and taxation.
+In reality many of these conditions assumed do not hold true -- consumption, investment, taxation and other redistributional measures are not anymore as much confined locally as was the case before the industrialisation and the development of modern government.
+Nevertheless, other conditions can still make a vast difference in economic opportunities of urban and rural areas, no matter the wealth of the overall country: For example, economies of scale do indeed differ across space and along with a much bigger and likely more heterogenous workforce, this often allows urban areas to achieve higher diversification in economic sectors and more specialisation than their rural counterparts.
+These differences in economic structures between urban and rural areas can have significant consequences for their inhabitants.
+Among the ones most prevalent in the public debate are disparities in access to infrastructure, particularly healthcare, transport and other services essential to everyday life.
+
+Against this backdrop, this investigation is motivated by the need for a better understanding of the relationship between climate and population development, not least for informing policymaking.
+Such an understanding is essential for further developing adequate and well-targeted policies in response to the already ongoing and future climate change.
+One concrete examplary scenario which requires strengthening adaptation to and resilience against climate change is how urbanisation and city growth increase people's vulnerabilty towards climate change.
 
 -   Consider IPCC AR6 synthesis report: Urbanisation and city growth increase people's vulnerability towards climate change consequences (e.g. exposure to heat extremes and precipitation runoff intensity).
     If it can be concluded that, on the other hand, climate change also causes population shifts from rural to urban areas, this might lead to self-perpetuating, "vicious", cycle.
