@@ -1,4 +1,4 @@
-# Data
+# Data {#sec-Data}
 
 The empirical analysis of the effect of climate change on population size in rural areas relies on two main data sets: Historical climate data and historical population data.
 The essential characteristics of these data sources are described in this chapter.

@@ -1,6 +1,6 @@
-# Conclusion
+# Conclusion {#sec-Conclusion}
 
-In chapter @sec-methodology, I also provide the formal argument that allows for exploiting weather data to describe climatic states and their changes.
+In chapter @sec-Methodology, I also provide the formal argument that allows for exploiting weather data to describe climatic states and their changes.
 
 Potential further extensions:
 

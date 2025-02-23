@@ -1,4 +1,4 @@
-# Results
+# Results {#sec-Results}
 
 \[tbc\]
 
@@ -6,6 +6,7 @@
 
 \[tbc\]
 
+```{=html}
 <!--
 ## Simulated Impacts of Future Climate Change on Municipal Population Sizes
 
@@ -22,3 +23,4 @@ For a more detailed account on the differences, advantages and disadvantages of 
 After estimating the coefficients of the response functions of population response to climate, these results can now be used for extrapolation.
 For predicting future climate impacts...
 -->
+```

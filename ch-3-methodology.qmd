@@ -1,4 +1,4 @@
-# Identification, Methodology and Research Design {#sec-methodology}
+# Identification, Methodology and Research Design {#sec-Methodology}
 
 Isolating climate information either from directly collected weather data or partially or fully from models of the climate (e.g. reanalysis) is a non-trivial task.
 Similarly non-trivial is identifying the causal impacts that climatic states described by such information can have onto societal and economic outcomes.
@@ -93,9 +93,9 @@ When trying to identify the effects that climate has on population, all of these
 ## Econometric Research Design
 
 -   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)** <!--
-                                                                                                            -   interaction term between weather aggregates and controls??
-                                                                                                            -   balanced panel (!)
-                                                                                                            -->
+                                                                                                                -   interaction term between weather aggregates and controls??
+                                                                                                                -   balanced panel (!)
+                                                                                                                -->
 -   decennial panel model
 
 Currently foreseen control variables and FEs:
