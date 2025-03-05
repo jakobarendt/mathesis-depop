@@ -53,6 +53,10 @@ The different econometric research designs each come with their own strengths we
 Mention also for the sunscreen example that (assuming there is sun and the counterfactual is that people do not have/ do not apply sunscreen), it changes the socioeconomic effect of UV radiation
 
 Generally, it is difficult to measure these two effects separately in empirical studies.
+Estimating their effects separately is also not the goal of this investigation.
+Instead, it focuses on the long-run effects of climate, that do indeed take into consideration the adaptation measures individuals and society have undertaken.
+@kolstad-moore-2020-clim-impacts-from-weather-data offer a more high-level framework defining the terminologies weather, climate, adaptation and adjustment and helping to differentiate between them.
+They summarise and build upon the thoroughly formalised work done by @hsiang-2016-climate-econometrics, and they provide context on how well the different econometric methdologies relate to the terminologies.
 
 ```{=html}
 <!-- Or put adaptation here?
@@ -89,13 +93,14 @@ When trying to identify the effects that climate has on population, all of these
 
 -   Identifying variation as a key word
 -   Another bullet point
+-   With panel improved causal inference due to good control for unobserved time-invariant confounders vs. cross-section often better in climate context (Kolstad & Moore - read again)
 
 ## Econometric Research Design
 
 -   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)** <!--
-                                                                                                                -   interaction term between weather aggregates and controls??
-                                                                                                                -   balanced panel (!)
-                                                                                                                -->
+                                                                                                                                -   interaction term between weather aggregates and controls??
+                                                                                                                                -   balanced panel (!)
+                                                                                                                                -->
 -   decennial panel model
 
 Currently foreseen control variables and FEs:
@@ -176,6 +181,7 @@ $$
     -   fixed effects each for every year can control for adaptation effects that are irregular over time
 -   If FE-estimations rely on variation across time within a unit and not variation across units as the source of identifying variation, why do I not get N (no. of units) effect estimations? How is the within unit variation aggregated for all units?
 -   Consider whether population data exhibits a unit root, and mention that first differences of population data have the advantage of accounting for potential unit roots
+-   unobservables differentiating spatial units and also correlated with weather/climate may cause bias: use of panel model should help to correct for this
 
 ```{=html}
 <!--

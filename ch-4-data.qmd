@@ -84,12 +84,22 @@ Disadvantages of weather grid data according to @auffhammer-etal-2013-weather-da
 
 ## From Weather Data Variables to Measures of Climate and Climate Change
 
+Essentially, the question as to if and how weather data can be used to estimate impacts of climate and climate change boils down to aspects -- whether these realisations of their underlying (joint) probability distribution characterising the climate are sufficient to describe that distribution, and whether any changes in these weather realisations can be assumed to reflect well enough any changes in the underlying distribution characterising the climate.
+
 \[Discuss in this sub-chapter:\]
 
 -   How are the different weather parameters aggregated on the time dimension to correspond to the time points of historical population data:
     -   "Classical" approach with decade averages of yearly mean temperature, yearly precipitation sum, and potentially other parameters?
     -   Alternatively, consider variability-based indicators (but probably more likely to measure short-term responses)
     -   Consider measures suggested in @roberts-etal-2012-agronomic-weather-measures as examples for how to aggregate weather data
+-   Three drivers determining human population at any given location and point in time:
+    -   Birth rate
+    -   Death rate
+    -   Migration
+-   Factors relevant for all of these three drivers and on which climate has a proven impact:
+    -   Agriculture
+    -   Human health
+    -   Energy demand
 
 \[Put main parts of chapter *Common Approaches in Climate Econometrics* in this chapter?\]
 
