@@ -72,6 +72,23 @@ They summarise and build upon the thoroughly formalised work done by @hsiang-201
 
 ## Identification Problem and Methodology
 
+\[Rubin Causal Model - Empirical problem when trying to identify causal effects - Reliance on natural experiments\]
+
+Effect etsimator in panel model:
+
+$$
+\hat{\beta} = E [ Y_{t + \Delta t} | C_{t + \Delta t} ] - E [ Y_t | C_t]
+$$
+
+True parameter:
+
+$$
+\beta = E [ Y_t | C_{t + \Delta t} ] - E[ Y_t | C_t ]
+$$
+
+**Identifying assumption:** It follows that $Y_t$ must be comparable to $Y_{t + \Delta t}$ conditional on $C$.
+Outcome $Y_t$, time $t$, conditional on contemporaneous climatic conditions $C_t$.
+
 There are three different drivers for population growth at a place during a specific time: Birth, migration and mortality.
 When trying to identify the effects that climate has on population, all of these drivers need to be considered.
 
@@ -81,6 +98,8 @@ When trying to identify the effects that climate has on population, all of these
     -   agricultural productivity
     -   overall economic output, productivity and wealth levels [@marbler-2023-rainfall-effect-with-agriculture]
     -   consequent effects on wages and living standards
+-   Panel model: The same population serves as the control and treatment population [@burke-etal-2015-climate-conflict]
+-   Panel model: Frequency-identification-trade-off - longer time period better for inferring climate vs. control and treatment population better comparable (identification more reliable for shorter periods)
 -   Data generating process not well known, high potential for OVB problem (mostly in cross-sectional econometric research designs!)
 -   Also, unit homogeneity assumption does not hold (very little comparability in unknown confounders for some LAUs), which makes OVB problem even harder to avoid: panel/time-series approach with adequate fixed effects as solution for this
 -   Argue well for **marginal treatment comparability assumption** in time-series approach (less strongly needed for long differences); add in formula for it as well
@@ -97,10 +116,20 @@ When trying to identify the effects that climate has on population, all of these
 
 ## Econometric Research Design
 
+\[Pooled model\]
+
+$$
+\mathrm{pop}_{ic} = \dots
+$$
+
+Yet, even if this equation tries to account for time-invariant country-specific differences by introducing country-dummies, such a pooled model has its weakness in that it assumes all municipalities of a country to have the same predisposition towards changes in climate or that differences in the predisposition can at least be fully controlled for.
+However, such a homogeinity among the units observed is unrealistic as differences in wealth, economic constitution, infrastructure, geographic location and many more factors significantly change a municipality's ability to react to the changing climate.
+\[unlikely to be able to control for all factors confounding the relationship between climate and population (consider history and culture), also likely risk of over-control in the quest to avoid an such an Omitted Variable Bias\]
+
 -   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)** <!--
-                                                                                                                                -   interaction term between weather aggregates and controls??
-                                                                                                                                -   balanced panel (!)
-                                                                                                                                -->
+                                                                                                                                                                -   interaction term between weather aggregates and controls??
+                                                                                                                                                                -   balanced panel (!)
+                                                                                                                                                                -->
 -   decennial panel model
 
 Currently foreseen control variables and FEs:

@@ -1,13 +1,23 @@
 # Related Literature {#sec-Literature}
 
-**Relevant literature is the literature that is touching upon and relevant to my research question: How has climate shaped (or: influenced) European municipal population figures since WW2?**
+In the last few decades, a variety of research has tried to answer the question of how the climate affects individuals and society.
+After all, this topic is relevant not only for economics, but also for sociology, demography, environmental and political sciences as well as other scientific disciplines.
 
-\[Name & differentiate papers by economic subject area/independent variable (e.g. agriculture, conflict, economic growth & activity, migration, productivity, urbanisation) and weather variable\]
+As for the precise research question of this investigation, asking on the effect of climate on the development of municipal population figures, a variety of causal chains can be relevant.
+Generally, there are three main factors that drive the size of the population at a specific location during a specific period in time: birth rate, death rate and migration.
+Numerous aspects, that are, in turn, related to climate can influence these three factors.
+They are probably best described by the following non-exhaustive list of exemplary causal chains.
 
-**Conflict** @burke-etal-2015-climate-conflict find in their meta analysis of 55 studies on the relationship between climate and conflict that of all weather dimensions, temperature has the strongest impact on conflict.
+\[TODO\] **Human health**
 
-**Economic growth and activity** @kalkuhl-wenz-2020-climate-on-grp, @linsenmeier-2023-temp-econ-dev-sfd, @marbler-2024-water-econ-activity
+Safety can also have impacts on birth and death rates.
+It is also a major part of what is often considered as quality of living, eventually driving human decisions to migrate or to settle.
+One meta analysis aggregating the results of 55 studies in this field is from @burke-etal-2015-climate-conflict.
+The authors conclude that anomalies in temperature and in rainfall
 
+**Conflict** in their meta analysis of 55 studies on the relationship between climate and conflict that of all weather dimensions, temperature has the strongest impact on conflict.
+
+One level more macroscopic...
 **Migration** @bohramishra-etal-2014-permanent-migration-climate perform a panel analysis, considering the effect of temperature and precipitation onto lagged shares of permanent emigration out of sub-national regions \["probability to migrate"\].
 The authors find that the overall effects onto emigration are stronger for temperature than for precipitation.
 They also compare this to lagged shares of permanent emigration resulting from natural disasters and find that \[...\].
@@ -15,7 +25,17 @@ They also compare this to lagged shares of permanent emigration resulting from n
 **Urbanisation** A study that aims to relate climate change with shifts in rural and urban population amounts is from @barrios-etal-2006-rural-urban-mig-africa.
 With the help of a cross-section analysis that considers the underlying multi-period panel data only in pooled format, the authors estimate that decreasing precipitation has increased urbanisation in Sub-Saharan Africa by \[...\] for every milliliter less of rainfall \[clarify the quantitative results, also which resolution\].
 Similarly, @henderson-etal-2017-cc-urbanization-africa also investigate urbanisation.
-**provide more background on the Henderson paper**
+
+**Economic growth and activity** Contrasting to the micro-level aspects laid out before, various studies have also tried to establish a causal relationship on the macro-level, i.e. between economic growth or activity and the climate.
+@kalkuhl-wenz-2020-climate-on-grp, @linsenmeier-2023-temp-econ-dev-sfd, @marbler-2024-water-econ-activity
+
+In other words, these above aspects and many more already have a proven relationship to climate, or at least weather.
+Population reflects all these aspects to a varying degree, allowing it to be a measure combining different causal chains for identifying the effect of climate on humans on the macro-level.
+As the overall approach of this investigation concerns...
+
+**provide more background on the Henderson paper** **Relevant literature is the literature that is touching upon and relevant to my research question: How has climate shaped (or: influenced) European municipal population figures since WW2?**
+
+\[Name & differentiate papers by economic subject area/independent variable (e.g. agriculture, conflict, economic growth & activity, migration, productivity, urbanisation) and weather variable\]
 
 \[Name some papers (the same as mentioned just above or others) to make a differentiation by methodology, i.e. simple cross-section analysis, panel analysis, *spatial first differences* etc\]
 
