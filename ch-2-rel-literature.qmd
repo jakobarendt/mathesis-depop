@@ -27,6 +27,7 @@ With the help of a cross-section analysis that considers the underlying multi-pe
 Similarly, @henderson-etal-2017-cc-urbanization-africa also investigate urbanisation.
 
 **Economic growth and activity** Contrasting to the micro-level aspects laid out before, various studies have also tried to establish a causal relationship on the macro-level, i.e. between economic growth or activity and the climate.
+Climate change profoundly and permanently alters how comparative advantages of different regions fare against each other, whether be it in natural conditions and how humans are able to live with and exploit them, or in infrastructure and other human-made (pre)conditions.
 @kalkuhl-wenz-2020-climate-on-grp, @linsenmeier-2023-temp-econ-dev-sfd, @marbler-2024-water-econ-activity
 
 In other words, these above aspects and many more already have a proven relationship to climate, or at least weather.

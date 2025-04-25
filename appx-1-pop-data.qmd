@@ -95,9 +95,11 @@ With the exception of Portugal, Slovenia, Germany and the three countries with s
 As for Portugal and Slovenia, the population figures are not reflected in either of the shapefiles versions in question and the two countries are taken out of the sample.
 The other exception is Germany, where I decide to use v5.0 of the *EuroBoundaryMap* shapefiles even though v7.0 amounts to more matches because ...**TODO**
 
+**TODO** consider the code paragraph for the first table again, too
+
 ```{r}
 #| label: tbl-appx1-pop-data-join-decisions
-#| tbl-cap: "Test caption"
+#| tbl-cap: "TODO Test caption"
 
 table_match_rates |> 
   rename(`Country` = CNTR_CODE,

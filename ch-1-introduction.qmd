@@ -1,11 +1,11 @@
 # Introduction
 
 How have climate and its changes shaped the growth and distribution of population across European municipalities in the last decades?
-In this investigation, I attempt to identify the causal relationship between population growth and climate and I try to quantify the effect that weather, as a realisation of climate, has had on population.
+In this investigation, I attempt to identify the causal relationship between population growth and climate and I try to quantify the effect that weather, as a realisation of climate, has had on population \[TODO check whether this is the correct wording or whether I can also speak of *quantifying the effect of climate*\].
 
 Tremendous advances in computational power have enabled the research community to develop an understanding of the climate and its underlying physics, that has never been more profound.
-Similarly, the proofs that demonstrate how a multitude of human activity is the very likely cause for modern-day climate change through the continuous emissions of greenhouse gases have never been less clear.
-While this shows that we have relatively good knowledge of what humans are capable of doing to the climate, the opposite direction seems less clear: We still stand a lot to gain from a better understanding of what the climate and its changes are doing to humans and human societies, not least as this varies greatly with the specific population, area and societal and socioeconomic circumstances considered.
+Similarly, the proofs that demonstrate how a multitude of human activity very likely is the cause of modern-day climate change through the continuous emissions of greenhouse gases have never been less clear.
+While this shows that we have relatively good knowledge of what humans are capable of doing to the climate, the opposite direction seems less clear: we still stand a lot to gain from a better understanding of what the climate and its changes are doing to humans and human societies, not least as this varies greatly with the specific population, area and societal and socioeconomic circumstances considered.
 
 One such socioeconomic aspect likely influenced by the climate is the development of population figures in defined regions.
 Particularly the effects on smaller regions are interesting to estimate as the climate variation across space tends to decrease with the size of the area a region covers.
@@ -13,20 +13,20 @@ The climate of a smaller region can then often be more stringently defined, whic
 In the context of political boundaries, such small spatial units are present in almost every country and they are called "commune", "county", "municipality" or something similar.
 
 How the population of a country or continent is distributed across its communes and municipalities, and how and what makes this distribution evolve matters for a multitude of reasons.
-The population size of a municipality heavily determines its political influence and leverage.
-Consider that, for example, many of the most populous cities end up becoming capitals that house the most powerful political instutions of their nations.
+First, the population size of a municipality heavily determines its political influence and leverage.
+Consider that, for example, many of the most populous cities end up becoming capitals that house the most powerful political institutions of their nations.
 It also determines their access to (supra-)national funds as the distribution of public resources is often decided by population size.
 
-The population size of a municipality matters also for its economic constitution: Even in a theoretical scenario without economies of scale and where economic output of a country is evenly distributed across all its inhabitants such that its empirical GDP per capita exhibits a uniform distribution, total economic production of a populous city will be much higher than that of a small town.
+Second, the population size of a municipality matters also for its economic constitution: even in a theoretical scenario without economies of scale and where economic output of a country is evenly distributed across all its inhabitants such that its empirical GDP per capita exhibits a uniform distribution, total economic production of a populous city would be much higher than that of a small town.
 This would result in much higher regional private and public resources determining scale and capabilities for consumption and investment.
 In reality, many of these conditions assumed do not hold true -- consumption, investment, taxation and other redistributional measures are not anymore as much confined locally as was the case before the industrialisation and the development of modern government.
-Nevertheless, other conditions can still make a vast difference in economic opportunities of urban and rural areas, no matter the wealth of the overall country: For example, economies of scale do indeed differ across space and along with a much bigger and likely more heterogenous workforce, this often allows urban areas to achieve greater diversification in economic sectors and more specialisation than their rural counterparts.
+Nevertheless, other conditions can still make a vast difference in economic opportunities of urban and rural areas, no matter the wealth of the overall country: for example, economies of scale do indeed differ across space and along with a much bigger and likely more heterogenous workforce, this often allows urban areas to achieve greater diversification in economic sectors and more specialisation than their rural counterparts.
 These differences in economic structures between urban and rural areas can have significant consequences for their inhabitants.
 Among the ones most prevalent in the public debate are disparities in access to infrastructure, particularly healthcare, transport and other services essential to everyday life.
 
 With the above considerations in mind, this investigation is motivated by the need for a thorough understanding of the relationship between climate and population development.
-Such an understanding is esssential for informed policymaking to further develop adequate and well-targeted policies that effectively strengthen mitigation of, adaptation to and resilience against climate change, ensuring sustainable population and economic development.
-One concrete examplary use-case where insights on the climate-population relationship could prove helpful is how urbanisation and city growth also increase humans' vulnerabilty towards climate change.
+Such an understanding is essential for informed policymaking to further develop adequate and well-targeted policies that effectively strengthen mitigation of, adaptation to and resilience against climate change, ensuring sustainable population and economic development.
+One concrete exemplary use-case where insights on the climate-population relationship could prove helpful is how urbanisation and city growth also increase humans' vulnerability towards climate change.
 Precipitation runoff intensity and hot extremes are considered as the main causal channels for this increase in vulnerability [@ipcc-ar6-synthesis-report, pp. 50 and 98].
 If this and other investigations come to the conclusion that climate change also causes population shifts from rural to urban areas over time, it might indicate that the total climate change consequences felt by individuals and societies are exacerbated by the indirect effect running through the causal chain that goes from climate change via urbanisation to climate change vulnerability.
 
