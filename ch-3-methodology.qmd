@@ -99,7 +99,7 @@ When trying to identify the effects that climate has on population, all of these
     -   overall economic output, productivity and wealth levels [@marbler-2023-rainfall-effect-with-agriculture]
     -   consequent effects on wages and living standards
 -   Panel model: The same population serves as the control and treatment population [@burke-etal-2015-climate-conflict]
--   Panel model: Frequency-identification-trade-off - longer time period better for inferring climate and climate change vs. control and treatment population are better comparable for shorter time periods (identification more reliable for shorter periods)
+-   Panel model: Frequency-identification-trade-off - longer time period better for inferring climate and climate change vs. control and treatment population are better comparable for shorter time periods (identification more reliable for shorter periods) (or duration-identification-trade-off?)
 -   Data generating process not well known, high potential for OVB problem (mostly in cross-sectional econometric research designs!)
 -   Also, unit homogeneity assumption does not hold (very little comparability in unknown confounders for some LAUs), which makes OVB problem even harder to avoid: panel/time-series approach with adequate fixed effects as solution for this
 -   Argue well for **marginal treatment comparability assumption** in time-series approach (less strongly needed for long differences); add in formula for it as well
@@ -127,9 +127,9 @@ However, such a homogeinity among the units observed is unrealistic as differenc
 \[unlikely to be able to control for all factors confounding the relationship between climate and population (consider history and culture), also likely risk of over-control in the quest to avoid an such an Omitted Variable Bias\]
 
 -   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)** <!--
-                                                                                                                                                                        -   interaction term between weather aggregates and controls??
-                                                                                                                                                                        -   balanced panel (!)
-                                                                                                                                                                        -->
+                                                                                                                                                                            -   interaction term between weather aggregates and controls??
+                                                                                                                                                                            -   balanced panel (!)
+                                                                                                                                                                            -->
 -   decennial panel model
 
 Currently foreseen control variables and FEs:

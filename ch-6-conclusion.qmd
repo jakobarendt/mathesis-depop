@@ -17,3 +17,6 @@ Such considerations might also resemble a fruitful opportunity to test the popul
 
 Due to their oftentimes higher proximity to the equator as well as their significantly less resources and investment capabilities to adapt to climate change, the consequences of climate change are typically considered far more severe for developing countries than for their industrialised counterparts.
 However, this analysis shows that even countries that are among the richest and furthest away from the equator are also not exempted from such consequences.
+
+\[Limitations:\] - Dilemma of identifying climate change vs identifying direct impacts of climate change: the long time horizon of this study satisfies the former aspect well, but not the latter.
+This (latter) aspect of difficulties in identifying the socioeconomic impact of climate (i.e. the causal relationship between population and climate change) is likely worsened by the fact of under-control (even other studies that panel estimation-based relied on a broad set of control variables).

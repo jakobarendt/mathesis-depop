@@ -35,7 +35,8 @@ I consider linear as well as non-linear effects of climate and also make use of 
 For the panel and hybrid approaches, I exploit the time series dimension of the municipalities' weather and population data by applying fixed effects to correct for unobserved municipality-specific characteristics potentially confounding the climate-population relationship.
 \[TODO plug in here sentence if I do forecasting as well\]
 
-The remainder of this thesis paper is organised as follows: in @sec-Literature I discuss selected literature touching upon my research question, particularly investigations that use econometric methodology to identify effects of climate on socioeconomic outcomes.
+The remainder of this thesis paper is organised as follows: in @sec-Literature, I discuss selected literature touching upon my research question.
+In particular, I consider investigations that use econometric methodology to identify effects of climate on socioeconomic outcomes and that identify mechanisms likely underlying the climate-population relationship.
 Then a chapter on the methodology used in my investigation follows [@sec-Methodology] follows, along with a chapter on the data sets [@sec-Data].
 @Sec-Results lays out the results of my work and @sec-Conclusion concludes.
 Appendices with further details on the population ([-@sec-AppxPopData]) and weather ([-@sec-AppxWeatData]) are also provided.
@@ -43,6 +44,7 @@ Appendices with further details on the population ([-@sec-AppxPopData]) and weat
 \[TODO Potential additional points to consider:\]
 
 -   mention *IPCC reports* when discussing urgency of climate change as a topic in public debate (i.e. consequences/scenarios when no actions are taken)
+-   check whether I can find a rate of deurbanisation/ruralisation (the flip side of urbanisation) for Europe, otherwise just consider the change of the share of people living in rural areas
 
 The first aim is that this backward-looking investigation, considering climatic and societal outcomes decades back to the 1960s, demonstrates how long the warmig planet has already had an impact on society, even in industrialised countries that are often considered as less affected than developing ones.
 The second aim, resulting out of the first one, is that the longer historical perspective underlines once more the relevance and urgency for climate action, and supports a better informed and more targeted approach to (climate) policymaking, in particular for regions suffering from depopulation.

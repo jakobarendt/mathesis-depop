@@ -57,8 +57,10 @@ also quote Fisher et al (2012)
 -   its panel nature allowing for control of many unobserved confounders with repeated influence stable in magnitude in every period
 -   Unique in the geographical and economic area it covers, many studies seemed to have focused more on developing countries, using nightlights as a proxy for economic development. Using data from European sources, where independent statistical and meteorological institutions responsible for collecting the data underlying this study have been, at least historically, comparably strong and reliable.
 -   To my knowledge, no one has so far pursued such a climate-related analysis with this exact population data set, particular contribution with geographical area it investigates (Europe) and the spatial level of detail
+-   While many other studies [e.g. @bohramishra-etal-2014-permanent-migration-climate, **check paper**] have put greater focus on migration per se--not giving deeper considerations on where people come from or where they go when a changing climate makes them move--or have mainly investigated urbanisation--i.e. considering mainly cities as object of interest in the climate-population relationship--, this investigation adds to the existing literature by giving particular attention to rural areas and their unique circumstances.
 
 \[Further notes for myself\]
 
 -   List literature that explore *Social Cost of Carbon (SCC)*
 -   For my case, particularly the literature with a similar setup -- in terms of measures used for climate, population figure development as economic/subject area, econometric methodology making use of the additional time-dimension of the data, and the spatial dimension being relatively small (e.g. not entire countries)
+-   Find literature on the temperature variability over Europe (during the last 100 years at least); also find literature on trends in annual precipitation over Europe

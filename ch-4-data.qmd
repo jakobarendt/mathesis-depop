@@ -100,6 +100,7 @@ Essentially, the question as to if and how weather data can be used to estimate 
     -   Agriculture
     -   Human health
     -   Energy demand
+-   Quality of living aspect sufficiently captured? Many studies use rainfall or even moisture as climate indicators, but they also tend have a more agricultural focus, for example reasoning the decision to migrate or to urbanise with the changing climate that is changing agricultural yield and productivity. However, in the context of this investigation, the question is whether these indicators capture sufficiently well other quality of live-based and economic mechansims that are not mainly driven by agriculture, not least as the share of the primary sector in total GDP is and has been comparably small in Europe.
 
 \[Put main parts of chapter *Common Approaches in Climate Econometrics* in this chapter?\]
 
