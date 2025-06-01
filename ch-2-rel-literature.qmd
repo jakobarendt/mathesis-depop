@@ -5,7 +5,7 @@ After all, this topic is relevant not only for economics, but also for sociology
 
 As for the precise research question of this investigation, asking on the effect of climate on the development of municipal population figures, a variety of causal chains can be relevant.
 Generally, there are three main factors that drive the size of the population at a specific location during a specific period in time: birth rate, death rate and migration.
-Numerous aspects, that are, in turn, related to climate can influence these three factors.
+**TODO integrate here: net fertility and mortality rates, also their differentials** Numerous aspects, that are, in turn, related to climate can influence these three factors.
 They are probably best described by the following non-exhaustive list of exemplary causal chains.
 
 \[TODO\] **Human health**

@@ -17,7 +17,7 @@ $$ {#eq-climate-distr}
 
 In other words, climate is the parametrization of the joint distribution $\psi ( \cdot )$, based on which certain potential states of weather could realize during time period $\tau$ and at place $i$.
 Ultimately, the goal of the econometric research design would then be to find an appropriate description $\mathbf{c}_{i \tau}$ for the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate its effects onto any of the outcome variables in question.
-**(mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$ and give an example such as for the mean **??**)
+**(mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$ and give an example such as for the mean **??**; also think about **first, second, third etc statistical moment**)
 
 A multitude of remarks can be drawn from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes the distribution of realized (and, in an empirical study, observed **?** calculated if weather data set values are model-based) weather states $\mathbf{v}_{i, t \in \tau}$.
 After all, the observations are measurements (or, calculations) of weather states, that could have also realized differently from the theoretical distribution.
@@ -116,59 +116,41 @@ When trying to identify the effects that climate has on population, all of these
 
 ## Econometric Research Design
 
-\[Pooled model\]
+**\[Pooled model\]**
 
 $$
-\mathrm{pop}_{ic} = \dots
-$$
+\mathrm{pop}_{it} = \alpha + \beta_{\mathrm{T}} \, \mathrm{temp}_{it} + \beta_{\mathrm{P}} \, g ( \mathrm{prec}_{it} ) + \epsilon_{it}
+$$ {#eq-reg-pooled}
 
 Yet, even if this equation tries to account for time-invariant country-specific differences by introducing country-dummies, such a pooled model has its weakness in that it assumes all municipalities of a country to have the same predisposition towards changes in climate or that differences in the predisposition can at least be fully controlled for.
 However, such a homogeinity among the units observed is unrealistic as differences in wealth, economic constitution, infrastructure, geographic location and many more factors significantly change a municipality's ability to react to the changing climate.
 \[unlikely to be able to control for all factors confounding the relationship between climate and population (consider history and culture), also likely risk of over-control in the quest to avoid an such an Omitted Variable Bias\]
 
--   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)** <!--
-                                                                                                                                                                            -   interaction term between weather aggregates and controls??
-                                                                                                                                                                            -   balanced panel (!)
-                                                                                                                                                                            -->
--   decennial panel model
-
-Currently foreseen control variables and FEs:
-
--   LAU-FEs
--   **remember that Country-FEs are not needed as they are already captured by LAU-FEs**
--   Time-FEs or, alternatively,
--   Country-Time-FEs, i.e. two-way FE model (generally captures more, i.e. better control in theory, but try Country-Time-trend if the Country-Time-FEs capture too much)
+**\[Panel model with FEs\]**
 
 The following equations display the baseline panel model, with decade-averages of temperatures and decade-averages of yearly precipitation sums:
 
 $$
-\begin{aligned}
-\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + \beta_{\mathrm{P}} \, g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \epsilon_{ict}\\
-\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + \beta_{\mathrm{TDR}} \, ( \mathrm{temp}_{ict} \cdot \pi_{i} ) + \beta_{\mathrm{P}} \, g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \epsilon_{ict}
-\end{aligned}
-$$
+\mathrm{pop}_{ict} = \beta_{\mathrm{T}} \, \mathrm{temp}_{ict} + \beta_{\mathrm{TRU}} \, ( \mathrm{temp}_{ict} \cdot \pi_{i} ) + \beta_{\mathrm{P}} \, g ( \mathrm{prec}_{ict} ) + \omega_i + \epsilon_{ict}
+$$ {#eq-reg-panel-fes}
 
 -   where:
 
     -   $\mathrm{temp}_{ict}$ denote the mean temperature of the decade ending on each population data reference time point $t$ in LAU $i$
     -   $g ( \mathrm{prec}_{ict} )$ represents different functional forms (linear, quadratic, cubic) of the average yearly precipitation sum (again of the preceding decade)
     -   $\omega_i$ are LAU-fixed effects accounting for unobservable differences correlated to the weather parameter and influencing population amounts
-    -   $\rho_c$ are country-fixed effects considering country-specific unobservables
     -   $\epsilon_{ict}$ is the regression error
 
 This model can simply be estimated with OLS, it tests whether any population changes can be attributed to changes in weather.
 The interaction term $\mathrm{temp}_{ict} \cdot \pi_{i}$ is included to account for the fact that the effect of temperature on population might differ between LAUs, and that this difference is not captured by the LAU-fixed effects.
-\[**Not sure about whether this interaction term is correct**\]
 
 Similarly, a more extensive version the above model, including trend effects is represented by the equation
 
 $$
-\begin{aligned}
-\mathrm{pop}_{ict} &= \beta_{\mathrm{TS}} \, \mathrm{temp}_{ict} + \beta_{\mathrm{TDR}} \, ( \mathrm{temp}_{ict} \cdot \pi_{i} ) + \beta_{\mathrm{P}} g ( \mathrm{prec}_{ict} ) + \omega_i + \rho_c + \delta \cdot \text{t} + \epsilon_{ict}
-\end{aligned}
-$$
+\mathrm{pop}_{ict} = \beta_{\mathrm{T}} \, \mathrm{temp}_{ict} + \beta_{\mathrm{TRU}} \, ( \mathrm{temp}_{ict} \cdot \pi_{i} ) + \beta_{\mathrm{P}} g ( \mathrm{prec}_{ict} ) + \omega_i + \delta_c \cdot t + \epsilon_{ict}
+$$ {#eq-reg-panel-fes-trend}
 
-where $\delta \cdot \text{t}$ is the trend factor capturing all general trends present in all LAUs.
+where $\delta_c \cdot t$ is the trend factor capturing general trends present in all LAUs of a country.
 
 Similarly, a long differences model:
 
@@ -177,21 +159,31 @@ $$
 \mathrm{pop}_{ic, t=T} - \mathrm{pop}_{ic, t=1} = \alpha &+ \beta_{\mathrm{LD}} \, ( \mathrm{temp}_{ic, t=T} - \mathrm{temp}_{ic, t=1} ) \\
 &+ g ( \mathrm{prec}_{ic, t=T} - \mathrm{prec}_{ic, t=1} ) + \omega_i + \rho_c + \phi_{ic}
 \end{split}
-$$
+$$ {#eq-reg-long-diff}
 
 -   This can also simply be estimated with OLS to determine whether any changes caused by weather differences between the last and the first decade can be attributed to any population changes:
     -   $\alpha$ captures any overall changes over time relevant to all LAUs
     -   $g ( \cdot )$ again represents different functional forms for precipitation that are tested
-    -   $\omega_i$ is a dummy that controls for LAU-specific particularities
-    -   similarly, $\rho$ is a country-specific dummy, and
+    -   $\omega_i$ is a dummy that controls for LAU-specific particularities **(TODO check whether LAU-specific FEs would still be needed, i.e. only under the assumption that time-invariant LAU-specific characteristics do not only confound the relationship of climate and rural-urban population *levels* but also climate and rural-urban population *growth*)**
+    -   similarly, $\rho$ is a country-specific dummy (**TODO** only needed when LAU-specific FEs are not included, check whether other country-related specifications are needed?), and
     -   $\phi_{ic}$ is the regression error.
 
-\[Uncertainties regarding this sub-chapter:\]
+**\[IV-Approach\]**
 
--   einzelner dummy für ländlich und nicht nicht notwendig --\> tatsächlich?
--   FEs noch: country-zeit oder zeit (ersteres wahrscheinlich besser) --\> dann aber noch trend sinnvoll? dann aber auf jeden Fall keine Country-FEs mehr benötigt?
+-   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)** <!--interaction term between weather aggregates and controls??-->
+-   instrumenting with latitude
+
+**\[Approach with rural share rates/rural share growth rates\]**
+
+-   as in @henderson-etal-2017-cc-urbanization-africa
+
+**\[Uncertainties regarding this sub-chapter:\]**
+
+-   FEs noch: country-zeit oder zeit (ersteres wahrscheinlich besser) --\> dann aber noch trend sinnvoll?
+    dann aber auf jeden Fall keine Country-FEs mehr benötigt?
+
 -   one with variation as implemented in Linsenmeier (2023)?
--   Interaktionsterm temp und ländlich fehlt noch
+
 -   Correct to say: Adaptation effects are accounted for as long as adaptation happens at the same pace in each period?
 
 \[Open to-do's for this sub-chapter\]

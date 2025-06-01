@@ -55,6 +55,11 @@ While @tbl-lau-levels-maps gives a rough overview of these different characteris
 
 : Types of LAU-levels and underlying sources for geospatial attributes for all countries in the data set {#tbl-lau-levels-maps}
 
+\[Further discuss:\]
+
+-   Lack of differentiation of migration from net fertility and mortality rates is on purpose (all three aspects are expected to be influenced by the climate, and the latter two population distribution drivers are also of interest as they might also differ with the different climates in the rural and urban geographies)
+-   Make table with summary statistics (mean, SD, min, max) for each variable (climate change and period before panel - temperature, precipitation, moisture; n - sum of available time periods for all units if panel unbalanced; rural population share change and initial/before panel; land area)
+
 ## Weather Data
 
 \[Discuss in this sub-chapter:\]
@@ -67,6 +72,7 @@ While @tbl-lau-levels-maps gives a rough overview of these different characteris
     -   How is station data interpolated? (Station data is complemented by interpolation for those locations without station or with missing weather data points)
 -   Mention which weather parameters are downloaded: Temperature, precipitation etc
 -   Consider whether this is reanalysis or observational weather data
+-   Discuss more broadly the long-term state and influence of the climate on the European continent (i.e. shaped by gulf stream, geography, topology and other factors)
 
 Disadvantages of weather grid data according to @auffhammer-etal-2013-weather-data-econ-analysis: **attenuation bias** (in particular for points 1, 2 and 5)
 
