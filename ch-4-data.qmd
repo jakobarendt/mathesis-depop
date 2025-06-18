@@ -60,6 +60,11 @@ While @tbl-lau-levels-maps gives a rough overview of these different characteris
 -   Lack of differentiation of migration from net fertility and mortality rates is on purpose (all three aspects are expected to be influenced by the climate, and the latter two population distribution drivers are also of interest as they might also differ with the different climates in the rural and urban geographies)
 -   Make table with summary statistics (mean, SD, min, max) for each variable (climate change and period before panel - temperature, precipitation, moisture; n - sum of available time periods for all units if panel unbalanced; rural population share change and initial/before panel; land area)
 
+## Differentiating urban and rural areas
+
+-   Quote here the Eurostat guidance on rural and urban typologies
+-   And maybe some other definition to determine which LAUs are rural and not (UN? ILO? Commission? DG AGRI? DG EMPL, ask Paola?)
+
 ## Weather Data
 
 \[Discuss in this sub-chapter:\]
@@ -109,6 +114,8 @@ Essentially, the question as to if and how weather data can be used to estimate 
 -   Quality of living aspect sufficiently captured? Many studies use rainfall or even moisture as climate indicators, but they also tend have a more agricultural focus, for example reasoning the decision to migrate or to urbanise with the changing climate that is changing agricultural yield and productivity. However, in the context of this investigation, the question is whether these indicators capture sufficiently well other quality of live-based and economic mechansims that are not mainly driven by agriculture, not least as the share of the primary sector in total GDP is and has been comparably small in Europe.
 
 \[Put main parts of chapter *Common Approaches in Climate Econometrics* in this chapter?\]
+
+-   landwirtschaftlich: wasser, wirtschaft&produktivität: temp
 
 Main points from @auffhammer-etal-2013-weather-data-econ-analysis:
 

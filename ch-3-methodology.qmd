@@ -179,30 +179,27 @@ $$ {#eq-reg-long-diff}
 
 **\[Uncertainties regarding this sub-chapter:\]**
 
--   FEs noch: country-zeit oder zeit (ersteres wahrscheinlich besser) --\> dann aber noch trend sinnvoll?
-    dann aber auf jeden Fall keine Country-FEs mehr benötigt?
-
--   one with variation as implemented in Linsenmeier (2023)?
-
--   Correct to say: Adaptation effects are accounted for as long as adaptation happens at the same pace in each period?
-
-\[Open to-do's for this sub-chapter\]
-
--   Quote here the Eurostat guidance on rural and urban typologies
--   And maybe some other definition to determine which LAUs are rural and not (UN? ILO? Commission? DG AGRI? DG EMPL, ask Paola?)
 -   am besten log-lin model (oder alternativ first differences, wenn zu viele rausfallen weil log(0)), ansonsten beobachtungen mit 0 rausnehmen, dann halt unbalanced panel (aber das ist ok, sofern die 0 random ist) -- Warum? Hinweis: Trotzdem noch logs anwenden bevor first differences genommen werden
+-   Consider whether population data exhibits a unit root, and mention that first differences of population data have the advantage of accounting for potential unit roots
+-   If FE-estimations rely on variation across time within a unit and not variation across units as the source of identifying variation, why do I not get N (no. of units) effect estimations? How is the within unit variation aggregated for all units?
 -   2-part-modell als sonstige Lösung
--   Reverse causality? More populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions?
+
+**\[To-do's for this sub-chapter:\]**
+
+-   Include in general explication of the model equations: unobservables differentiating spatial units and also correlated with weather/climate may cause bias: use of panel model should help to correct for this
+-   Write a paragraph on **reverse causality**: more populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions?
     -   nur wenn bebauungsgrad konstant im LAU-FE geschluckt, aber sonst ist das ja in der gemessenen Temperatur im Grid mitgemessen
     -   modellierung als discrete choice modell (tortenstücke), also wenn ein Individuum sich für ein LAU entscheidet, entscheidet es sich dann für ein kühles LAU (das in den in meinen Daten stärkeres Pop Wachstum verzeichnet)
--   landwirtschaftlich: wasser, wirtschaft&produktivität: temp
--   **New:** (On adaptation) In my case, adaptation would likely lead to an attenuation bias in the effect estimations. For the panel model, would it be right to say that adaptations that influence the climate-socioeconomic causal relationship in a constant way over time are account for due to the time series nature of the panel model?
-    -   country-FE, LAU-FE catch differences in adaptation capability of LAUs
-    -   trend-variable captures influence of adaptation on climate-socioecon relationship that is constant over time (even better: trend\*LAU); account for potential spurious correlations, where climate and population accidentally exhibit the same development (?? see again Marbler 2024 for this)
-    -   fixed effects each for every year can control for adaptation effects that are irregular over time
--   If FE-estimations rely on variation across time within a unit and not variation across units as the source of identifying variation, why do I not get N (no. of units) effect estimations? How is the within unit variation aggregated for all units?
--   Consider whether population data exhibits a unit root, and mention that first differences of population data have the advantage of accounting for potential unit roots
--   unobservables differentiating spatial units and also correlated with weather/climate may cause bias: use of panel model should help to correct for this
+-   Write a paragraph on **adaptation**:
+    -   Correct to say: Adaptation effects are accounted for as long as adaptation happens at the same pace in each period?
+    -   **New:** (On adaptation) In my case, adaptation would likely lead to an attenuation bias in the effect estimations. For the panel model, would it be right to say that adaptations that influence the climate-socioeconomic causal relationship in a constant way over time are accounted for due to the time series nature of the panel model?
+        -   country-FE, LAU-FE catch differences in adaptation capability of LAUs
+        -   trend-variable captures influence of adaptation on climate-socioeconomic relationship that is constant over time (even better: trend\*LAU); account for potential spurious correlations, where climate and population accidentally exhibit the same development (?? see again Marbler 2024 for this)
+        -   fixed effects each for every year can control for adaptation effects that are irregular over time
+
+**\[Optional to-do's for this sub-chapter:\]**
+
+-   one model with variation as implemented in Linsenmeier (2023)?
 
 ```{=html}
 <!--
