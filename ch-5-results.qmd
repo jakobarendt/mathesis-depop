@@ -2,6 +2,13 @@
 
 \[tbc\]
 
+```{r}
+options(scipen = 10)
+load('data/temp/model-results.RData')
+
+modelsummary::modelsummary(models_decennial, stars = TRUE)
+```
+
 ## Past Impacts of Weather on Municipal Population Sizes
 
 \[tbc\]

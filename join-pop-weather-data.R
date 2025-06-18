@@ -12,6 +12,7 @@ require(parallel)
 require(sf)
 require(plm)
 require(fixest)
+require(modelsummary)
 
 
 
@@ -81,18 +82,53 @@ panel_data <- joined_data |>
   )
 
 
-panel_data_frame <- panel_data |>
-  # mutate(CNTR_LAU_CODE = as.factor(CNTR_LAU_CODE), YEAR = as.factor(YEAR)) |>
-  pdata.frame(index = c("CNTR_LAU_CODE", "YEAR"))
-plm(POP ~ mean.mean.daily.mean.temperature + mean.sum.daily.precipitation.amount,
-    data = panel_data_frame,
-    effect = "individual") |>
-  summary()
+
+# Introduce rural-urban differentiation from base year --------------------
+
+panel_data <- panel_data |>
+  left_join(
+    select(joined_data, CNTR_LAU_CODE, EUROGEOGRAPHICS_AREA_KM2_2011_2012),
+    by = c("CNTR_LAU_CODE")
+  ) |>
+  mutate(POP_DENS = POP / EUROGEOGRAPHICS_AREA_KM2_2011_2012) |>
+  mutate(RURAL = if_else(POP_DENS < 1500, 1, 0)) |>
+  group_by(CNTR_LAU_CODE) |>
+  arrange(YEAR, .by_group = TRUE) |>
+  mutate(RURAL_1961 = first(RURAL)) |>
+  select(-c(EUROGEOGRAPHICS_AREA_KM2_2011_2012, POP_DENS, RURAL)) |>
+  ungroup()
+
+
+
+# Add time indicator ------------------------------------------------------
+
+panel_data <- panel_data |>
+  group_by(CNTR_LAU_CODE) |>
+  arrange(YEAR, .by_group = TRUE) |>
+  mutate(TTREND = row_number()) |>
+  ungroup() |>
+  mutate(log_POP = log(POP))
+
+# Filter out LAUs with non-positive integers of log_POP variable
+laus_filter_out <- panel_data |>
+  filter(is.na(log_POP) | is.nan(log_POP) | is.infinite(log_POP)) |>
+  pull(CNTR_LAU_CODE) |>
+  unique()
+panel_data <- panel_data |>
+  filter(!(CNTR_LAU_CODE %in% laus_filter_out))
+
+# panel_data_frame <- panel_data |>
+#   # mutate(CNTR_LAU_CODE = as.factor(CNTR_LAU_CODE), YEAR = as.factor(YEAR)) |>
+#   pdata.frame(index = c("CNTR_LAU_CODE", "YEAR"))
+# plm(POP ~ mean.mean.daily.mean.temperature + mean.sum.daily.precipitation.amount,
+#     data = panel_data_frame,
+#     effect = "individual") |>
+#   summary()
 
 # Finish code for aggregation to form interaction term of country-year-FEs
 # (or, alternatively, interaction of country-year-trend)
-panel_data <- panel_data |>
-  mutate(CNTR_CODE_YEAR = CNTR_CODE)
+# panel_data <- panel_data |>
+#   mutate(CNTR_CODE_YEAR = CNTR_CODE)
 
 # Also transform population figures to log(POP), such that I have log-level eco-
 # nometric models
@@ -127,6 +163,35 @@ feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-a
 # !! Investigate warning message that is thrown pdata.frame
 # !! Check what is up with Poian, must be in data set twice
 
+models_decennial <- list(
+  "Pooled (OLS)" = lm(log_POP ~ `mean.mean-daily-mean-temperature`
+                      + `mean.mean-daily-mean-temperature` : RURAL_1961
+                      + `mean.sum-daily-precipitation-amount`, data = panel_data),
+  "Pooled (GLS)" = glm(log_POP ~ `mean.mean-daily-mean-temperature`
+                       + `mean.mean-daily-mean-temperature` : RURAL_1961
+                       + `mean.sum-daily-precipitation-amount`
+                       + I(`mean.sum-daily-precipitation-amount`^2), data = panel_data),
+  # "REs" = plm(log_POP ~ `mean.mean-daily-mean-temperature`
+  #             + `mean.mean-daily-mean-temperature` : RURAL_1961
+  #             + `mean.sum-daily-precipitation-amount`, data = panel_data,
+  #             model = "random", index = c("CNTR_LAU_CODE", "YEAR")),
+  "FEs (one-way)" = feols(log_POP ~ `mean.mean-daily-mean-temperature`
+                          + `mean.mean-daily-mean-temperature` : RURAL_1961
+                          + `mean.sum-daily-precipitation-amount` | CNTR_LAU_CODE,
+                          data = panel_data),
+  "FEs (two-way)" = feols(log_POP ~ `mean.mean-daily-mean-temperature`
+                          + `mean.mean-daily-mean-temperature` : RURAL_1961
+                          + `mean.sum-daily-precipitation-amount`
+                          | CNTR_LAU_CODE + YEAR,
+                          data = panel_data),
+  "FEs (one-way & time-trend)" = feols(log_POP ~ `mean.mean-daily-mean-temperature`
+                                       + `mean.mean-daily-mean-temperature` : RURAL_1961
+                                       + `mean.sum-daily-precipitation-amount`
+                                       + TTREND
+                                       | CNTR_LAU_CODE,
+                                       data = panel_data)
+  )
+save(panel_data, models_decennial, file = 'data/temp/model-results.RData')
 
 # Estimation of standard errors -------------------------------------------
 
@@ -137,21 +202,21 @@ feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-a
 # Borsky: Spatial autocorrelation wahrscheinlich estimated über long & lat
 # --> über sf mittelpunkt zu jedem shape berechnen und in tibble mitgeben
 
-pop |>
-  filter(is.na(POP_1961)) |>
-  leaflet() |>
-  addTiles(options = tileOptions(opacity = 0.2)) |>
-  addPolygons(
-    stroke = FALSE,
-    fillOpacity = 0.7,
-    fillColor = ~pal(POP_2011),
-    label = ~ paste0(LAU_NAME, ": ", round(POP_2011, 4))
-  ) |>
-  addLegend(pal = pal, values = ~POP_2011, opacity = 1.0)
-
-
-population |>
-  select(CNTR_LAU_CODE, geometry) |>
-  right_join(panel_data, by = c("CNTR_LAU_CODE"))
+# pop |>
+#   filter(is.na(POP_1961)) |>
+#   leaflet() |>
+#   addTiles(options = tileOptions(opacity = 0.2)) |>
+#   addPolygons(
+#     stroke = FALSE,
+#     fillOpacity = 0.7,
+#     fillColor = ~pal(POP_2011),
+#     label = ~ paste0(LAU_NAME, ": ", round(POP_2011, 4))
+#   ) |>
+#   addLegend(pal = pal, values = ~POP_2011, opacity = 1.0)
+#
+#
+# population |>
+#   select(CNTR_LAU_CODE, geometry) |>
+#   right_join(panel_data, by = c("CNTR_LAU_CODE"))
 
 # panel_data <-
