@@ -144,20 +144,20 @@ panel_data <- panel_data |>
 # --> Do I also consider non-linear functional forms of climate variables in the
 # model equations (and estimate them)?
 
-feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
-        CNTR_LAU_CODE + CNTR_CODE*YEAR,
-      data = panel_data) |> # find reason why panel_data_frame cannot be used
-  summary()
-
-feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
-        CNTR_LAU_CODE + CNTR_CODE,
-      data = panel_data) |> # find reason why panel_data_frame cannot be used
-  summary()
-
-feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
-        CNTR_LAU_CODE + CNTR_CODE + YEAR,
-      data = panel_data) |> # find reason why panel_data_frame cannot be used
-  summary()
+# feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
+#         CNTR_LAU_CODE + CNTR_CODE*YEAR,
+#       data = panel_data) |> # find reason why panel_data_frame cannot be used
+#   summary()
+#
+# feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
+#         CNTR_LAU_CODE + CNTR_CODE,
+#       data = panel_data) |> # find reason why panel_data_frame cannot be used
+#   summary()
+#
+# feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
+#         CNTR_LAU_CODE + CNTR_CODE + YEAR,
+#       data = panel_data) |> # find reason why panel_data_frame cannot be used
+#   summary()
 
 # !! Investigate warning message that is thrown when pivot_longer
 # !! Investigate warning message that is thrown pdata.frame
