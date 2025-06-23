@@ -16,25 +16,16 @@ dir.create("data")
 
 dir.create("data/shapefiles")
 
-# Comment/uncomment depending on whether you want to load shapefiles directly from:
-# 1. The Eurostat database or your local drive if cached there (default), or
-# 2. The cloud storage for this project (in case the data is not retrievable via option 1.)
-
-# 1. Load shapefiles from Eurostat via its API
+# Load shapefiles from Eurostat via its API or your local drive if cached there
 shapes_2011 <- giscoR::gisco_get_lau(year = "2011", cache_dir = 'data/shapefiles', verbose = TRUE)
 shapes_2012 <- giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles', verbose = TRUE)
 # shapefiles are loaded by default for the WGS84 (EPSG 4326) map projection
 
-# 2. Load shapefiles from this project's cloud storage
-#### !! still missing !!
-### ToDo
 
 # Load separately delivered shapefiles: Greece, Ireland, Turkey
 shapes_gr <- read_sf('data/shapefiles/gr')
 shapes_ie <- read_sf('data/shapefiles/ie')
 shapes_tr <- read_sf('data/shapefiles/tr')
-#### !! also adjust these special cases for downloads from Google Drive !!
-### ToDo
 
 # Transform coordinate reference systems (CRS) of shapefiles to correspond to the
 # projection of the weather grid data
@@ -84,18 +75,12 @@ shapes_2011 <- shapes_2011 |>
 shapes_2012 <- shapes_2012 |>
   mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID))
 
-## Check: Do values in columns GISCO_ID and FID correspond? Yes, for shapefiles of 2011.
-sum(shapes_2011$GISCO_ID == shapes_2011$FID) == nrow(shapes_2011)
-sum(shapes_2012$GISCO_ID == shapes_2012$FID) == nrow(shapes_2012)
-### The shapefiles of 2012 (EuroGeographics v7.0) do not have a column 'FID'.
-
-## Check: Does the newly created column CNTR_LAU_ID correspond to both of the
-## columns investigated in the previous paragraph (i.e. GISCO_ID and, hence, FID) ?
+## Check: Does the newly created column CNTR_LAU_ID correspond to GISCO_ID ?
 sum(shapes_2011$CNTR_LAU_ID == gsub("_", "", shapes_2011$GISCO_ID)) == nrow(shapes_2011)
 sum(shapes_2012$CNTR_LAU_ID == gsub("_", "", shapes_2012$GISCO_ID)) == nrow(shapes_2012)
 shapes_2012 |> filter(shapes_2012$CNTR_LAU_ID != gsub("_", "", shapes_2012$GISCO_ID))
 ### With the exception of Budapest (HU) in the shapefiles of 2012 (EuroGeographics v7.0),
-### the newly created column corresponds to the other two.
+### the newly created column corresponds to GISCO_ID.
 
 ## Correct CNTR_LAU_ID for Budapest in EuroGeographics v7.0 shapefile, such that
 ## it corresponds to the EuroGeographics v5.0 shapefile (and to the population data
@@ -194,7 +179,7 @@ pop_orig <- pop_orig |>
   filter(!(CNTR_LAU_CODE %in% budapest$CNTR_LAU_CODE)) |>
   bind_rows(budap_aggreg)
 rm(budapest, budap_aggreg)
-## All Budapest population figures are summed up to a single LAU and added to
+## All Budapest population figures are summed up to a single LAU and appended to
 ## the population data set. The remaining disaggregated Budapest LAUs with no
 ## further use are removed.
 
