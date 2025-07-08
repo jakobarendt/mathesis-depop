@@ -1,5 +1,11 @@
-### This R script centrally loads packages, LAU georeferences/shapefiles and corresponding population data for usage in the following steps of analysis and different chapters. ###
-### It also cleans and combines the different population (geo-)data points to prepare the georeferenced population data for mapping onto the climate data and its usage for further causal econometric analysis. ###
+### This R script centrally loads packages, LAU georeferences/shapefiles and
+### corresponding population data for usage in the following steps of the
+### analysis pipeline and the different chapters of the thesis.
+### It also cleans and combines the different population (geo-)data points to
+### prepare the georeferenced population data to use it to extract the climate
+### data from the raster format which it is delivered in.
+### Further down the data pipeline in other R scripts, the combined data can
+### then be used for the causal econometric analysis.
 
 
 
@@ -17,8 +23,16 @@ dir.create("data")
 dir.create("data/shapefiles")
 
 # Load shapefiles from Eurostat via its API or your local drive if cached there
-shapes_2011 <- giscoR::gisco_get_lau(year = "2011", cache_dir = 'data/shapefiles', verbose = TRUE)
-shapes_2012 <- giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles', verbose = TRUE)
+if(!file.exists('data/shapefiles/LAU_RG_01M_2011_4326.geojson')) {
+  giscoR::gisco_get_lau(year = "2011", cache_dir = 'data/shapefiles',
+                        verbose = TRUE)
+}
+shapes_2011 <- read_sf('data/shapefiles/LAU_RG_01M_2011_4326.geojson')
+if(!file.exists('data/shapefiles/LAU_RG_01M_2012_4326.geojson')) {
+  giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles',
+                        verbose = TRUE)
+}
+shapes_2012 <- read_sf('data/shapefiles/LAU_RG_01M_2012_4326.geojson')
 # shapefiles are loaded by default for the WGS84 (EPSG 4326) map projection
 
 
