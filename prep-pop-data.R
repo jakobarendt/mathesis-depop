@@ -38,7 +38,9 @@ shapes_2012 <- read_sf('data/shapefiles/LAU_RG_01M_2012_4326.geojson')
 
 # Load separately delivered shapefiles: Greece, Ireland, Turkey
 shapes_gr <- read_sf('data/shapefiles/gr')
-shapes_ie <- read_sf('data/shapefiles/ie')
+shapes_ie <- read_sf('data/shapefiles/ie') |>
+  st_make_valid()   # make Irish shapes valid for later usage (calculation of their
+                    # areal sizes etc), since file is delivered with faults
 shapes_tr <- read_sf('data/shapefiles/tr')
 
 # Transform coordinate reference systems (CRS) of shapefiles to correspond to the
@@ -118,16 +120,15 @@ shapes_2012 <- shapes_2012 |>
 ## after total collation of sf tables
 shapes_gr <- shapes_gr |>
   mutate(CNTR_LAU_ID = paste0("EL", NSI_CODE)) |>
-  select(CNTR_LAU_ID, SHAPE_Area, geometry) |>
-  rename("SHAPE_AREA_EL" = SHAPE_Area, "geometry_EL" = geometry)
+  select(CNTR_LAU_ID, geometry) |>
+  rename("geometry_EL" = geometry)
 shapes_ie <- shapes_ie |>
   mutate(CNTR_LAU_ID = paste0("IE", MERG_COD)) |>
-  select(CNTR_LAU_ID, Shape_Area, geometry) |>
-  rename("SHAPE_AREA_IE" = Shape_Area, "geometry_IE" = geometry)
+  select(CNTR_LAU_ID, geometry) |>
+  rename("geometry_IE" = geometry)
 shapes_tr <- shapes_tr |>
-  select(ICC_LAU_CO, SHAPE_AREA, geometry) |>
-  rename("CNTR_LAU_ID" = ICC_LAU_CO, "SHAPE_AREA_TR" = SHAPE_AREA,
-         "geometry_TR" = geometry)
+  select(ICC_LAU_CO, geometry) |>
+  rename("CNTR_LAU_ID" = ICC_LAU_CO, "geometry_TR" = geometry)
 
 # Check: Are there any duplicates in the unique identifier CNTR_LAU_ID?
 
@@ -276,15 +277,35 @@ population <- pop_all_shapes |>
          POP_2001_01_01, POP_2011_01_01,
          EUROGEOGRAPHICS_POP_2011_2012, EUROGEOGRAPHICS_POP_DENS_2011_2012,
          EUROGEOGRAPHICS_AREA_KM2_2011_2012,
-         geometry,
-         SHAPE_AREA_EL, SHAPE_AREA_IE, SHAPE_AREA_TR) |>
+         geometry) |>
   filter(VERS_SHAPEFILE != "cannot join") |>
   filter(!st_is_empty(geometry)) |>
   st_as_sf()
 ## Aggregate final version of historical population data: The georeferences are
-## now combined to a single geometry column; all columns are reorded and reduced
+## now combined to a single geometry column; all columns are reordered and reduced
 ## to only the ones needed in the further analysis. The LAUs without
 ## georeferences are also filtered out.
+
+
+
+# Compute areal sizes of LAUs ---------------------------------------------
+
+# For the exceptional cases GR, IE and TR, I calculate the LAUs areal size based
+  # on the size of their shapes (all of their shapefiles contained a column
+  # with areal size, but did not indicate the corresponding units)
+# For the LAUs whose geospatial information is EUROGEOGRAPHICS-based, I compare
+  # the areal size indicated in the respective column with what would result out
+  # of their shapes' areas, and I replace the former if it is more than 10%
+  # greater or smaller than the latter
+
+population <- population |>
+  mutate(AREA_TEST = as.double(units::set_units(st_area(geometry), km^2))) |>
+  mutate(AREA_DIFF = EUROGEOGRAPHICS_AREA_KM2_2011_2012 / AREA_TEST) |>
+  rename(AREA_KM2 = EUROGEOGRAPHICS_AREA_KM2_2011_2012) |>
+  mutate(AREA_KM2 = if_else(AREA_DIFF > 1.1 | AREA_DIFF < 0.9 | CNTR_CODE %in% c("EL", "IE", "TR"),
+                            AREA_TEST,
+                            AREA_KM2)) |>
+  select(-AREA_TEST, -AREA_DIFF)
 
 
 
