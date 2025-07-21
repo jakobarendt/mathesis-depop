@@ -332,7 +332,59 @@ population <- population |>
 
 
 
+# Shapefile data set also with unknown pop figures ------------------------
+
+# collate data set consisting of all shapes (including those without
+# population data) to be able to plot a map
+
+shapes_all <- bind_rows(rename(shapes_gr, geometry = geometry_EL),
+                        rename(shapes_ie, geometry = geometry_IE),
+                        rename(shapes_tr, geometry = geometry_TR)) |>
+  mutate(SOURCE = "proprietary")
+shapes_all <- shapes_2011 |>
+  rename(EUROGEOGRAPHICS_POP_2011_2012 = POP_2011,
+         EUROGEOGRAPHICS_POP_DENS_2011_2012 = POP_DENS_2011,
+         geometry = geometry_2011) |>
+  select(-AREA_KM2_2011) |>
+  mutate(SOURCE = "v5.0") |>
+  bind_rows(shapes_all)
+shapes_all <- shapes_2012 |>
+  rename(EUROGEOGRAPHICS_POP_2011_2012 = POP_2012,
+         EUROGEOGRAPHICS_POP_DENS_2011_2012 = POP_DENS_2012,
+         geometry = geometry_2012) |>
+  select(-AREA_KM2_2012) |>
+  mutate(SOURCE = "v7.0") |>
+  bind_rows(shapes_all)
+
+shapes_selected_version <- shapes_all |>
+  mutate(CNTR_CODE = str_sub(CNTR_LAU_ID, end = 2)) |>
+  left_join(select(table_match_rates, CNTR_CODE, VERS_SHAPEFILE),
+            by = "CNTR_CODE") |>
+  filter(VERS_SHAPEFILE == SOURCE
+         | (VERS_SHAPEFILE == "cannot join" & SOURCE == "v5.0")
+         | (is.na(VERS_SHAPEFILE) & SOURCE == "v7.0"))
+  # choose v5.0 for those countries that cannot be joined (PT and SI) as most of
+  # their surrounding countries have the same version assigned
+  # for those not previously considered in match rate-based version decision
+  # algorithm (MF and RS), use v7.0 as they are only available in that version
+
+shapes_full_map <- shapes_selected_version |>
+  rename(CNTR_LAU_CODE = CNTR_LAU_ID, LAU_LABEL = LAU_NAME) |>
+  select(-SOURCE) |>
+  mutate(IN_REG_DATA_SET = FALSE) |>
+  filter(!(CNTR_LAU_CODE %in% population$CNTR_LAU_CODE)) |>
+  bind_rows(mutate(population, IN_REG_DATA_SET = TRUE)) |>
+  select(CNTR_CODE, CNTR_LAU_CODE, VERS_SHAPEFILE, IN_REG_DATA_SET, LAU_LABEL,
+         POP_1961_01_01, POP_1971_01_01, POP_1981_01_01, POP_1991_01_01,
+         POP_2001_01_01, POP_2011_01_01,
+         EUROGEOGRAPHICS_POP_2011_2012, EUROGEOGRAPHICS_POP_DENS_2011_2012,
+         AREA_KM2,
+         geometry)
+
+
+
 # Save combined population and geolocation data and metadata tables -------
 
 dir.create("data/temp")
-save(population, table_match_rates, table_obs, file = 'data/temp/population.RData')
+save(population, shapes_full_map, table_match_rates, table_obs,
+     file = 'data/temp/population.RData')
