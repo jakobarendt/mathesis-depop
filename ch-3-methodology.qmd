@@ -1,37 +1,65 @@
 # Identification, Methodology and Research Design {#sec-Methodology}
 
-Isolating climate information either from directly collected weather data or partially or fully from models of the climate (e.g. reanalysis) is a non-trivial task.
-Similarly non-trivial is identifying the causal impacts that climatic states described by such information can have onto societal and economic outcomes.
+Isolating climate information either from weather data directly collected or weather data derived partially or fully from models of the climate (e.g. reanalysis) is a non-trivial task.
+Similarly non-trivial is identifying the causal impacts that climatic states described by such information and their changes can have onto societal and economic outcomes.
 The following sub chapter entails a quick overview of what common climate-related identification problems look like and what econometric research designs have mostly been applied to solve them.
 The sub chapters following afterward describe the specific identification problem for this study, and then argue for and specify the research design chosen for this case.
 
 ## Common Approaches in Climate Econometrics
 
 In their comprehensive survey article of climate-related econometric methodology, @hsiang-2016-climate-econometrics provide a formal definition of climate, that underlies many empirical studies that relate climate to economic and societal variables.
-In essence, climate is described by a vector $\mathbf{C}_{i \tau}$ consisting of $K$ relevant parameters indexed by $k$ that characterize a joint probability distribution $\psi ( \mathbf{C}_{i \tau} )$.
+In essence, climate is described by a vector $\mathbf{C}_{i \tau}$ consisting of $K$ relevant parameters indexed by $k$ that characterise a joint probability distribution $\psi ( \mathbf{C}_{i \tau} )$.
 In theory, a vector $\mathbf{v}_{it}$ of random variables of weather conditions relevant to economic and societal outcomes (e.g. temperature or precipitation) at any time point $t$ within time period $\tau = [ \underline{t}, \overline{t} )$ and in space $i$ could be drawn from this distribution, such that
 
 $$
 \mathbf{v}_{it} \sim \psi ( \mathbf{C}_{i \tau} ) \quad \forall \, t \in \tau .
 $$ {#eq-climate-distr}
 
-In other words, climate is the parametrization of the joint distribution $\psi ( \cdot )$, based on which certain potential states of weather could realize during time period $\tau$ and at place $i$.
+In other words, climate is the parametrisation of the joint distribution $\psi ( \cdot )$, based on which certain potential states of weather could realise during time period $\tau$ and at place $i$.
 Ultimately, the goal of the econometric research design would then be to find an appropriate description $\mathbf{c}_{i \tau}$ for the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate its effects onto any of the outcome variables in question.
-**(mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$ and give an example such as for the mean **??**; also think about **first, second, third etc statistical moment**)
+**(TODO: mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$ and give an example such as for the mean **??**; also think about **first, second, third etc statistical moment**)
 
-A multitude of remarks can be drawn from this definition: First, the expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes the distribution of realized (and, in an empirical study, observed **?** calculated if weather data set values are model-based) weather states $\mathbf{v}_{i, t \in \tau}$.
-After all, the observations are measurements (or, calculations) of weather states, that could have also realized differently from the theoretical distribution.
-According to the definition from @hsiang-2016-climate-econometrics, climate is not only the weather we observe, be it over a short or a long period of time, but it is also the weather that could have happened with similar probability (**??** revisit this sentence).
-Thus, this definition has the advantage that it also allows for climate parameters to be derived from partly or fully theoretical or numerical models, such as reanalyses.
-Second, however, the fact that the true climate is not known does not imply that realized weather cannot be used to estimate climate impacts.
-After all, the observed weather characteristics $\mathbf{c}$ are still realizations conditional on climate characteristics $\mathbf{C}$, mathematically expressed as $\mathbf{c} ( \mathbf{C} )$.
-This remark might be the most important one as it provides the foundation for identification of climate effects from weather data and weather variation.
-Third, and this is a direct consequence of the second remark, the above definition does not impose any specific rules on which weather parameters to use for summarizing and describing climate $\mathbf{C}$, nor on the lengths of the time periods $\tau$ that should be studied.
-Since $\mathbf{c} ( \mathbf{C} )$ holds, any set of parameters and any time lengths would be a description of true climate $\mathbf{C}$.
-Certainly, the extent and the quality of the description would likely vary with the chosen parameters and time lengths.
-As @hsiang-2016-climate-econometrics notes on the choice of parameters, the weather parameters to summarize climate have, in tendency, increased in number with each new study applying climate econometric models.
-Regarding the question of which time length to consider for the climate to be described adequately, I am of the impression from the literature that this very much depends on the time lengths of the dependent (economic or social) outcome variable.
-Often the same time period (or, in panels, frequency) or some preponed **(?)** or other functional form of it is chosen for the weather parameter aggregation, e.g. a yearly mean of daily average temperatures for estimating a climate effect on production that is calculated on a yearly basis.
+This definition is precise in that it emphasizes a clear differentiation between observed weather and the theoretical distributions along with their parameters describing the climate.
+At the same time, it also leaves room for adjustments and application to the data and question at hand: first, it allows for using partially or fully model-derived data such as reanalyses to be used for deriving climate impacts.
+Second, this definition does not impose any specific time duration nor climate statistic summarising the theoretical distributions (e.g. mean of daily temperatures) for it to apply.
+As @hsiang-2016-climate-econometrics notes on the choice of parameters, the weather parameters to summarise climate have, in tendency, increased in number with each new study applying climate econometric models.
+Third, and most importantly, \[TODO sentence that as long as parametrising change, almost any summary statistic is adequate to infer climate\].
+
+Socioeconomic impacts of climate: direct vs. belief effects.
+\[TODO further elaborate on that\].
+
+At its core, identifying climate change effects on a population is always subject to a trade-off: xxx vs. xxx.
+As @kolstad-moore-2020-clim-impacts-from-weather-data discuss, finding a balance between these two goals is the only way to reduce this dilemma.
+
+In econometrics, three major approaches for estimating climate impacts seem common: first, cross-sectional approaches rely on data collected at a single time point and exploit variation across units to estimate climate effects.
+To be able to surely associate any differences in units' outcomes to differences in climate, all of their other differentiating characteristics that influence the outcome have to be known and controlled for.[^ch-3-methodology-1]
+Second, and in contrast to that, time-series-based approaches exploit intra-unit variation rather than the inter-unit variation just mentioned.
+This has the advantage that they are much less prone to confounding due to unobserved or non-measurable characteristics also influencing outcomes,[^ch-3-methodology-2] but it comes at the cost that climate and/or changes thereof are harder to determine.
+While it is generally agreed that different (spatial) units exhibit different climates, it is less clear when differing weather states observed at different time points for the same unit actually indicate differing climates.
+Third, long differences are a hybrid approach intending to draw a bridge between the former two.
+In summary, the choice of the most appropriate approach is therefore driven by the comparability of the units (or the ability to control for their differences) and the ability of the chosen weather parameters to capture climate impacts in the chosen approach.
+
+[^ch-3-methodology-1]: This results from the *unit homogeneity assumption* further discussed in the context of the identification problem and the Rubin Causal Model in @sec-MethodologySubsecIdentificationProblem.
+
+[^ch-3-methodology-2]: They rely on a weaker form of the *unit homogeneity assumption*, the *marginal treatment comparability assumption*.
+    This is also explained more formally in @sec-MethodologySubsecIdentificationProblem.
+
+Disadavantags: require *marginal treatment comparability assumption* and the variables specifying climate need to be comprehensive to ensure its exogeneity when considering the climate's impact on a population (e.g. temperature may have a significant variation in one temperature, but another climate variable that exhibits significant variation in the following period as consequence of temperature may not be captured and this becomes a problem).
+
+\[TODOs - please check again:\]
+
+-   The expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes the distribution of realized (and, in an empirical study, observed **?** calculated if weather data set values are model-based) weather states $\mathbf{v}_{i, t \in \tau}$.
+    After all, the observations are measurements (or, calculations) of weather states, that could have also realized differently from the theoretical distribution.
+    According to the definition from @hsiang-2016-climate-econometrics, climate is not only the weather we observe, be it over a short or a long period of time, but it is also the weather that could have happened with similar probability (**??** revisit this sentence).
+
+-   Second, however, the fact that the true climate is not known does not imply that realized weather cannot be used to estimate climate impacts.
+    After all, the observed weather characteristics $\mathbf{c}$ are still realizations conditional on climate characteristics $\mathbf{C}$, mathematically expressed as $\mathbf{c} ( \mathbf{C} )$.
+    This remark might be the most important one as it provides the foundation for identification of climate effects from weather data and weather variation.
+    Third, and this is a direct consequence of the second remark, the above definition does not impose any specific rules on which weather parameters to use for summarizing and describing climate $\mathbf{C}$, nor on the lengths of the time periods $\tau$ that should be studied.
+    Since $\mathbf{c} ( \mathbf{C} )$ holds, any set of parameters and any time lengths would be a description of true climate $\mathbf{C}$.
+    Certainly, the extent and the quality of the description would likely vary with the chosen parameters and time lengths.
+    Regarding the question of which time length to consider for the climate to be described adequately, I am of the impression from the literature that this very much depends on the time lengths of the dependent (economic or social) outcome variable.
+    Often the same time period (or, in panels, frequency) or some preponed **(?)** or other functional form of it is chosen for the weather parameter aggregation, e.g. a yearly mean of daily average temperatures for estimating a climate effect on production that is calculated on a yearly basis.
 
 When discussing climate econometric methodology, a differentiation between direct and indirect effects of climate on socioeconomic outcome variables is necessary.
 An example for the direct effect would be that more sunburns among humans are typically caused in areas or time periods of more intense ultraviolet (UV) radiation.
