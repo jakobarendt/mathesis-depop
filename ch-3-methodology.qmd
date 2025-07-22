@@ -15,25 +15,26 @@ $$
 \mathbf{v}_{it} \sim \psi ( \mathbf{C}_{i \tau} ) \quad \forall \, t \in \tau .
 $$ {#eq-climate-distr}
 
-In other words, climate is the parametrisation of the joint distribution $\psi ( \cdot )$, based on which certain potential states of weather could realise during time period $\tau$ and at place $i$.
+In other words, climate is the parametrisation of the joint distributions $\psi ( \cdot )$, based on which certain potential states of weather could realise during time period $\tau$ and at place $i$.
 Ultimately, the goal of the econometric research design would then be to find an appropriate description $\mathbf{c}_{i \tau}$ for the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate its effects onto any of the outcome variables in question.
 **(TODO: mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$ and give an example such as for the mean **??**; also think about **first, second, third etc statistical moment**)
 
 This definition is precise in that it emphasizes a clear differentiation between observed weather and the theoretical distributions along with their parameters describing the climate.
 At the same time, it also leaves room for adjustments and application to the data and question at hand: first, it allows for using partially or fully model-derived data such as reanalyses to be used for deriving climate impacts.
 Second, this definition does not impose any specific time duration nor climate statistic summarising the theoretical distributions (e.g. mean of daily temperatures) for it to apply.
-As @hsiang-2016-climate-econometrics notes on the choice of parameters, the weather parameters to summarise climate have, in tendency, increased in number with each new study applying climate econometric models.
-Third, and most importantly, \[TODO sentence that as long as parametrising change, almost any summary statistic is adequate to infer climate\].
+As @hsiang-2016-climate-econometrics [p. 45] notes on the choice of parameters, the weather parameters to summarise climate have, in tendency, increased in number with each new study applying climate econometric models.
+The quality of the identification of climate effects depends mainly on how appropriate and relevant the chosen weather parameters are for the outcome variable, e.g. in agriculture they can reflect the specific growing characteristics or agricultural processes whose outcomes are observed, or in sociology and conflicts they can make up the weather parameters most relevant for human behaviour.
 
 When the climate influences a population or its socioeonomic outcomes, a combination of two effects is at play: direct effects and belief effects [@hsiang-2016-climate-econometrics, p. 45f.].
 On the one hand, direct effects are those that individuals or societies experience without any secondary causal chains, e.g. more economic damages in periods and areas with more cyclones or a higher likelihood for sunburns the closer one gets to the equator.
-On the other hand, belief effects are those that individuals or societies experience when they have or change beliefs they have about the climate and/or act upon them.
+On the other hand, belief effects are those effects that channel through onto socioeconomic outcomes when individuals or societies have or change their beliefs about the climate and when they act upon them.
 For example, they may expect their UV-exposure to be high and put on sunscreen.
 It is only the combination of these two effects that constitute the effects of climate as they can also attenuate or reinforce each other, and during estimation of real-world effects they are also hard to differentiate.[^ch-3-methodology-1]
 The belief effect together with the interaction of the two effects is often considered as *adaptation*.
-Going back to the previous example, people that adapt to a higher likelihood of sunburns are those that expect high UV-exposure and put on sunscreen and, therefore, reduce their likelihood of sunburns.
+Going back to the previous example, people that adapt to a higher likelihood of sunburns are those that expect high UV-exposure and put on sunscreen and, therefore, reduce their likelihood of sunburns (which is the direct effect in this example).
+[TODO: explain estimation strategies to account for adaptation, also consider @merel-gammans-2021-climate-econometrics-lr-adaptation]
 
-[^ch-3-methodology-1]: While direct effects can also be substantiated for very short time periods, belief effects and changes thereof are often traceable only over the longer run.
+[^ch-3-methodology-1]: While direct effects can also be substantiated for very short time periods, belief effects and changes thereof are often traceable only over the longer run, with data sets covering longer time periods.
 
 At its core, identifying climate change effects on a population is always subject to a trade-off: xxx vs. xxx.
 As @kolstad-moore-2020-clim-impacts-from-weather-data discuss, finding a balance between these two goals is the only way to reduce this dilemma.
@@ -51,63 +52,23 @@ In summary, the choice of the most appropriate approach is therefore driven by t
 [^ch-3-methodology-3]: They rely on a weaker form of the *unit homogeneity assumption*, the *marginal treatment comparability assumption*.
     This is also explained more formally in @sec-MethodologySubsecIdentificationProblem.
 
-Disadavantags: require *marginal treatment comparability assumption* and the variables specifying climate need to be comprehensive to ensure its exogeneity when considering the climate's impact on a population (e.g. temperature may have a significant variation in one temperature, but another climate variable that exhibits significant variation in the following period as consequence of temperature may not be captured and this becomes a problem).
+\[TODO: paragraph about specific techniques in different papers\] also how recent developments have tried improve upon their weaknesses, i.e. spatial first differences for weaknesses in cross-section (Druckenmiller and Hsiang, 2018, @linsenmeier-2023-temp-econ-dev-sfd)
 
-\[TODOs - please check again:\]
+\[Open questions for this sub-chapter:\]
 
--   The expected distribution of weather realizations $\psi ( \mathbf{C}_{i \tau} )$ can never be parametrized by its empirical counterpart $\psi ( \mathbf{c}_{i \tau} )$, that characterizes the distribution of realized (and, in an empirical study, observed **?** calculated if weather data set values are model-based) weather states $\mathbf{v}_{i, t \in \tau}$.
-    After all, the observations are measurements (or, calculations) of weather states, that could have also realized differently from the theoretical distribution.
-    According to the definition from @hsiang-2016-climate-econometrics, climate is not only the weather we observe, be it over a short or a long period of time, but it is also the weather that could have happened with similar probability (**??** revisit this sentence).
+-   @Anna Lena: too close to @hsiang-2016-climate-econometrics?
 
--   Second, however, the fact that the true climate is not known does not imply that realized weather cannot be used to estimate climate impacts.
-    After all, the observed weather characteristics $\mathbf{c}$ are still realizations conditional on climate characteristics $\mathbf{C}$, mathematically expressed as $\mathbf{c} ( \mathbf{C} )$.
-    This remark might be the most important one as it provides the foundation for identification of climate effects from weather data and weather variation.
-    Third, and this is a direct consequence of the second remark, the above definition does not impose any specific rules on which weather parameters to use for summarizing and describing climate $\mathbf{C}$, nor on the lengths of the time periods $\tau$ that should be studied.
-    Since $\mathbf{c} ( \mathbf{C} )$ holds, any set of parameters and any time lengths would be a description of true climate $\mathbf{C}$.
-    Certainly, the extent and the quality of the description would likely vary with the chosen parameters and time lengths.
-    Regarding the question of which time length to consider for the climate to be described adequately, I am of the impression from the literature that this very much depends on the time lengths of the dependent (economic or social) outcome variable.
-    Often the same time period (or, in panels, frequency) or some preponed **(?)** or other functional form of it is chosen for the weather parameter aggregation, e.g. a yearly mean of daily average temperatures for estimating a climate effect on production that is calculated on a yearly basis.
+## Identification Problem and Methodology {#sec-MethodologySubsecIdentificationProblem}
 
-When discussing climate econometric methodology, a differentiation between direct and indirect effects of climate on socioeconomic outcome variables is necessary.
-An example for the direct effect would be that more sunburns among humans are typically caused in areas or time periods of more intense ultraviolet (UV) radiation.
-In such a case, the realizations of climate, $\mathbf{c} ,$ occurring during time period $\tau$ and resulting of true climate $\mathbf{C}$, have a direct effect on the human population.
-In contrast to that, the indirect effects channel via the beliefs that humans have about the climate $\mathbf{C}$, e.g. if people expect high sun exposure and intense UV radiation, some of them will buy and apply sunscreen.
-These belief effects are independent of climate realizations $\mathbf{c}$, e.g. not every time an individual had expected high UV exposure and applied sunscreen, ended the weather up being in a state that allowed for high amounts of UV light to reach Earth's surface.
-However, beliefs may certainly change over time due to the experience an individual makes.
-Actions, $\mathbf{b},$ that are taken on the basis of these beliefs and that influence socioeconomic outcomes are therefore subject to the structure of the true climate $\mathbf{C}$ and its potential changes, expressed mathematically as $\mathbf{b} ( \mathbf{C} )$.
-In addition, the mentioned experience gained over time allows the individual to adapt to changes in the structure of $\mathbf{C}$.
-Such adaptation, in turn, can influence the direct effects if it includes measures that the individual undertakes and that change how climate affects the socioeconomic outcome variables.
-In practice, it is often difficult to separately identify and estimate belief effects.
-Similarly, adaptation, i.e. the interaction between direct and belief effects **(put this where adaptation is mentioned for the first time)**, and the interaction between different belief effects themselves can make reliable identification very complex.
-No econometric research design handles all of these problems well at the same time, but rather each have their differently aligned strengths and weaknesses in accounting for them.
-The different econometric research designs each come with their own strengths weaknesses in accounting for these different problems.
-**(explain strategies to account for adaptation, also consider @merel-gammans-2021-climate-econometrics-lr-adaptation)**
+\[Rubin Causal Model - Empirical problem when trying to identify causal effects - Reliance on natural experiments - Cite Holland (1986) here & look into Bachelor's thesis - *Unit homogeneity assumption*, i.e. absent any treatment and controlling for observable differences, treatment and control units should have the same expected outcomes, this is the case when when they exhibit no differences in unobservables\]
 
-\[Adaptation\]
+ATE for a change in climate $\Delta \mathbf{C}_{i \tau}$ while controlling for all other factors $\mathbf{x}$ that may also affect outcome $Y$:
 
-Mention also for the sunscreen example that (assuming there is sun and the counterfactual is that people do not have/ do not apply sunscreen), it changes the socioeconomic effect of UV radiation
+$$
+\beta = \mathrm{E} [ Y_{it} | \mathbf{C}_{i \tau} + \Delta \mathbf{C}_{i \tau} , \mathbf{x}_{i \tau} ] - \mathrm{E} [ Y_{i \tau} | \mathbf{C}_{i \tau} , \mathbf{x}_{i \tau}]
+$$
 
-Generally, it is difficult to measure these two effects separately in empirical studies.
-Estimating their effects separately is also not the goal of this investigation.
-Instead, it focuses on the long-run effects of climate, that do indeed take into consideration the adaptation measures individuals and society have undertaken.
-@kolstad-moore-2020-clim-impacts-from-weather-data offer a more high-level framework defining the terminologies weather, climate, adaptation and adjustment and helping to differentiate between them.
-They summarise and build upon the thoroughly formalised work done by @hsiang-2016-climate-econometrics, and they provide context on how well the different econometric methdologies relate to the terminologies.
-
-```{=html}
-<!-- Or put adaptation here?
-
--   paragraph on direct and indirect (adaptation) effect -->
-```
-
-\[Further discuss in this sub-chapter:\]
-
--   paragraph explaining how this links to the ATE identification introduced by Holland (1986); \[see also in Bachelor's thesis for Rubin Causal Model\]
--   paragraph comparing major research designs (cross-sectional, panel, long differences) with each other, including their strengths and weaknesses; also how recent developments have tried improve upon their weaknesses, i.e. spatial first differences for weaknesses in cross-section (Druckenmiller and Hsiang, 2018, @linsenmeier-2023-temp-econ-dev-sfd)
--   Internal vs. external validity \[or maybe put that in the second subchapter?\]
-
-## Identification Problem and Methodology
-
-\[Rubin Causal Model - Empirical problem when trying to identify causal effects - Reliance on natural experiments\]
+Populations have to be identical in all factors other than climate that cannot be controlled for.
 
 Effect etsimator in panel model:
 
@@ -146,8 +107,14 @@ When trying to identify the effects that climate has on population, all of these
 \[Further discuss in this sub-chapter:\]
 
 -   Identifying variation as a key word
--   Another bullet point
+-   Unlike for certain agricultural processes or economic outcomes, we may never fully know the data-generating process and influencing factors for demographic developments. Considering that, panel modeling is very likely a better choice than a cross-section with its a lack of a systematic approach to test for missing variables.
+-   OVB: panel models are less prone to omitted variable bias, that is, the existence of a variable that also impacts the outcome and is correlated with climate or one of the other observables used as controls.
 -   With panel improved causal inference due to good control for unobserved time-invariant confounders vs. cross-section often better in climate context (Kolstad & Moore - read again)
+-   panel specifications require for non-first differences specification, that there no time-varying omitted variables
+-   endogeneity due to weather reporting unlikely
+-   bad controls are to be avoided (i.e. separately specifying regression variables that are already part of the causal chain of climate or another control variable)
+-   Note about panel models: require *marginal treatment comparability assumption* and the variables specifying climate need to be comprehensive to ensure its exogeneity when considering the climate's impact on a population (e.g. temperature may have a significant variation in one temperature, but another climate variable that exhibits significant variation in the following period as consequence of temperature may not be captured and this becomes a problem).
+-   Longer run time duration of this panel setup strongly targets estimating belief effects and adaptation in particular
 
 ## Econometric Research Design
 
@@ -231,6 +198,7 @@ $$ {#eq-reg-long-diff}
         -   country-FE, LAU-FE catch differences in adaptation capability of LAUs
         -   trend-variable captures influence of adaptation on climate-socioeconomic relationship that is constant over time (even better: trend\*LAU); account for potential spurious correlations, where climate and population accidentally exhibit the same development (?? see again Marbler 2024 for this)
         -   fixed effects each for every year can control for adaptation effects that are irregular over time
+-   Internal vs. external validity \[or maybe put that in the second subchapter?\]
 
 **\[Optional to-do's for this sub-chapter:\]**
 
