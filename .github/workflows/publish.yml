@@ -28,37 +28,13 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      # - name: Run a one-line script
-      #   run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      # - name: Run a multi-line script
-      #   run: |
-      #     echo Add other actions to build,
-      #     echo test, and deploy your project.
-
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          # To install LaTeX to build PDF book
-          tinytex: true
-          # uncomment below and fill to pin a version
-          # version: SPECIFIC-QUARTO-VERSION-HERE
 
-      - name: Install R
-        uses: r-lib/actions/setup-r@v2
-
-      - name: Download R dependencies for rendering to PDF
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          packages:
-            any::rmarkdown
-            any::knitr
-
-      - name: Publish to GitHub Pages (and render)
+      - name: Publish to GitHub Pages (no execute, use freeze)
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          args: --no-execute
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
