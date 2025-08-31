@@ -56,9 +56,10 @@ jobs:
             any::rmarkdown
             any::knitr
 
-      - name: Publish to GitHub Pages (and render)
+      - name: Render and publish to GitHub Pages (no execute, use freeze)
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          args: --no-execute
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
