@@ -33,6 +33,12 @@ vignettes/*.pdf
 *_cache/
 /cache/
 
+# files produced by TinyTeX during rendering for PDF
+*.aux
+*.log
+*.tex
+*.toc
+
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
@@ -48,6 +54,12 @@ _book
 
 # shapefile directory (shapefiles are typically too large in file size to be tracked efficiently with Git)
 data/shapefiles
+
+# weather data directory (raster files with weather data are too large in file size to be tracked efficiently with Git)
+data/weather
+
+# temporary data directory (only for saving .RData files for usage across different chapters)
+data/temp
 
 # Cache folder for Quarto project renderings
 .quarto

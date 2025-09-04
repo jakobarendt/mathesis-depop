@@ -1,0 +1,390 @@
+### This R script centrally loads packages, LAU georeferences/shapefiles and
+### corresponding population data for usage in the following steps of the
+### analysis pipeline and the different chapters of the thesis.
+### It also cleans and combines the different population (geo-)data points to
+### prepare the georeferenced population data to use it to extract the climate
+### data from the raster format which it is delivered in.
+### Further down the data pipeline in other R scripts, the combined data can
+### then be used for the causal econometric analysis.
+
+
+
+# Packages and directory --------------------------------------------------
+
+options(scipen = 10)
+require(tidyverse)
+require(sf)
+dir.create("data")
+
+
+
+# Load geographic shapefiles for historical LAU population data -----------
+
+dir.create("data/shapefiles")
+
+# Load shapefiles from Eurostat via its API or your local drive if cached there
+if(!file.exists('data/shapefiles/LAU_RG_01M_2011_4326.geojson')) {
+  giscoR::gisco_get_lau(year = "2011", cache_dir = 'data/shapefiles',
+                        verbose = TRUE)
+}
+shapes_2011 <- read_sf('data/shapefiles/LAU_RG_01M_2011_4326.geojson')
+if(!file.exists('data/shapefiles/LAU_RG_01M_2012_4326.geojson')) {
+  giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles',
+                        verbose = TRUE)
+}
+shapes_2012 <- read_sf('data/shapefiles/LAU_RG_01M_2012_4326.geojson')
+# shapefiles are loaded by default for the WGS84 (EPSG 4326) map projection
+
+
+# Load separately delivered shapefiles: Greece, Ireland, Turkey
+shapes_gr <- read_sf('data/shapefiles/gr')
+shapes_ie <- read_sf('data/shapefiles/ie') |>
+  st_make_valid()   # make Irish shapes valid for later usage (calculation of their
+                    # areal sizes etc), since file is delivered with faults
+shapes_tr <- read_sf('data/shapefiles/tr')
+
+# Transform coordinate reference systems (CRS) of shapefiles to correspond to the
+# projection of the weather grid data
+# (st_crs() returns the current CRS of an sf object)
+shapes_2011 <- shapes_2011 |> st_transform(crs = "OGC:CRS84")
+shapes_2012 <- shapes_2012 |> st_transform(crs = "OGC:CRS84")
+shapes_gr <- shapes_gr |> st_transform(crs = "OGC:CRS84")
+shapes_ie <- shapes_ie |> st_transform(crs = "OGC:CRS84")
+shapes_tr <- shapes_tr |> st_transform(crs = "OGC:CRS84")
+
+
+
+# Load historical LAU population data -------------------------------------
+
+pop_orig <- readxl::read_xlsx(path = 'data/LAU2_REFERENCE_DATES_POPL.xlsx')
+
+
+
+# Population figures and shapes per country -------------------------------
+
+## LAUs with population figures per country
+obs_laus_pop_orig <- pop_orig |>
+  group_by(CNTR_CODE) |> summarise(HIST_POP_OBS_LAUS = n())
+## Shapes of 2011 (Eurogeographics v5.0) per country
+obs_shapes_2011 <- shapes_2011 |>
+  as_tibble() |> select(-geometry) |> group_by(CNTR_CODE) |> summarise(SHAPES_2011_OBS = n())
+## Shapes of 2012 (Eurogeographics v7.0) per country
+obs_shapes_2012 <- shapes_2012 |>
+  as_tibble() |> select(-geometry) |> group_by(CNTR_CODE) |> summarise(SHAPES_2012_OBS = n())
+## Join numbers of shapes to population figures table by CNTR_CODE and save as Excel file
+table_obs <- obs_laus_pop_orig |>
+  left_join(obs_shapes_2011) |> left_join(obs_shapes_2012)
+# table_obs |> writexl::write_xlsx("obs-pop-figures-shapes.xlsx")
+### Save as Excel file is commented out so as to not overwrite the annotated file
+## Remove data to free up work space; it is only needed for producing the table
+rm(obs_laus_pop_orig, obs_shapes_2011, obs_shapes_2012)
+
+
+
+# Shapefiles: Streamline identifiers and reduce to columns needed ---------
+
+# EuroGeographics LAU Shapefiles
+
+## Streamline identifiers: Create new column that combines CNTR_CODE and LAU_ID
+shapes_2011 <- shapes_2011 |>
+  mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID))
+shapes_2012 <- shapes_2012 |>
+  mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID))
+
+## Check: Does the newly created column CNTR_LAU_ID correspond to GISCO_ID ?
+sum(shapes_2011$CNTR_LAU_ID == gsub("_", "", shapes_2011$GISCO_ID)) == nrow(shapes_2011)
+sum(shapes_2012$CNTR_LAU_ID == gsub("_", "", shapes_2012$GISCO_ID)) == nrow(shapes_2012)
+shapes_2012 |> filter(shapes_2012$CNTR_LAU_ID != gsub("_", "", shapes_2012$GISCO_ID))
+### With the exception of Budapest (HU) in the shapefiles of 2012 (EuroGeographics v7.0),
+### the newly created column corresponds to GISCO_ID.
+
+## Correct CNTR_LAU_ID for Budapest in EuroGeographics v7.0 shapefile, such that
+## it corresponds to the EuroGeographics v5.0 shapefile (and to the population data
+## points that are aggregated later)
+shapes_2012 <- shapes_2012 |>
+  mutate(CNTR_LAU_ID = if_else(CNTR_LAU_ID == "HU13578", "HU1357", CNTR_LAU_ID))
+
+## Reduce shapefiles to the columns needed
+shapes_2011 <- shapes_2011 |>
+  select(CNTR_LAU_ID, LAU_NAME, POP_2011, POP_DENS_2011, AREA_KM2, geometry) |>
+  rename("AREA_KM2_2011" = AREA_KM2, "geometry_2011" = geometry)
+shapes_2012 <- shapes_2012 |>
+  select(CNTR_LAU_ID, LAU_NAME, POP_2012, POP_DENS_2012, AREA_KM2, geometry) |>
+  rename("AREA_KM2_2012" = AREA_KM2, "geometry_2012" = geometry)
+
+
+# Exceptional cases - Shapefiles delivered with population data set: GR, IE, TR
+
+## For GR, IE and TR: Also streamline identifiers, also reduce to columns needed
+## and rename remaining columns for better base-year- and country-distinction
+## after total collation of sf tables
+shapes_gr <- shapes_gr |>
+  mutate(CNTR_LAU_ID = paste0("EL", NSI_CODE)) |>
+  select(CNTR_LAU_ID, geometry) |>
+  rename("geometry_EL" = geometry)
+shapes_ie <- shapes_ie |>
+  mutate(CNTR_LAU_ID = paste0("IE", MERG_COD)) |>
+  select(CNTR_LAU_ID, geometry) |>
+  rename("geometry_IE" = geometry)
+shapes_tr <- shapes_tr |>
+  select(ICC_LAU_CO, geometry) |>
+  rename("CNTR_LAU_ID" = ICC_LAU_CO, "geometry_TR" = geometry)
+
+# Check: Are there any duplicates in the unique identifier CNTR_LAU_ID?
+
+## There should be no duplicates to ensure that shapes are matched correctly to
+## the historical population time series
+shapes_2011 |> filter(duplicated(CNTR_LAU_ID))
+shapes_2012 |> filter(duplicated(CNTR_LAU_ID))
+shapes_gr |> filter(duplicated(CNTR_LAU_ID))
+shapes_ie |> filter(duplicated(CNTR_LAU_ID))
+shapes_tr |> filter(duplicated(CNTR_LAU_ID))
+## Indeed, none of the shapefiles have duplicates in their unique identifiers
+
+# Check coordinate reference systems (CRS) of all shapefiles
+
+st_crs(shapes_2011) == st_crs(shapes_2012)
+st_crs(shapes_2011) == st_crs(shapes_gr)
+st_crs(shapes_2011) == st_crs(shapes_ie)
+st_crs(shapes_2011) == st_crs(shapes_tr)
+## All shapefiles have the same CRS
+
+
+
+# Historical LAU population data: Correct minor peculiarities -------------
+
+# Check: Do values in CNTR_CODE correspond with the country-determiner in CNTR_LAU_CODE?
+
+sum(pop_orig$CNTR_CODE ==
+      str_extract(pop_orig$CNTR_LAU_CODE, "^.{2}"), na.rm = TRUE) ==
+  nrow(pop_orig)
+pop_orig |> filter(CNTR_CODE != str_extract(CNTR_LAU_CODE, "^.{2}")
+                   | is.na(CNTR_CODE == str_extract(CNTR_LAU_CODE, "^.{2}")))
+### Yes, they do correspond, with the exception of two French LAUs that do not
+### have a CNTR_LAU_CODE at all.
+
+## The two French LAUs without the CNTR_LAU_CODE identifier are removed from the
+## data set
+pop_orig <- pop_orig |> filter(!is.na(CNTR_LAU_CODE))
+
+# Check: Are there any duplicates in the unique identifier CNTR_LAU_CODE?
+
+## There should be no duplicates to ensure that matching can be done correctly
+## and none of the historical population time series overlap geospatially
+pop_orig |>
+  filter(duplicated(CNTR_LAU_CODE) | duplicated(CNTR_LAU_CODE, fromLast = TRUE))
+### There is one identifier duplicated and pointing to two different time series
+
+## The time series with duplicated identifiers cannot be fully explained by the
+## dataset's metadata nor can one of the LAU names be uniquely identified on the
+## map, summation is therefore also not possible.
+## Original and duplicate are removed:
+pop_orig <- pop_orig |>
+  filter(!duplicated(CNTR_LAU_CODE) & !duplicated(CNTR_LAU_CODE, fromLast = TRUE))
+
+# Hungary: Aggregate (sum up) population figures of all Budapest districts to
+# correspond to the city's single shape file
+
+budapest <- pop_orig |>
+  filter(str_starts(LAU_LABEL, "Budapest_"))
+budap_aggreg <- budapest |>
+  summarize(CNTR_CODE = "HU", CNTR_LAU_CODE = "HU1357", LAU_LABEL = "Budapest (aggreg.)",
+            across(starts_with("POP_"), ~ sum(.x, na.rm = TRUE)))
+pop_orig <- pop_orig |>
+  filter(!(CNTR_LAU_CODE %in% budapest$CNTR_LAU_CODE)) |>
+  bind_rows(budap_aggreg)
+rm(budapest, budap_aggreg)
+## All Budapest population figures are summed up to a single LAU and appended to
+## the population data set. The remaining disaggregated Budapest LAUs with no
+## further use are removed.
+
+# Croatia (HR): Extract last five digits of CNTR_LAU_CODE to correspond to the
+# CNTR_LAU_ID structure of shapefile of 2012 (EuroGeographics v7.0)
+
+pop_orig <- pop_orig |>
+  mutate(CNTR_LAU_CODE = if_else(CNTR_CODE == "HR",
+                                 paste0(CNTR_CODE, str_sub(CNTR_LAU_CODE, 5, 9)),
+                                 CNTR_LAU_CODE))
+
+# Luxembourg (LU): Add population figures of Eschweiler to Wiltz, since they
+# have a combined georeference in the shapefile of 2012 (EuroGeographics v7.0)
+
+eschweiler_wiltz <- pop_orig |>
+  filter(CNTR_CODE == "LU" & LAU_LABEL %in% c("Eschweiler", "Wiltz"))
+eschweiler_wiltz_aggreg <- eschweiler_wiltz |>
+  summarize(CNTR_CODE = "LU", CNTR_LAU_CODE = "LU0807", LAU_LABEL = "Eschweiler u. Wiltz",
+            across(starts_with("POP_"), ~ sum(.x, na.rm = TRUE)))
+pop_orig <- pop_orig |>
+  filter(!(CNTR_LAU_CODE %in% eschweiler_wiltz$CNTR_LAU_CODE)) |>
+  bind_rows(eschweiler_wiltz_aggreg)
+rm(eschweiler_wiltz, eschweiler_wiltz_aggreg)
+
+
+
+# Join all shapefiles with population data --------------------------------
+
+pop_all_shapes <- pop_orig |>
+  left_join(select(shapes_2011, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(select(shapes_2012, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(shapes_gr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(shapes_ie, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(shapes_tr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID))
+
+# Check: How do the two EuroGeographics shapefile versions compare to each other
+# regarding the successful join to the population data?
+table_match_rates <- pop_all_shapes |>
+  group_by(CNTR_CODE) |>
+  summarise(HIST_POP_OBS_LAUS = n(),
+            SHAPES_2011_JOINED = sum(!st_is_empty(geometry_2011)),
+            SHAPES_2012_JOINED = sum(!st_is_empty(geometry_2012))) |>
+  mutate(VERS_SHAPEFILE = case_when(
+    CNTR_CODE %in% c("PT", "SI") ~ "cannot join",
+    CNTR_CODE %in% c("EL", "IE", "TR") ~ "proprietary",
+    CNTR_CODE == "DE" ~ "v5.0",
+    SHAPES_2011_JOINED < SHAPES_2012_JOINED ~ "v7.0",
+    SHAPES_2011_JOINED >= SHAPES_2012_JOINED ~ "v5.0",
+    .default = "cannot join"
+  ))
+# For the column denoting the appropriate shapefile version for each country,
+# the version with higher match rate is taken. If match rates are equal, v5.0 is
+# taken (except DE).
+
+# Final georeferenced population data
+population <- pop_all_shapes |>
+  left_join(select(table_match_rates, CNTR_CODE, VERS_SHAPEFILE),
+            by = join_by(CNTR_CODE == CNTR_CODE)) |>
+  mutate(geometry = case_when(
+    CNTR_CODE == "TR" ~ geometry_TR,
+    CNTR_CODE == "IE" ~ geometry_IE,
+    CNTR_CODE == "EL" ~ geometry_EL,
+    VERS_SHAPEFILE == "v7.0" ~ geometry_2012,
+    VERS_SHAPEFILE == "v5.0" ~ geometry_2011
+  )) |>
+  mutate(EUROGEOGRAPHICS_POP_2011_2012 = case_when(
+    VERS_SHAPEFILE == "v7.0" ~ POP_2012,
+    VERS_SHAPEFILE == "v5.0" ~ POP_2011
+  )) |>
+  mutate(EUROGEOGRAPHICS_POP_DENS_2011_2012 = case_when(
+    VERS_SHAPEFILE == "v7.0" ~ POP_DENS_2012,
+    VERS_SHAPEFILE == "v5.0" ~ POP_DENS_2011
+  )) |>
+  mutate(EUROGEOGRAPHICS_AREA_KM2_2011_2012 = case_when(
+    VERS_SHAPEFILE == "v7.0" ~ AREA_KM2_2012,
+    VERS_SHAPEFILE == "v5.0" ~ AREA_KM2_2011
+  )) |>
+  select(CNTR_CODE, CNTR_LAU_CODE, VERS_SHAPEFILE, LAU_LABEL,
+         POP_1961_01_01, POP_1971_01_01, POP_1981_01_01, POP_1991_01_01,
+         POP_2001_01_01, POP_2011_01_01,
+         EUROGEOGRAPHICS_POP_2011_2012, EUROGEOGRAPHICS_POP_DENS_2011_2012,
+         EUROGEOGRAPHICS_AREA_KM2_2011_2012,
+         geometry) |>
+  filter(VERS_SHAPEFILE != "cannot join") |>
+  filter(!st_is_empty(geometry)) |>
+  st_as_sf()
+## Aggregate final version of historical population data: The georeferences are
+## now combined to a single geometry column; all columns are reordered and reduced
+## to only the ones needed in the further analysis. The LAUs without
+## georeferences are also filtered out.
+
+
+
+# Compute areal sizes of LAUs ---------------------------------------------
+
+# For the exceptional cases GR, IE and TR, I calculate the LAUs areal size based
+  # on the size of their shapes (all of their shapefiles contained a column
+  # with areal size, but did not indicate the corresponding units)
+# For the LAUs whose geospatial information is EUROGEOGRAPHICS-based, I compare
+  # the areal size indicated in the respective column with what would result out
+  # of their shapes' areas, and I replace the former if it is more than 10%
+  # greater or smaller than the latter
+
+population <- population |>
+  mutate(AREA_TEST = as.double(units::set_units(st_area(geometry), km^2))) |>
+  mutate(AREA_DIFF = EUROGEOGRAPHICS_AREA_KM2_2011_2012 / AREA_TEST) |>
+  rename(AREA_KM2 = EUROGEOGRAPHICS_AREA_KM2_2011_2012) |>
+  mutate(AREA_KM2 = if_else(AREA_DIFF > 1.1 | AREA_DIFF < 0.9 | CNTR_CODE %in% c("EL", "IE", "TR"),
+                            AREA_TEST,
+                            AREA_KM2)) |>
+  select(-AREA_TEST, -AREA_DIFF)
+
+
+
+# Combined georeferenced data: Final cleaning of population figures -------
+
+# Population values below zero: Set to NA
+
+population <- population |>
+  mutate(across(starts_with("POP_", ignore.case = FALSE),
+                ~ if_else(. < 0, NA, .)))
+
+# Remove any LAU that has one or multiple decades with NA observations
+
+population <- population |>
+  filter(if_all(starts_with("POP_", ignore.case = FALSE),
+                ~ !is.na(.x)))
+
+# Remove all LAUs that only have 0 values in all of their decade-wise
+# observations
+
+population <- population |>
+  filter(if_any(starts_with("POP_", ignore.case = FALSE),
+                ~ .x != 0))
+
+
+
+# Shapefile data set also with unknown pop figures ------------------------
+
+# collate data set consisting of all shapes (including those without
+# population data) to be able to plot a map
+
+shapes_all <- bind_rows(rename(shapes_gr, geometry = geometry_EL),
+                        rename(shapes_ie, geometry = geometry_IE),
+                        rename(shapes_tr, geometry = geometry_TR)) |>
+  mutate(SOURCE = "proprietary")
+shapes_all <- shapes_2011 |>
+  rename(EUROGEOGRAPHICS_POP_2011_2012 = POP_2011,
+         EUROGEOGRAPHICS_POP_DENS_2011_2012 = POP_DENS_2011,
+         geometry = geometry_2011) |>
+  select(-AREA_KM2_2011) |>
+  mutate(SOURCE = "v5.0") |>
+  bind_rows(shapes_all)
+shapes_all <- shapes_2012 |>
+  rename(EUROGEOGRAPHICS_POP_2011_2012 = POP_2012,
+         EUROGEOGRAPHICS_POP_DENS_2011_2012 = POP_DENS_2012,
+         geometry = geometry_2012) |>
+  select(-AREA_KM2_2012) |>
+  mutate(SOURCE = "v7.0") |>
+  bind_rows(shapes_all)
+
+shapes_selected_version <- shapes_all |>
+  mutate(CNTR_CODE = str_sub(CNTR_LAU_ID, end = 2)) |>
+  left_join(select(table_match_rates, CNTR_CODE, VERS_SHAPEFILE),
+            by = "CNTR_CODE") |>
+  filter(VERS_SHAPEFILE == SOURCE
+         | (VERS_SHAPEFILE == "cannot join" & SOURCE == "v5.0")
+         | (is.na(VERS_SHAPEFILE) & SOURCE == "v7.0"))
+  # choose v5.0 for those countries that cannot be joined (PT and SI) as most of
+  # their surrounding countries have the same version assigned
+  # for those not previously considered in match rate-based version decision
+  # algorithm (MF and RS), use v7.0 as they are only available in that version
+
+shapes_full_map <- shapes_selected_version |>
+  rename(CNTR_LAU_CODE = CNTR_LAU_ID, LAU_LABEL = LAU_NAME) |>
+  select(-SOURCE) |>
+  mutate(IN_REG_DATA_SET = FALSE) |>
+  filter(!(CNTR_LAU_CODE %in% population$CNTR_LAU_CODE)) |>
+  bind_rows(mutate(population, IN_REG_DATA_SET = TRUE)) |>
+  select(CNTR_CODE, CNTR_LAU_CODE, VERS_SHAPEFILE, IN_REG_DATA_SET, LAU_LABEL,
+         POP_1961_01_01, POP_1971_01_01, POP_1981_01_01, POP_1991_01_01,
+         POP_2001_01_01, POP_2011_01_01,
+         EUROGEOGRAPHICS_POP_2011_2012, EUROGEOGRAPHICS_POP_DENS_2011_2012,
+         AREA_KM2,
+         geometry)
+
+
+
+# Save combined population and geolocation data and metadata tables -------
+
+dir.create("data/temp")
+save(population, shapes_full_map, table_match_rates, table_obs,
+     file = 'data/temp/population.RData')

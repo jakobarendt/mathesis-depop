@@ -1,0 +1,66 @@
+# Related Literature {#sec-Literature}
+
+In the last few decades, a variety of research has tried to answer the question of how the climate affects individuals and society.
+After all, this topic is relevant not only for economics, but also for sociology, demography, environmental and political sciences as well as other scientific disciplines.
+
+As for the precise research question of this investigation, asking on the effect of climate on the development of municipal population figures, a variety of causal chains can be relevant.
+Generally, there are three main factors that drive the size of the population at a specific location during a specific period in time: birth rate, death rate and migration.
+**TODO integrate here: net fertility and mortality rates, also their differentials** Numerous aspects, that are, in turn, related to climate can influence these three factors.
+They are probably best described by the following non-exhaustive list of exemplary causal chains.
+
+\[TODO\] **Human health**
+
+Safety can also have impacts on birth and death rates.
+It is also a major part of what is often considered as quality of living, eventually driving human decisions to migrate or to settle.
+One meta analysis aggregating the results of 55 studies in this field is from @burke-etal-2015-climate-conflict.
+The authors conclude that anomalies in temperature and in rainfall
+
+**Conflict** in their meta analysis of 55 studies on the relationship between climate and conflict that of all weather dimensions, temperature has the strongest impact on conflict.
+
+One level more macroscopic...
+**Migration** @bohramishra-etal-2014-permanent-migration-climate perform a panel analysis, considering the effect of temperature and precipitation onto lagged shares of permanent emigration out of sub-national regions \["probability to migrate"\].
+The authors find that the overall effects onto emigration are stronger for temperature than for precipitation.
+They also compare this to lagged shares of permanent emigration resulting from natural disasters and find that \[...\].
+
+**Urbanisation** A study that aims to relate climate change with shifts in rural and urban population amounts is from @barrios-etal-2006-rural-urban-mig-africa.
+With the help of a cross-section analysis that considers the underlying multi-period panel data only in pooled format, the authors estimate that decreasing precipitation has increased urbanisation in Sub-Saharan Africa by \[...\] for every milliliter less of rainfall \[clarify the quantitative results, also which resolution\].
+Similarly, @henderson-etal-2017-cc-urbanization-africa also investigate urbanisation.
+
+**Economic growth and activity** Contrasting to the micro-level aspects laid out before, various studies have also tried to establish a causal relationship on the macro-level, i.e. between economic growth or activity and the climate.
+Climate change profoundly and permanently alters how comparative advantages of different regions fare against each other, whether be it in natural conditions and how humans are able to live with and exploit them, or in infrastructure and other human-made (pre)conditions.
+@kalkuhl-wenz-2020-climate-on-grp, @linsenmeier-2023-temp-econ-dev-sfd, @marbler-2024-water-econ-activity
+
+In other words, these above aspects and many more already have a proven relationship to climate, or at least weather.
+Population reflects all these aspects to a varying degree, allowing it to be a measure combining different causal chains for identifying the effect of climate on humans on the macro-level.
+As the overall approach of this investigation concerns...
+
+**provide more background on the Henderson paper** **Relevant literature is the literature that is touching upon and relevant to my research question: How has climate shaped (or: influenced) European municipal population figures since WW2?**
+
+\[Name & differentiate papers by economic subject area/independent variable (e.g. agriculture, conflict, economic growth & activity, migration, productivity, urbanisation) and weather variable\]
+
+\[Name some papers (the same as mentioned just above or others) to make a differentiation by methodology, i.e. simple cross-section analysis, panel analysis, *spatial first differences* etc\]
+
+*Cite those three mentioned in the @auffhammer-etal-2013-weather-data-econ-analysis paper:*
+
+Among the first to introduce panel models in the context of estimation economic impacts of climate were Auffhammer, Ramanathan, and Vincent 2006; Deschenes and Greenstone 2007; Schlenker and Roberts 2009...
+also quote Fisher et al (2012)
+
+\[Consider literature in the context of these two argumentation strands & causal channels:\]
+
+1.  Climate literature: What influences does climate have on socioeconomic outcomes and how have they been measured? (I already have some literature on this)
+2.  Population literature: What has shaped population shifts and urbanization (and migration), and which role have climate and socioeconomic factors played in these shifts? How have they been measured? (Still need to find more literature on that)
+
+\[Differentiators to other, already published, literature:\]
+
+-   its relatively small spatial resolution
+-   the time span of the underlying data going relatively far back (first period 1961)
+-   its panel nature allowing for control of many unobserved confounders with repeated influence stable in magnitude in every period
+-   Unique in the geographical and economic area it covers, many studies seemed to have focused more on developing countries, using nightlights as a proxy for economic development. Using data from European sources, where independent statistical and meteorological institutions responsible for collecting the data underlying this study have been, at least historically, comparably strong and reliable.
+-   To my knowledge, no one has so far pursued such a climate-related analysis with this exact population data set, particular contribution with geographical area it investigates (Europe) and the spatial level of detail
+-   While many other studies [e.g. @bohramishra-etal-2014-permanent-migration-climate, **check paper**] have put greater focus on migration per se--not giving deeper considerations on where people come from or where they go when a changing climate makes them move--or have mainly investigated urbanisation--i.e. considering mainly cities as object of interest in the climate-population relationship--, this investigation adds to the existing literature by giving particular attention to rural areas and their unique circumstances.
+
+\[Further notes for myself\]
+
+-   List literature that explore *Social Cost of Carbon (SCC)*
+-   For my case, particularly the literature with a similar setup -- in terms of measures used for climate, population figure development as economic/subject area, econometric methodology making use of the additional time-dimension of the data, and the spatial dimension being relatively small (e.g. not entire countries)
+-   Find literature on the temperature variability over Europe (during the last 100 years at least); also find literature on trends in annual precipitation over Europe

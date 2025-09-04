@@ -1,0 +1,22 @@
+# Conclusion {#sec-Conclusion}
+
+In chapter @sec-Methodology, I also provide the formal argument that allows for exploiting weather data to describe climatic states and their changes.
+
+Potential further extensions:
+
+Improve how the econometric models in this investigation account for overall population trends in each of the countries in the sample and in Europe as a whole.
+<!--was genau meine ich denn da?!?!?-->
+
+After all, some European countries and the continent as a whole are on the forefront of deep demographic changes that can also be observed globally.
+In that regard, potential extensions for the research presented in this thesis could range from including more variables likely correlated to population figures and weather (e.g. (child) mortality rates, life expectancy) to an improved argumentation as to how such currently unobserved confounders and trends not yet explicitly specified need or need not be considered to validate the results.
+Such considerations might also resemble a fruitful opportunity to test the population dynamics derived in Malthusian and post-Malthusian [e.g. @galor-weil-2000-growth-population-post-malthus] models.
+
+-   Why is this important? Why do the results matter? What consequences have the results?
+-   What are potential extensions of this investigation? Which areas of research needs further attention?
+-   Consider also: Global trend that regions that suffer most from population decreases are most supportive of right-wing populist politics.
+
+Due to their oftentimes higher proximity to the equator as well as their significantly less resources and investment capabilities to adapt to climate change, the consequences of climate change are typically considered far more severe for developing countries than for their industrialised counterparts.
+However, this analysis shows that even countries that are among the richest and furthest away from the equator are also not exempted from such consequences.
+
+\[Limitations:\] - Dilemma of identifying climate change vs identifying direct impacts of climate change: the long time horizon of this study satisfies the former aspect well, but not the latter.
+This (latter) aspect of difficulties in identifying the socioeconomic impact of climate (i.e. the causal relationship between population and climate change) is likely worsened by the fact of under-control (even other studies that panel estimation-based relied on a broad set of control variables).
