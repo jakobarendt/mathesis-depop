@@ -27,6 +27,7 @@ book:
 
 bibliography: references.bib
 link-citations: true
+notes-after-punctuation: false
 
 # crossref:
   # sec-prefix: section
@@ -55,14 +56,15 @@ format:
       - left=40mm
       - right=25mm
       - footskip=15mm
-    mainfont: "Times New Roman"
-    sansfont: "Arial"
+    # mainfont: "Times New Roman"
+    # sansfont: "Arial"
     fontsize: 12pt
     linestretch: 1.5
     # documentclass: scrbook
     # cite-method: natbib
-    # header-includes: |
-      # \bibliographystyle{ecta}
+    header-includes: |
+      \counterwithout{footnote}{chapter}
+# \bibliographystyle{ecta}
   docx:
     lang: en
     papersize: a4

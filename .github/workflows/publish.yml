@@ -56,10 +56,12 @@ jobs:
             any::rmarkdown
             any::knitr
 
-      - name: Render and publish to GitHub Pages (no execute, use freeze)
+      - name: Install recommended fonts for TinyTeX
+        run: Rscript -e 'tinytex::tlmgr_install("collection-fontsrecommended")'
+
+      - name: Render and publish to GitHub Pages (use freeze from respective folder)
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          args: --no-execute
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # this secret is always available for github actions
