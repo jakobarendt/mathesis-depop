@@ -1,0 +1,244 @@
+# Identification, Methodology and Research Design {#sec-Methodology}
+
+Isolating climate information either from weather data directly collected or weather data derived partially or fully from models of the climate (e.g. reanalysis) is a non-trivial task.
+Similarly non-trivial is identifying the causal impacts that climatic states described by such information and their changes can have onto societal and economic outcomes.
+The following sub chapter entails a quick overview of what common climate-related identification problems look like and what econometric research designs have mostly been applied to solve them.
+The sub chapters following afterward describe the specific identification problem for this study, and then argue for and specify the research design chosen for this case.
+
+## Common Approaches in Climate Econometrics
+
+In their comprehensive survey article of climate-related econometric methodology, @hsiang-2016-climate-econometrics provide a formal definition of climate, that underlies many empirical studies that relate climate to economic and societal variables.
+In essence, climate is described by a vector $\mathbf{C}_{i \tau}$ consisting of $K$ relevant parameters indexed by $k$ that characterise a joint probability distribution $\psi ( \mathbf{C}_{i \tau} )$.
+In theory, a vector $\mathbf{v}_{it}$ of random variables of weather conditions relevant to economic and societal outcomes (e.g. temperature or precipitation) at any time point $t$ within time period $\tau = [ \underline{t}, \overline{t} )$ and in space $i$ could be drawn from this distribution, such that
+
+$$
+\mathbf{v}_{it} \sim \psi ( \mathbf{C}_{i \tau} ) \quad \forall \, t \in \tau .
+$$ {#eq-climate-distr}
+
+In other words, climate is the parametrisation of the joint distributions $\psi ( \cdot )$, based on which certain potential states of weather could realise during time period $\tau$ and at place $i$.
+Ultimately, the goal of the econometric research design would then be to find an appropriate description $\mathbf{c}_{i \tau}$ for the theoretical parameter vector $\mathbf{C}_{i \tau}$, and to use it to then estimate its effects onto any of the outcome variables in question.
+**(TODO: mention that** $\mathbf{c}_{i \tau}$ is a description of the weather during $\tau$ and give an example such as for the mean **??**; also think about **first, second, third etc statistical moment**)
+
+This definition is precise in that it emphasizes a clear differentiation between observed weather and the theoretical distributions along with their parameters describing the climate.
+At the same time, it also leaves room for adjustments and application to the data and question at hand: first, it allows for using partially or fully model-derived data such as reanalyses to be used for deriving climate impacts.
+Second, this definition does not impose any specific time duration nor climate statistic summarising the theoretical distributions (e.g. mean of daily temperatures) for it to apply.
+As @hsiang-2016-climate-econometrics [p. 45] notes on the choice of parameters, the weather parameters to summarise climate have, in tendency, increased in number with each new study applying climate econometric models.
+The quality of the identification of climate effects depends mainly on how appropriate and relevant the chosen weather parameters are for the outcome variable, e.g. in agriculture they can reflect the specific growing characteristics or agricultural processes whose outcomes are observed, or in sociology and conflicts they can make up the weather parameters most relevant for human behaviour.
+
+When the climate influences a population or its socioeonomic outcomes, a combination of two effects is at play: direct effects and belief effects [@hsiang-2016-climate-econometrics, p. 45f.].
+On the one hand, direct effects are those that individuals or societies experience without any secondary causal chains, e.g. more economic damages in periods and areas with more cyclones or a higher likelihood for sunburns the closer one gets to the equator.
+On the other hand, belief effects are those effects that channel through onto socioeconomic outcomes when individuals or societies have or change their beliefs about the climate and when they act upon them.
+For example, they may expect their UV-exposure to be high and put on sunscreen.
+It is only the combination of these two effects that constitute the effects of climate as they can also attenuate or reinforce each other, and during estimation of real-world effects they are also hard to differentiate.[^ch-3-methodology-1]
+The belief effect together with the interaction of the two effects is often considered as *adaptation*.
+Going back to the previous example, people that adapt to a higher likelihood of sunburns are those that expect high UV-exposure and put on sunscreen and, therefore, reduce their likelihood of sunburns (which is the direct effect in this example).
+[TODO: explain estimation strategies to account for adaptation, also consider @merel-gammans-2021-climate-econometrics-lr-adaptation]
+
+[^ch-3-methodology-1]: While direct effects can also be substantiated for very short time periods, belief effects and changes thereof are often traceable only over the longer run, with data sets covering longer time periods.
+
+At its core, identifying climate change effects on a population is always subject to a trade-off: xxx vs. xxx.
+As @kolstad-moore-2020-clim-impacts-from-weather-data discuss, finding a balance between these two goals is the only way to reduce this dilemma.
+
+In econometrics, three major approaches for estimating climate impacts seem common: first, cross-sectional approaches rely on data collected at a single time point and exploit variation across units to estimate climate effects.
+To be able to surely associate any differences in units' outcomes to differences in climate, all of their other differentiating characteristics that influence the outcome have to be known and controlled for.[^ch-3-methodology-2]
+Second, and in contrast to that, time-series-based approaches exploit intra-unit variation rather than the inter-unit variation just mentioned.
+This has the advantage that they are much less prone to confounding due to unobserved or non-measurable characteristics also influencing outcomes,[^ch-3-methodology-3] but it comes at the cost that climate and/or changes thereof are harder to determine.
+While it is generally agreed that different (spatial) units exhibit different climates, it is less clear when differing weather states observed at different time points for the same unit actually indicate differing climates.
+Third, long differences are a hybrid approach intending to draw a bridge between the former two.
+In summary, the choice of the most appropriate approach is therefore driven by the comparability of the units (or the ability to control for their differences) and the ability of the chosen weather parameters to capture climate impacts in the chosen approach.
+
+[^ch-3-methodology-2]: This results from the *unit homogeneity assumption* further discussed in the context of the identification problem and the Rubin Causal Model in @sec-MethodologySubsecIdentificationProblem.
+
+[^ch-3-methodology-3]: They rely on a weaker form of the *unit homogeneity assumption*, the *marginal treatment comparability assumption*.
+    This is also explained more formally in @sec-MethodologySubsecIdentificationProblem.
+
+\[TODO: paragraph about specific techniques in different papers\] also how recent developments have tried improve upon their weaknesses, i.e. spatial first differences for weaknesses in cross-section (Druckenmiller and Hsiang, 2018, @linsenmeier-2023-temp-econ-dev-sfd)
+
+\[Open questions for this sub-chapter:\]
+
+-   @Anna Lena: too close to @hsiang-2016-climate-econometrics?
+
+## Identification Problem and Methodology {#sec-MethodologySubsecIdentificationProblem}
+
+\[Rubin Causal Model - Empirical problem when trying to identify causal effects - Reliance on natural experiments - Cite Holland (1986) here & look into Bachelor's thesis - *Unit homogeneity assumption*, i.e. absent any treatment and controlling for observable differences, treatment and control units should have the same expected outcomes, this is the case when when they exhibit no differences in unobservables\]
+
+ATE for a change in climate $\Delta \mathbf{C}_{i \tau}$ while controlling for all other factors $\mathbf{x}$ that may also affect outcome $Y$:
+
+$$
+\beta = \mathrm{E} [ Y_{it} | \mathbf{C}_{i \tau} + \Delta \mathbf{C}_{i \tau} , \mathbf{x}_{i \tau} ] - \mathrm{E} [ Y_{i \tau} | \mathbf{C}_{i \tau} , \mathbf{x}_{i \tau}]
+$$
+
+Populations have to be identical in all factors other than climate that cannot be controlled for.
+
+Effect etsimator in panel model:
+
+$$
+\hat{\beta} = E [ Y_{t + \Delta t} | C_{t + \Delta t} ] - E [ Y_t | C_t]
+$$
+
+True parameter:
+
+$$
+\beta = E [ Y_t | C_{t + \Delta t} ] - E[ Y_t | C_t ]
+$$
+
+**Identifying assumption:** It follows that $Y_t$ must be comparable to $Y_{t + \Delta t}$ conditional on $C$.
+Outcome $Y_t$, time $t$, conditional on contemporaneous climatic conditions $C_t$.
+
+There are three different drivers for population growth at a place during a specific time: Birth, migration and mortality.
+When trying to identify the effects that climate has on population, all of these drivers need to be considered.
+
+\[Discuss in this sub-chapter:\]
+
+-   Path: Discuss causal channels of climate change
+    -   agricultural productivity
+    -   overall economic output, productivity and wealth levels [@marbler-2023-rainfall-effect-with-agriculture]
+    -   consequent effects on wages and living standards
+-   Panel model: The same population serves as the control and treatment population [@burke-etal-2015-climate-conflict]
+-   Panel model: Frequency-identification-trade-off - longer time period better for inferring climate and climate change vs. control and treatment population are better comparable for shorter time periods (identification more reliable for shorter periods) (or duration-identification-trade-off?)
+-   Data generating process not well known, high potential for OVB problem (mostly in cross-sectional econometric research designs!)
+-   Also, unit homogeneity assumption does not hold (very little comparability in unknown confounders for some LAUs), which makes OVB problem even harder to avoid: panel/time-series approach with adequate fixed effects as solution for this
+-   Argue well for **marginal treatment comparability assumption** in time-series approach (less strongly needed for long differences); add in formula for it as well
+-   Identifying assumption: Exogeneity of temperature and precipitation, i.e. identifying variation stems from temperature levels and precipitation amounts and it is assumed to be exogenous to population amounts
+-   Considering the distinctive richness of the data, providing dependent and explanatory characteristics of the same units throughout multiple time periods, this time dimension additionally provided allows leveraging on the advantages of panels analyses vs. cross-section. In particular, fixed effects and long-differences models provide powerful capabilities to control for unobserved confounders/heterogeneity. In this setup, they are those unobserved *time-invariant* characteristics that influence the climate-population causal relationship and are different among the LAUs, such as natural resources, distance to other LAUs and potential economic hubs, consequent potential for economic growth, institutions etc.
+-   Long-differences, essentially a difference-in-difference approach comparing potential outcomes at two relatively distant time points, may better regard the spatially detailed yet aggregated nature of the data. After all, as the data is only available on the LAU-level, it can only provide a macroscopic insight into the decisions of the economic agents of the respective LAUs. Remember that the underlying panel data for this analysis does not follow individuals nor firms but LAUs. Hence, considering the macroscopic nature of the data and the long-run time focus of the research question, a panel model based on multiple cohorts lying relatively closely together in terms of time might take out too much of the identifying variation and correct for the wrong kinds of unobserved confounders. **bring examples for short-term and long-term unobserved confounders**
+    -   considering unobservable LAU-level characteristics particularly prevalant in the long-run, might prove a better fit to the data at hand and the research question on the long-run population consequences of climate change. **include also attenuation bias and citation for mostly harmless econometrics**
+
+\[Further discuss in this sub-chapter:\]
+
+-   Identifying variation as a key word
+-   Unlike for certain agricultural processes or economic outcomes, we may never fully know the data-generating process and influencing factors for demographic developments. Considering that, panel modeling is very likely a better choice than a cross-section with its a lack of a systematic approach to test for missing variables.
+-   OVB: panel models are less prone to omitted variable bias, that is, the existence of a variable that also impacts the outcome and is correlated with climate or one of the other observables used as controls.
+-   With panel improved causal inference due to good control for unobserved time-invariant confounders vs. cross-section often better in climate context (Kolstad & Moore - read again)
+-   panel specifications require for non-first differences specification, that there no time-varying omitted variables
+-   endogeneity due to weather reporting unlikely
+-   bad controls are to be avoided (i.e. separately specifying regression variables that are already part of the causal chain of climate or another control variable)
+-   Note about panel models: require *marginal treatment comparability assumption* and the variables specifying climate need to be comprehensive to ensure its exogeneity when considering the climate's impact on a population (e.g. temperature may have a significant variation in one temperature, but another climate variable that exhibits significant variation in the following period as consequence of temperature may not be captured and this becomes a problem).
+-   Longer run time duration of this panel setup strongly targets estimating belief effects and adaptation in particular
+
+## Econometric Research Design
+
+**\[Pooled model\]**
+
+$$
+\mathrm{pop}_{it} = \alpha + \beta_{\mathrm{T}} \, \mathrm{temp}_{it} + \beta_{\mathrm{P}} \, g ( \mathrm{prec}_{it} ) + \epsilon_{it}
+$$ {#eq-reg-pooled}
+
+Yet, even if this equation tries to account for time-invariant country-specific differences by introducing country-dummies, such a pooled model has its weakness in that it assumes all municipalities of a country to have the same predisposition towards changes in climate or that differences in the predisposition can at least be fully controlled for.
+However, such a homogeinity among the units observed is unrealistic as differences in wealth, economic constitution, infrastructure, geographic location and many more factors significantly change a municipality's ability to react to the changing climate.
+\[unlikely to be able to control for all factors confounding the relationship between climate and population (consider history and culture), also likely risk of over-control in the quest to avoid an such an Omitted Variable Bias\]
+
+**\[Panel model with FEs\]**
+
+The following equations display the baseline panel model, with decade-averages of temperatures and decade-averages of yearly precipitation sums:
+
+$$
+\mathrm{pop}_{ict} = \beta_{\mathrm{T}} \, \mathrm{temp}_{ict} + \beta_{\mathrm{TRU}} \, ( \mathrm{temp}_{ict} \cdot \pi_{i} ) + \beta_{\mathrm{P}} \, g ( \mathrm{prec}_{ict} ) + \omega_i + \epsilon_{ict}
+$$ {#eq-reg-panel-fes}
+
+-   where:
+
+    -   $\mathrm{temp}_{ict}$ denote the mean temperature of the decade ending on each population data reference time point $t$ in LAU $i$
+    -   $g ( \mathrm{prec}_{ict} )$ represents different functional forms (linear, quadratic, cubic) of the average yearly precipitation sum (again of the preceding decade)
+    -   $\omega_i$ are LAU-fixed effects accounting for unobservable differences correlated to the weather parameter and influencing population amounts
+    -   $\epsilon_{ict}$ is the regression error
+
+This model can simply be estimated with OLS, it tests whether any population changes can be attributed to changes in weather.
+The interaction term $\mathrm{temp}_{ict} \cdot \pi_{i}$ is included to account for the fact that the effect of temperature on population might differ between LAUs, and that this difference is not captured by the LAU-fixed effects.
+
+Similarly, a more extensive version the above model, including trend effects is represented by the equation
+
+$$
+\mathrm{pop}_{ict} = \beta_{\mathrm{T}} \, \mathrm{temp}_{ict} + \beta_{\mathrm{TRU}} \, ( \mathrm{temp}_{ict} \cdot \pi_{i} ) + \beta_{\mathrm{P}} g ( \mathrm{prec}_{ict} ) + \omega_i + \delta_c \cdot t + \epsilon_{ict}
+$$ {#eq-reg-panel-fes-trend}
+
+where $\delta_c \cdot t$ is the trend factor capturing general trends present in all LAUs of a country.
+
+Similarly, a long differences model:
+
+$$
+\begin{split}
+\mathrm{pop}_{ic, t=T} - \mathrm{pop}_{ic, t=1} = \alpha &+ \beta_{\mathrm{LD}} \, ( \mathrm{temp}_{ic, t=T} - \mathrm{temp}_{ic, t=1} ) \\
+&+ g ( \mathrm{prec}_{ic, t=T} - \mathrm{prec}_{ic, t=1} ) + \omega_i + \rho_c + \phi_{ic}
+\end{split}
+$$ {#eq-reg-long-diff}
+
+-   This can also simply be estimated with OLS to determine whether any changes caused by weather differences between the last and the first decade can be attributed to any population changes:
+    -   $\alpha$ captures any overall changes over time relevant to all LAUs
+    -   $g ( \cdot )$ again represents different functional forms for precipitation that are tested
+    -   $\omega_i$ is a dummy that controls for LAU-specific particularities **(TODO check whether LAU-specific FEs would still be needed, i.e. only under the assumption that time-invariant LAU-specific characteristics do not only confound the relationship of climate and rural-urban population *levels* but also climate and rural-urban population *growth*)**
+    -   similarly, $\rho$ is a country-specific dummy (**TODO** only needed when LAU-specific FEs are not included, check whether other country-related specifications are needed?), and
+    -   $\phi_{ic}$ is the regression error.
+
+**\[IV-Approach\]**
+
+-   @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)** <!--interaction term between weather aggregates and controls??-->
+-   instrumenting with latitude
+
+**\[Approach with rural share rates/rural share growth rates\]**
+
+-   as in @henderson-etal-2017-cc-urbanization-africa
+
+**\[Uncertainties regarding this sub-chapter:\]**
+
+-   am besten log-lin model (oder alternativ first differences, wenn zu viele rausfallen weil log(0)), ansonsten beobachtungen mit 0 rausnehmen, dann halt unbalanced panel (aber das ist ok, sofern die 0 random ist) -- Warum? Hinweis: Trotzdem noch logs anwenden bevor first differences genommen werden
+-   Consider whether population data exhibits a unit root, and mention that first differences of population data have the advantage of accounting for potential unit roots
+-   If FE-estimations rely on variation across time within a unit and not variation across units as the source of identifying variation, why do I not get N (no. of units) effect estimations? How is the within unit variation aggregated for all units?
+-   2-part-modell als sonstige Lösung
+
+**\[To-do's for this sub-chapter:\]**
+
+-   Include in general explication of the model equations: unobservables differentiating spatial units and also correlated with weather/climate may cause bias: use of panel model should help to correct for this
+-   Write a paragraph on **reverse causality**: more populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions?
+    -   nur wenn bebauungsgrad konstant im LAU-FE geschluckt, aber sonst ist das ja in der gemessenen Temperatur im Grid mitgemessen
+    -   modellierung als discrete choice modell (tortenstücke), also wenn ein Individuum sich für ein LAU entscheidet, entscheidet es sich dann für ein kühles LAU (das in den in meinen Daten stärkeres Pop Wachstum verzeichnet)
+-   Write a paragraph on **adaptation**:
+    -   Correct to say: Adaptation effects are accounted for as long as adaptation happens at the same pace in each period?
+    -   **New:** (On adaptation) In my case, adaptation would likely lead to an attenuation bias in the effect estimations. For the panel model, would it be right to say that adaptations that influence the climate-socioeconomic causal relationship in a constant way over time are accounted for due to the time series nature of the panel model?
+        -   country-FE, LAU-FE catch differences in adaptation capability of LAUs
+        -   trend-variable captures influence of adaptation on climate-socioeconomic relationship that is constant over time (even better: trend\*LAU); account for potential spurious correlations, where climate and population accidentally exhibit the same development (?? see again Marbler 2024 for this)
+        -   fixed effects each for every year can control for adaptation effects that are irregular over time
+-   Internal vs. external validity \[or maybe put that in the second subchapter?\]
+
+**\[Optional to-do's for this sub-chapter:\]**
+
+-   one model with variation as implemented in Linsenmeier (2023)?
+
+```{=html}
+<!--
+## Personal ToDos
+
+### General ToDos / Further Steps
+
+-   Mention and define *social costs of carbon (SCC)*
+-   Research more on non-linear effects, and how they could be argued for (and if they are needed)
+-   Similarly, research more on alternative climate representations, e.g. degree days
+-   Research and think about how the long differences model deals with adaptation effects
+-   In Climate Econometrics, is there anything similar to the random assignment assumption that we typically have in program evaluation?
+-   What about heterogenous treatment effects?
+-   Search studies/give examples why population figures correlate with absolute gdp and other economic variables of the corresponding region (or at least their respective growth/decline go in the same direction)
+-   Mention ways of transmission the climate effects, i.e. decline in agricultural yields and, hence, a decline agriculture-related employment opportunities
+-   Three ways of controlling for spatial correlation (according to @auffhammer-etal-2013-weather-data-econ-analysis)
+-->
+```
+
+### Points from Mostly Harmless Econometrics (not entirely sure though)
+
+-   Mention that the choice for an individual effects model helps dealing with confounding heterogeneity that is unobserved or difficult to capture with explanatory variables at hand
+-   Mention: Choice of fixed-effect model since individual-specific unobserved properties are assumed to be correlated with the other explanatory variables as well as the dependent, causing endogeneity and the known explanatory variables to be correlated with the error in the cohort-agnostic pooled model
+-   **within estimator** = deviations from means estimator --\> **absorbing fixed effects**
+-   Can I really assume a homoscedastic standard error? --\> would be the underlying assumption for standard within estimator
+-   **Caveat:** FE estimation susceptible to attenuation bias from measurement error (very likely here as well!) --\> benchmark estimates against simple, cohort-ignorant/cohort-agnostic OLS
+
+### Points from Koop (2008)
+
+-   Argue why fixed effects model and not random effects model
+    -   Considering the setup, LAU-specific effects might not be random and the error correlated with the explanatory variables (do a test for endogeneity? Hausman?). After all, there are very likely other variables, whether unobservable or with hardly attainable data at the small LAU resolution, that are correlated with weather and have an effect on population sizes.
+    -   Also do a Lagrange multiplier/likelihood ratio test for the pooled model to see whether individual effects models are actually needed
+-   **!! double check!!**: Can I really use the first-differences estimator?
+    -   It is only possible to use this estimation methodology if I don't have any important time-invariant explanatory variables to include in my model equations!
+    -   In the case that time-invariant explanatory variables need to be included, an alternative would be the random effects-model
+
+### Points Johnston and DiNardo (2007)
+
+-   Random vs FE Model - Random when individual effects not correlated with explanatory variables - FE when individual effects are correlated with explanatory variables

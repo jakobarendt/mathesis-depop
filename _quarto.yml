@@ -6,27 +6,67 @@ project:
 book:
   title: "Climate Change und Rural Depopulation"
   author: "Jakob Arendt"
-  date: today
+  date: 2024-12-19
   site-url: https://mathesis.jakobarendt.com
   repo-url: https://github.com/jakobarendt/mathesis-depop
   repo-actions: [issue,edit,source]
+  downloads: [pdf,docx]
   chapters:
     - index.qmd
-    - introduction.qmd
-    - rel-literature.qmd
-    - data.qmd
-    - methodology.qmd
-    - results.qmd
-    - conclusion.qmd
+    - ch-1-introduction.qmd
+    - ch-2-rel-literature.qmd
+    - ch-3-methodology.qmd
+    - ch-4-data.qmd
+    - ch-5-results.qmd
+    - ch-6-conclusion.qmd
+    - disclosures-acknowledgments.qmd
     - references.qmd
+  appendices:
+    - appx-1-pop-data.qmd
+    - appx-2-weat-data.qmd
 
 bibliography: references.bib
+link-citations: true
+notes-after-punctuation: false
+
+# crossref:
+  # sec-prefix: section
+
+linkcolor: black
+citecolor: black
+urlcolor: black
 
 execute:
   freeze: auto
+  echo: false
+  warning: false
 
 format:
   html:
+    lang: en
     theme: cosmo
-  pdf: default
-#    documentclass: scrbook
+    # css: styles.css
+    # code-fold: true
+  pdf:
+    lang: en
+    papersize: a4
+    geometry:
+      - top=25mm
+      - bottom=30mm
+      - left=40mm
+      - right=25mm
+      - footskip=15mm
+    # mainfont: "Times New Roman"
+    # sansfont: "Arial"
+    fontsize: 12pt
+    linestretch: 1.5
+    # documentclass: scrbook
+    # cite-method: natbib
+    header-includes: |
+      \counterwithout{footnote}{chapter}
+# \bibliographystyle{ecta}
+  docx:
+    lang: en
+    papersize: a4
+    mainfont: "Times New Roman"
+    fontsize: 12pt
