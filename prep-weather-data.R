@@ -7,11 +7,6 @@
 require(ecmwfr)
 require(terra)
 require(tidyverse)
-require(parallel)
-
-# Set number of cores for parallelization in operations further below
-# Use max amount of cores the hardware provides while keeping 2 for other applications
-co <- detectCores() - 2
 
 
 
@@ -57,7 +52,7 @@ rast("data/weather/rr_ens_mean_0.1deg_reg_v29.0e.nc") |>
 # Load, resample to yearly values, and combine raster data ----------------
 
 # Resampling for all variables is split into multiple steps to reduce
-# computationl load
+# computational load
 
 # Daily mean temperature - first half of full time period (01/01/1951-31/12/1980):
 # Load daily mean temperature raster data into workspace
@@ -68,9 +63,13 @@ mean_temperature <- mean_temperature |>
            time(mean_temperature) <= as.Date("1980-12-31"))
 # Resample the daily mean temperature: Calculate its yearly mean
 mean_temperature <- mean_temperature |>
-  tapp(index = "years", fun = mean, cores = co)
+  tapp(index = "years", fun = mean, na.rm = TRUE)
 # Save resampled grid to hard drive and delete from R workspace to free up space
-mean_temperature |> writeRaster('data/temp/mean-temperature-19510101-19801231.tif')
+mean_temperature |>
+  writeCDF(filename = "data/temp/mean-temperature-19510101-19801231.nc",
+           varname = "t", longname = "year average of daily mean temperatures",
+           unit = "Celsius",
+           overwrite = TRUE)
 rm(mean_temperature)
 
 # Daily mean temperature - second half of full time period (01/01/1981-31/12/2010):
@@ -82,9 +81,13 @@ mean_temperature <- mean_temperature |>
            time(mean_temperature) <= as.Date("2010-12-31"))
 # Resample the daily mean temperature: Calculate its yearly mean
 mean_temperature <- mean_temperature |>
-  tapp(index = "years", fun = mean, cores = co)
+  tapp(index = "years", fun = mean, na.rm = TRUE)
 # Save resampled grid to hard drive and delete from R workspace to free up space
-mean_temperature |> writeRaster('data/temp/mean-temperature-19810101-20101231.tif')
+mean_temperature |>
+  writeCDF(filename = "data/temp/mean-temperature-19810101-20101231.nc",
+           varname = "t", longname = "year average of daily mean temperatures",
+           unit = "Celsius",
+           overwrite = TRUE)
 rm(mean_temperature)
 
 
@@ -97,9 +100,13 @@ precipitation_amount <- precipitation_amount |>
            time(precipitation_amount) <= as.Date("1980-12-31"))
 # Resample the daily precipitation amount: Calculate its yearly sum
 precipitation_amount <- precipitation_amount |>
-  tapp(index = "years", fun = sum, cores = co)
+  tapp(index = "years", fun = sum, na.rm = TRUE)
 # Save resampled grid to hard drive and delete from R workspace to free up space
-precipitation_amount |> writeRaster('data/temp/precipitation-amount-19510101-19801231.tif')
+precipitation_amount |>
+  writeCDF(filename = "data/temp/precipitation-amount-19510101-19801231.nc",
+           varname = "r", longname = "year sum of daily precipitation sums",
+           unit = "mm",
+           overwrite = TRUE)
 rm(precipitation_amount)
 
 # Daily precipitation amount - second half of full time period (01/01/1981-31/12/2010):
@@ -111,41 +118,48 @@ precipitation_amount <- precipitation_amount |>
            time(precipitation_amount) <= as.Date("2010-12-31"))
 # Resample the daily precipitation amount: Calculate its yearly sum
 precipitation_amount <- precipitation_amount |>
-  tapp(index = "years", fun = sum, cores = co)
+  tapp(index = "years", fun = sum, na.rm = TRUE)
 # Save resampled grid to hard drive and delete from R workspace to free up space
-precipitation_amount |> writeRaster('data/temp/precipitation-amount-19810101-20101231.tif')
+precipitation_amount |>
+  writeCDF(filename = "data/temp/precipitation-amount-19810101-20101231.nc",
+           varname = "r", longname = "year sum of daily precipitation sums",
+           unit = "mm",
+           overwrite = TRUE)
 rm(precipitation_amount)
 
 
 # Load resampled raster data bank into R workspace and combine into SpatRasterDataset
 weather <- sds(
-  c(rast('data/temp/mean-temperature-19510101-19801231.tif'),
-    rast('data/temp/mean-temperature-19810101-20101231.tif')),
-  c(rast('data/temp/precipitation-amount-19510101-19801231.tif'),
-    rast('data/temp/precipitation-amount-19810101-20101231.tif'))
+  c(rast('data/temp/mean-temperature-19510101-19801231.nc'),
+    rast('data/temp/mean-temperature-19810101-20101231.nc')),
+  c(rast('data/temp/precipitation-amount-19510101-19801231.nc'),
+    rast('data/temp/precipitation-amount-19810101-20101231.nc'))
 )
-weather |>
-  names() <- c("mean-daily-mean-temperature", "sum-daily-precipitation-amount")
 
 
 
-# Resample all variables to decade-wise means -----------------------------
+# Resample all variables to decade-wise averages --------------------------
 
-yrs <- as.integer(time(weather$`mean-daily-mean-temperature`))
-i <- ((yrs %% 10) == 0)
-yrs[i] <- yrs[i] - 9
-yrs <- paste0("Y", yrs, "_", yrs+10)
-
+# Set up index for computing decade-wise averages
 yrs <- seq(from = 1951, to = 2010, by = 10) |> rep(each = 10)
 yrs <- paste0("Y", yrs, "_", yrs + 10)
 
-weather <- sds(
-  tapp(weather$`mean-daily-mean-temperature`, index = yrs, fun = mean, cores = co),
-  tapp(weather$`sum-daily-precipitation-amount`, index = yrs, fun = mean, cores = co)
+# Resample the yearly temperature and precipitation statistics: take decennial
+  # averages
+weather_dec_avgs <- sds(
+  tapp(weather$t, index = yrs, fun = mean, na.rm = TRUE),
+  tapp(weather$r, index = yrs, fun = mean, na.rm = TRUE)
 )
-weather |>
-  names() <- c("mean-daily-mean-temperature", "sum-daily-precipitation-amount")
 
+# Add variable names, longnames and unit specifications to resampled raster data
+names(weather_dec_avgs) <- c("t_dec_avg", "r_dec_avg")
+longnames(weather_dec_avgs) <- c(
+  "decennial average of year averages of daily mean temperatures",
+  "decennial average of year sums of daily precipitation sums"
+)
+units(weather_dec_avgs) <- c("Celsius", "mm")
+
+# Save decennial raster data
 dir.create("data/temp")
-weather |>
-  writeCDF(filename = "data/temp/weather.nc", overwrite = FALSE)
+weather_dec_avgs |>
+  writeCDF(filename = "data/temp/weather-dec-avgs.nc", overwrite = TRUE)
