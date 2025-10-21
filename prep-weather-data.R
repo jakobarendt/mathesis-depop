@@ -128,28 +128,44 @@ precipitation_amount |>
 rm(precipitation_amount)
 
 
-# Load resampled raster data bank into R workspace and combine into SpatRasterDataset
-weather <- sds(
+# Combine resampled data into SpatRasterDataset and save to file ----------
+
+weather_year_avgs <- sds(
   c(rast('data/temp/mean-temperature-19510101-19801231.nc'),
     rast('data/temp/mean-temperature-19810101-20101231.nc')),
   c(rast('data/temp/precipitation-amount-19510101-19801231.nc'),
     rast('data/temp/precipitation-amount-19810101-20101231.nc'))
 )
 
+dir.create("data/temp")
+weather_year_avgs |>
+  writeCDF(filename = 'data/temp/weather-year-avgs.nc', overwrite = TRUE)
+
 
 
 # Resample all variables to decade-wise averages --------------------------
 
 # Set up index for computing decade-wise averages
-yrs <- seq(from = 1951, to = 2010, by = 10) |> rep(each = 10)
-yrs <- paste0("Y", yrs, "_", yrs + 10)
+decade_endings <- seq(from = 1960, to = 2010, by = 10)
+decades <- paste0("Y", decade_endings - 9, "_", decade_endings)
+decades_index <- decades |> rep(each = 10)
 
 # Resample the yearly temperature and precipitation statistics: take decennial
   # averages
-weather_dec_avgs <- sds(
-  tapp(weather$t, index = yrs, fun = mean, na.rm = TRUE),
-  tapp(weather$r, index = yrs, fun = mean, na.rm = TRUE)
-)
+temp_dec_avgs <- weather_year_avgs$t |>
+  tapp(index = decades_index, fun = mean, na.rm = TRUE)
+prec_dec_avgs <- weather_year_avgs$r |>
+  tapp(index = decades_index, fun = mean, na.rm = TRUE)
+
+# Assign the last year of each decade as layer name before combining all to
+  # SpatRasterDataset
+depth(temp_dec_avgs) <- decade_endings
+depthName(temp_dec_avgs) <- "dec_end"
+depth(prec_dec_avgs) <- decade_endings
+depthName(prec_dec_avgs) <- "dec_end"
+
+# Combine to SpatRasterDataset
+weather_dec_avgs <- sds(temp_dec_avgs, prec_dec_avgs)
 
 # Add variable names, longnames and unit specifications to resampled raster data
 names(weather_dec_avgs) <- c("t_dec_avg", "r_dec_avg")
