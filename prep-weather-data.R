@@ -7,6 +7,7 @@
 require(ecmwfr)
 require(terra)
 require(tidyverse)
+require(ncdf4)
 
 
 
