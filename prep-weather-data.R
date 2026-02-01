@@ -114,10 +114,10 @@ yearly_aggregate_files <- pmap(config_yearly, function(var_type, source_file, da
 # Combine resampled data into SpatRasterDataset and save to file ----------
 
 weather_year_avgs <- sds(
-  c(rast('data/temp/temp-mean-1951-1980.nc'),
-    rast('data/temp/temp-mean-1981-2010.nc')),
-  c(rast('data/temp/prec-sum-1951-1980.nc'),
-    rast('data/temp/prec-sum-1981-2010.nc'))
+  c(rast(file.path(path_processed_data, 'temp-mean-1951-1980.nc')),
+    rast(file.path(path_processed_data, 'temp-mean-1981-2010.nc'))),
+  c(rast(file.path(path_processed_data, 'prec-sum-1951-1980.nc')),
+    rast(file.path(path_processed_data, 'prec-sum-1981-2010.nc')))
 )
 
 weather_year_avgs |>
@@ -132,19 +132,23 @@ decade_endings <- seq(from = 1960, to = 2010, by = 10)
 decades <- paste0("Y", decade_endings - 9, "_", decade_endings)
 decades_index <- decades |> rep(each = 10)
 
-# Resample the yearly temperature and precipitation statistics: take decennial
-  # averages
-temp_dec_avgs <- weather_year_avgs$t |>
-  tapp(index = decades_index, fun = mean, na.rm = TRUE)
-prec_dec_avgs <- weather_year_avgs$r |>
-  tapp(index = decades_index, fun = mean, na.rm = TRUE)
+# Helper function for aggregation to decadal averages
+  # also adds layer names
+calc_decade_avg <- function(raster_layer) {
+  # Resampling
+  dec_agg <- raster_layer |>
+    tapp(index = decades_index, fun = mean, na.rm = TRUE)
 
-# Assign the last year of each decade as layer name before combining all to
-  # SpatRasterDataset
-depth(temp_dec_avgs) <- decade_endings
-depthName(temp_dec_avgs) <- "dec_end"
-depth(prec_dec_avgs) <- decade_endings
-depthName(prec_dec_avgs) <- "dec_end"
+  # Assign the last year of each decade as layer name
+  depth(dec_agg) <- decade_endings
+  depthName(dec_agg) <- "dec_end"
+
+  return(dec_agg)
+}
+
+# Calculate/Resample: yearly statistics to decennial averages
+temp_dec_avgs <- calc_decade_avg(weather_year_avgs$t)
+prec_dec_avgs <- calc_decade_avg(weather_year_avgs$r)
 
 # Combine to SpatRasterDataset
 weather_dec_avgs <- sds(temp_dec_avgs, prec_dec_avgs)
@@ -158,6 +162,6 @@ longnames(weather_dec_avgs) <- c(
 units(weather_dec_avgs) <- c("Celsius", "mm")
 
 # Save decennial raster data
-dir.create("data/temp")
 weather_dec_avgs |>
-  writeCDF(filename = "data/temp/weather-dec-avgs.nc", overwrite = TRUE)
+  writeCDF(filename = file.path(path_processed_data, "weather-dec-avgs.nc"),
+           overwrite = TRUE)
