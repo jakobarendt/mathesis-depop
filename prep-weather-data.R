@@ -128,10 +128,11 @@ yearly_aggregate_files_vec <- unlist(yearly_aggregate_files)
 # Combine resampled data into SpatRasterDataset and save to file ----------
 
 weather_year_avgs <- sds(
-  c(rast(file.path(path_processed_data, 'temp-mean-1951-1980.nc')),
-    rast(file.path(path_processed_data, 'temp-mean-1981-2010.nc'))),
-  c(rast(file.path(path_processed_data, 'prec-sum-1951-1980.nc')),
-    rast(file.path(path_processed_data, 'prec-sum-1981-2010.nc')))
+  rast(yearly_aggregate_files_vec[1:2]),
+  rast(yearly_aggregate_files_vec[3:4]),
+  rast(yearly_aggregate_files_vec[5:6]),
+  rast(yearly_aggregate_files_vec[7:8]),
+  rast(yearly_aggregate_files_vec[9:10])
 )
 
 weather_year_avgs |>
@@ -161,19 +162,29 @@ calc_decade_avg <- function(raster_layer) {
 }
 
 # Calculate/Resample: yearly statistics to decennial averages
-temp_dec_avgs <- calc_decade_avg(weather_year_avgs$t)
-prec_dec_avgs <- calc_decade_avg(weather_year_avgs$r)
+t_dec_avgs <- calc_decade_avg(weather_year_avgs$t)
+r_dec_avgs <- calc_decade_avg(weather_year_avgs$r)
+t_jja_dec_avgs <- calc_decade_avg(weather_year_avgs$t_jja)
+r_jja_dec_avgs <- calc_decade_avg(weather_year_avgs$r_jja)
+t_n_days_dec_avgs <- calc_decade_avg(weather_year_avgs$t_n_days)
 
 # Combine to SpatRasterDataset
-weather_dec_avgs <- sds(temp_dec_avgs, prec_dec_avgs)
+weather_dec_avgs <- sds(t_dec_avgs, r_dec_avgs,
+                        t_jja_dec_avgs, r_jja_dec_avgs,
+                        t_n_days_dec_avgs)
 
 # Add variable names, longnames and unit specifications to resampled raster data
-names(weather_dec_avgs) <- c("t_dec_avg", "r_dec_avg")
+names(weather_dec_avgs) <- c("t_dec_avg", "r_dec_avg",
+                             "t_jja_dec_avg", "r_jja_dec_avg",
+                             "t_n_days_dec_avg")
 longnames(weather_dec_avgs) <- c(
   "decennial average of year averages of daily mean temperatures",
-  "decennial average of year sums of daily precipitation sums"
+  "decennial average of year sums of daily precipitation sums",
+  "decennial average of summer (JJA) averages of daily mean temperatures",
+  "decennial average of summer (JJA) sums of daily precipitation sums",
+  "decennial average of year number of days with mean temp >=30C"
 )
-units(weather_dec_avgs) <- c("Celsius", "mm")
+units(weather_dec_avgs) <- c("Celsius", "mm", "Celsius", "mm", "no.")
 
 # Save decennial raster data
 weather_dec_avgs |>
