@@ -63,32 +63,43 @@ rast("data/weather/rr_ens_mean_0.1deg_reg_v29.0e.nc") |>
 # computational load and in particular RAM load
 
 # 1. Processing configuration
-# Processing configuration defined as in this table. To add a new time chunk, add a new row.
-config_yearly <- tribble(
-  ~var_type, ~source_file, ~date_start, ~date_end, ~agg_fun, ~nc_var, ~unit, ~longname,
-  "temp", "tg_ens_mean_0.1deg_reg_v29.0e.nc", "1951-01-01", "1980-12-31", "mean", "t", "Celsius", "year average of daily mean temperatures",
-  "temp", "tg_ens_mean_0.1deg_reg_v29.0e.nc", "1981-01-01", "2010-12-31", "mean", "t", "Celsius", "year average of daily mean temperature",
-  "prec", "rr_ens_mean_0.1deg_reg_v29.0e.nc", "1951-01-01", "1980-12-31", "sum", "r", "mm", "year sum of daily precipitation sums",
-  "prec", "rr_ens_mean_0.1deg_reg_v29.0e.nc", "1981-01-01", "2010-12-31", "sum", "r", "mm", "year sum of daily precipitation sums"
-)
+# Processing configuration defined as in the CSV file's table. To add a new time chunk, add a new row.
+config_yearly <- read_csv(file = "weather-config-yearly.csv") |>
+  mutate(across(starts_with("date_"), ~ as.Date(.x, format = "%d/%m/%Y")))
 
 # 2. Iterate through configuration
 # Map over the config rows, process, and return the filenames of created files
-yearly_aggregate_files <- pmap(config_yearly, function(var_type, source_file, date_start, date_end, agg_fun, nc_var, unit, longname) {
+# TODO adjust function inputs
+yearly_aggregate_files <- pmap(config_yearly, function(var_type, source_file, date_start, date_end, months, agg_fun, threshold_temp, nc_var, unit, longname) {
 
   # Name and file path of output file
-  out_name <- file.path(path_processed_data, paste0(paste(var_type, agg_fun, year(as.Date(date_start)), year(as.Date(date_end)), sep = "-"), ".nc"))
+  out_name <- file.path(path_processed_data, paste0(paste(nc_var, agg_fun, year(as.Date(date_start)), year(as.Date(date_end)), sep = "-"), ".nc"))
 
   # Status message for the respective loop run
-  message(paste("Processing:", var_type, "from", date_start, "to", date_end))
+  message(paste0("Processing: ", var_type, " (", nc_var, ": ", longname, ") ",
+                "from ", date_start, " to ", date_end))
 
   # Load source (raster with daily data)
   r <- rast(file.path(path_raw_data, source_file))
 
-  # Subset source respect to time
+  # Subset source with regards to time period length (for better memory allocation)
   r_sub <- r |>
     subset(time(r) >= as.Date(date_start) &
              time(r) <= as.Date(date_end))
+
+  # Subset within year if needed (by months)
+  if (!is.na(months)) {
+    months_vector <- scan(text = months, sep = ",")
+    r_sub <- r_sub |>
+      subset(month(time(r_sub)) %in% months_vector)
+    rm(months_vector)
+  }
+
+  # if-statement for statistics that only consider the number of hot days or
+    # other thresholds
+  if (!is.na(threshold_temp)) {
+    r_sub <- r_sub >= threshold_temp
+  }
 
   # Aggregate/Resample daily weather data to yearly statistics
   r_yearly <- r_sub |>
@@ -108,6 +119,9 @@ yearly_aggregate_files <- pmap(config_yearly, function(var_type, source_file, da
   # return(out_name)
   out_name
 })
+
+# Unlist filepaths resulting from pmap-loop into vector
+yearly_aggregate_files_vec <- unlist(yearly_aggregate_files)
 
 
 
