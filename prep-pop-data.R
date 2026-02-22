@@ -23,16 +23,16 @@ dir.create("data")
 dir.create("data/shapefiles")
 
 # Load shapefiles from Eurostat via its API or your local drive if cached there
-if(!file.exists('data/shapefiles/LAU_RG_01M_2011_4326.geojson')) {
+if(!file.exists('data/shapefiles/lau/LAU_RG_01M_2011_4326.gpkg')) {
   giscoR::gisco_get_lau(year = "2011", cache_dir = 'data/shapefiles',
                         verbose = TRUE)
 }
-shapes_2011 <- read_sf('data/shapefiles/LAU_RG_01M_2011_4326.geojson')
-if(!file.exists('data/shapefiles/LAU_RG_01M_2012_4326.geojson')) {
+shapes_2011 <- read_sf('data/shapefiles/lau/LAU_RG_01M_2011_4326.gpkg')
+if(!file.exists('data/shapefiles/lau/LAU_RG_01M_2012_4326.gpkg')) {
   giscoR::gisco_get_lau(year = "2012", cache_dir = 'data/shapefiles',
                         verbose = TRUE)
 }
-shapes_2012 <- read_sf('data/shapefiles/LAU_RG_01M_2012_4326.geojson')
+shapes_2012 <- read_sf('data/shapefiles/lau/LAU_RG_01M_2012_4326.gpkg')
 # shapefiles are loaded by default for the WGS84 (EPSG 4326) map projection
 
 
@@ -67,10 +67,10 @@ obs_laus_pop_orig <- pop_orig |>
   group_by(CNTR_CODE) |> summarise(HIST_POP_OBS_LAUS = n())
 ## Shapes of 2011 (Eurogeographics v5.0) per country
 obs_shapes_2011 <- shapes_2011 |>
-  as_tibble() |> select(-geometry) |> group_by(CNTR_CODE) |> summarise(SHAPES_2011_OBS = n())
+  as_tibble() |> select(-geom) |> group_by(CNTR_CODE) |> summarise(SHAPES_2011_OBS = n())
 ## Shapes of 2012 (Eurogeographics v7.0) per country
 obs_shapes_2012 <- shapes_2012 |>
-  as_tibble() |> select(-geometry) |> group_by(CNTR_CODE) |> summarise(SHAPES_2012_OBS = n())
+  as_tibble() |> select(-geom) |> group_by(CNTR_CODE) |> summarise(SHAPES_2012_OBS = n())
 ## Join numbers of shapes to population figures table by CNTR_CODE and save as Excel file
 table_obs <- obs_laus_pop_orig |>
   left_join(obs_shapes_2011) |> left_join(obs_shapes_2012)
@@ -106,11 +106,11 @@ shapes_2012 <- shapes_2012 |>
 
 ## Reduce shapefiles to the columns needed
 shapes_2011 <- shapes_2011 |>
-  select(CNTR_LAU_ID, LAU_NAME, POP_2011, POP_DENS_2011, AREA_KM2, geometry) |>
-  rename("AREA_KM2_2011" = AREA_KM2, "geometry_2011" = geometry)
+  select(CNTR_LAU_ID, LAU_NAME, POP_2011, POP_DENS_2011, AREA_KM2, geom) |>
+  rename("AREA_KM2_2011" = AREA_KM2, "geom_2011" = geom)
 shapes_2012 <- shapes_2012 |>
-  select(CNTR_LAU_ID, LAU_NAME, POP_2012, POP_DENS_2012, AREA_KM2, geometry) |>
-  rename("AREA_KM2_2012" = AREA_KM2, "geometry_2012" = geometry)
+  select(CNTR_LAU_ID, LAU_NAME, POP_2012, POP_DENS_2012, AREA_KM2, geom) |>
+  rename("AREA_KM2_2012" = AREA_KM2, "geom_2012" = geom)
 
 
 # Exceptional cases - Shapefiles delivered with population data set: GR, IE, TR
@@ -235,8 +235,8 @@ pop_all_shapes <- pop_orig |>
 table_match_rates <- pop_all_shapes |>
   group_by(CNTR_CODE) |>
   summarise(HIST_POP_OBS_LAUS = n(),
-            SHAPES_2011_JOINED = sum(!st_is_empty(geometry_2011)),
-            SHAPES_2012_JOINED = sum(!st_is_empty(geometry_2012))) |>
+            SHAPES_2011_JOINED = sum(!st_is_empty(geom_2011)),
+            SHAPES_2012_JOINED = sum(!st_is_empty(geom_2012))) |>
   mutate(VERS_SHAPEFILE = case_when(
     CNTR_CODE %in% c("PT", "SI") ~ "cannot join",
     CNTR_CODE %in% c("EL", "IE", "TR") ~ "proprietary",
@@ -257,8 +257,8 @@ population <- pop_all_shapes |>
     CNTR_CODE == "TR" ~ geometry_TR,
     CNTR_CODE == "IE" ~ geometry_IE,
     CNTR_CODE == "EL" ~ geometry_EL,
-    VERS_SHAPEFILE == "v7.0" ~ geometry_2012,
-    VERS_SHAPEFILE == "v5.0" ~ geometry_2011
+    VERS_SHAPEFILE == "v7.0" ~ geom_2012,
+    VERS_SHAPEFILE == "v5.0" ~ geom_2011
   )) |>
   mutate(EUROGEOGRAPHICS_POP_2011_2012 = case_when(
     VERS_SHAPEFILE == "v7.0" ~ POP_2012,
@@ -309,6 +309,20 @@ population <- population |>
 
 
 
+
+# Compute geographic midpoints of LAUs for Conley HAC SEs -----------------
+
+population <- population |>
+  mutate(
+    centroid = st_centroid(population),
+    long = st_coordinates(centroid)[, 1],
+    lat = st_coordinates(centroid)[, 2],
+    .before = geometry
+  ) |>
+  select(-centroid)
+
+
+
 # Combined georeferenced data: Final cleaning of population figures -------
 
 # Population values below zero: Set to NA
@@ -344,14 +358,14 @@ shapes_all <- bind_rows(rename(shapes_gr, geometry = geometry_EL),
 shapes_all <- shapes_2011 |>
   rename(EUROGEOGRAPHICS_POP_2011_2012 = POP_2011,
          EUROGEOGRAPHICS_POP_DENS_2011_2012 = POP_DENS_2011,
-         geometry = geometry_2011) |>
+         geometry = geom_2011) |>
   select(-AREA_KM2_2011) |>
   mutate(SOURCE = "v5.0") |>
   bind_rows(shapes_all)
 shapes_all <- shapes_2012 |>
   rename(EUROGEOGRAPHICS_POP_2011_2012 = POP_2012,
          EUROGEOGRAPHICS_POP_DENS_2011_2012 = POP_DENS_2012,
-         geometry = geometry_2012) |>
+         geometry = geom_2012) |>
   select(-AREA_KM2_2012) |>
   mutate(SOURCE = "v7.0") |>
   bind_rows(shapes_all)
