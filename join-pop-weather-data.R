@@ -1,4 +1,4 @@
-### This R script joins population and weather data ###
+### This R script joins population and weather data and computes estimations ###
 
 
 
@@ -8,16 +8,16 @@
 require(exactextractr)
 require(terra)
 require(tidyverse)
-require(parallel)
 require(sf)
-require(plm)
 require(fixest)
 require(modelsummary)
 require(ncdf4)
+require(data.table)
+require(marginaleffects)
 
 
 
-# Load all different data types and ask to run scripts if not there -------
+# Load all different data sources or ask to run scripts if not there ------
 
 # Population data
 if (!file.exists('data/temp/population.RData')) {
@@ -25,8 +25,9 @@ if (!file.exists('data/temp/population.RData')) {
 } else {
   load('data/temp/population.RData')
 }
+
 # Weather data
-if (!file.exists('data/temp/weather.nc')) {
+if (!file.exists('data/temp/weather-dec-avgs.nc')) {
   stop('Please run prep-weather-data.R before running this script.\n
        I recommend running it as a background job as it takes a long time.\n
        For download, a registration with the CDS service is necessary:\n
@@ -34,16 +35,20 @@ if (!file.exists('data/temp/weather.nc')) {
        The script then needs username and API key saved on the machine, which\n
        can be done by running the following command before running the
        prep-weather-data.R script.\n
-       user <- wf_set_key(service = "cds")')
+       user <- ecmwfr::wf_set_key(service = "cds")')
 } else {
-  weather <- rast('data/temp/weather.nc')
+  weather <- rast('data/temp/weather-dec-avgs.nc')
 }
 
 
 
-# Verify that coordinate reference systems of all data correspond ---------
-# st_read() for shape files
-# crs() |> cat() for raster data
+# Verify correspondence of the CRS of all geographic data -----------------
+
+stopifnot(
+  st_crs(population)[[2]] == st_crs(shapes_full_map)[[2]] |
+    st_crs(population)[[2]] == crs(weather)
+)
+
 
 
 # Spatial join of population and weather data -----------------------------
@@ -51,173 +56,205 @@ if (!file.exists('data/temp/weather.nc')) {
 joined_data <- exact_extract(weather,
                             population,
                             fun = 'mean',
-                            append_cols = names(population)[-(15:17)],
-                            progress = TRUE)
-joined_data <- joined_data |> as_tibble() # initially it was panel_data |> as_tibble() here
-# clarify why !?!?!
+                            append_cols = names(population),
+                            progress = TRUE) |>
+  as_tibble()
+# the mean function is optimised for exact_extract() and ignores NAs by default
+  # if a grid cell is not fully intersecting a shape, it is weighted proportional
+  # to the area the shape intersects with the cell relative to the total area of
+  # the cell
 
-# !! Add na.rm = true to fun = 'mean' ??
-# Check whether the numbering in the weather variables is actually chronological
+
+
+# Introduce rural-urban differentiation based on first period -------------
+
+# LAU is rural if its 1961 population density is lower than 300 inhabitants per
+  # km2 and its 1961 total population is lower than 5,000 inhabitants
+  # Differentiation simplied from the definition in European Commission and
+  # Eurostat (2019)
+joined_data <- joined_data |>
+  mutate(POP_DENS_1961 = POP_1961_01_01 / AREA_KM2) |>
+  mutate(RURAL_1961 = if_else(POP_DENS_1961 < 300 & POP_1961_01_01 < 5000, TRUE,
+                              FALSE)) |>
+  select(-POP_DENS_1961)
 
 
 
-# Reformat table for panel estimations ------------------------------------
+# Make table long for panel estimations -----------------------------------
 
-## Year mapping for renaming weather data columns with year
-# year_mapping <- setNames(c("1961", "1971", "1981", "1991", "2001", "2011"), 1:6)
+# Mapping function for renaming spatial means columns of weather aggregates from
+  # spatial join (resulting from exact_extract()).
+  # Matches the last year of the weather decadal average (e.g. 1960) to the
+  # respective decadal time point in the decadal historic population data (e.g. 1961)
 map_year <- function(string) {
-  years <- seq(1961, 2011, 10)
-  key <- str_extract(string, "\\d") |> as.numeric()
-  variable_name <- str_extract(string, "^[^0-9]*")
-  return(paste0(variable_name, years[key]))
+  end_year <- str_sub(string, -4) |> as.numeric()
+  variable_name <- str_remove(string, "dec_avg_dec_end=\\d+")
+  return(paste0(variable_name, end_year + 1))
 }
 
 panel_data <- joined_data |>
-  select(CNTR_LAU_CODE, CNTR_CODE, ends_with("1_01_01"), starts_with("mean.")) |>
   rename_with(~ map_year(.), .cols = starts_with("mean.")) |>
+  rename_with(~ str_remove(.x, "_01_01"), .cols = starts_with("POP_")) |> # TODO: optimise column selection here
   pivot_longer(
     cols = starts_with("POP_") | starts_with("mean."),
     names_to = c(".value", "YEAR"),
-    names_sep = "_",
-    # names_pattern = "(.*)_(.*)"
-  )
-
-
-
-# Introduce rural-urban differentiation from base year --------------------
-
-panel_data <- panel_data |>
-  left_join(
-    select(joined_data, CNTR_LAU_CODE, EUROGEOGRAPHICS_AREA_KM2_2011_2012),
-    by = c("CNTR_LAU_CODE")
+    names_pattern = "(.*)_(\\d{4})"
   ) |>
-  mutate(POP_DENS = POP / EUROGEOGRAPHICS_AREA_KM2_2011_2012) |>
-  mutate(RURAL = if_else(POP_DENS < 1500, 1, 0)) |>
-  group_by(CNTR_LAU_CODE) |>
-  arrange(YEAR, .by_group = TRUE) |>
-  mutate(RURAL_1961 = first(RURAL)) |>
-  select(-c(EUROGEOGRAPHICS_AREA_KM2_2011_2012, POP_DENS, RURAL)) |>
-  ungroup()
+  mutate(YEAR = as.numeric(YEAR))
 
 
 
-# Add time indicator ------------------------------------------------------
+# Subset data sets for estimation and prediction & Add panel IDs ----------
 
-panel_data <- panel_data |>
-  group_by(CNTR_LAU_CODE) |>
-  arrange(YEAR, .by_group = TRUE) |>
-  mutate(TTREND = row_number()) |>
-  ungroup() |>
-  mutate(log_POP = log(POP))
+# Sub-panel data set for estimation & Set panel identifiers
+panel_data_est <- panel_data |>
+  filter(YEAR <= 2011) |>
+  fixest::panel(panel.id = ~CNTR_LAU_CODE+YEAR)
 
-# Filter out LAUs with non-positive integers of log_POP variable
-laus_filter_out <- panel_data |>
-  filter(is.na(log_POP) | is.nan(log_POP) | is.infinite(log_POP)) |>
-  pull(CNTR_LAU_CODE) |>
-  unique()
-panel_data <- panel_data |>
-  filter(!(CNTR_LAU_CODE %in% laus_filter_out))
 
-# panel_data_frame <- panel_data |>
-#   # mutate(CNTR_LAU_CODE = as.factor(CNTR_LAU_CODE), YEAR = as.factor(YEAR)) |>
-#   pdata.frame(index = c("CNTR_LAU_CODE", "YEAR"))
-# plm(POP ~ mean.mean.daily.mean.temperature + mean.sum.daily.precipitation.amount,
-#     data = panel_data_frame,
-#     effect = "individual") |>
-#   summary()
 
-# Finish code for aggregation to form interaction term of country-year-FEs
-# (or, alternatively, interaction of country-year-trend)
-# panel_data <- panel_data |>
-#   mutate(CNTR_CODE_YEAR = CNTR_CODE)
+# Estimation: fixed-effects models ----------------------------------------
 
-# Also transform population figures to log(POP), such that I have log-level eco-
-# nometric models
-
-# Overview of foreseen models:
-# 1. Pooled model without&with rural(urban) dummy --> spatial autocorrelation-SEs
-# also possible to estimate?
-# 2. Panel without rural(urban) dummy with clustered & with Conley HAC SEs
-# 3. Panel with rural(urban) dummy with clustered & with Conley HAC SEs
-# --> Estimate model with rural-urban effect for temperature only, for precipi-
-# tation only, and lastly also temperature-specific and precipitation-specific
-# rural-urban effects together in the same model
-# --> Do I also consider non-linear functional forms of climate variables in the
-# model equations (and estimate them)?
-
-# feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
-#         CNTR_LAU_CODE + CNTR_CODE*YEAR,
-#       data = panel_data) |> # find reason why panel_data_frame cannot be used
-#   summary()
-#
-# feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
-#         CNTR_LAU_CODE + CNTR_CODE,
-#       data = panel_data) |> # find reason why panel_data_frame cannot be used
-#   summary()
-#
-# feols(POP ~ `mean.mean-daily-mean-temperature` + `mean.sum-daily-precipitation-amount` |
-#         CNTR_LAU_CODE + CNTR_CODE + YEAR,
-#       data = panel_data) |> # find reason why panel_data_frame cannot be used
-#   summary()
-
-# !! Investigate warning message that is thrown when pivot_longer
-# !! Investigate warning message that is thrown pdata.frame
-# !! Check what is up with Poian, must be in data set twice
+temp <- ".t"  # alternatively: ".t_jja", ".t_n_days"
+prec <- ".r"  # alternatively: ".r_jja"
 
 models_decennial <- list(
-  "Pooled (OLS)" = lm(log_POP ~ `mean.mean-daily-mean-temperature`
-                      + `mean.mean-daily-mean-temperature` : RURAL_1961
-                      + `mean.sum-daily-precipitation-amount`, data = panel_data),
-  "Pooled (GLS)" = glm(log_POP ~ `mean.mean-daily-mean-temperature`
-                       + `mean.mean-daily-mean-temperature` : RURAL_1961
-                       + `mean.sum-daily-precipitation-amount`
-                       + I(`mean.sum-daily-precipitation-amount`^2), data = panel_data),
-  # "REs" = plm(log_POP ~ `mean.mean-daily-mean-temperature`
-  #             + `mean.mean-daily-mean-temperature` : RURAL_1961
-  #             + `mean.sum-daily-precipitation-amount`, data = panel_data,
-  #             model = "random", index = c("CNTR_LAU_CODE", "YEAR")),
-  "FEs (one-way)" = feols(log_POP ~ `mean.mean-daily-mean-temperature`
-                          + `mean.mean-daily-mean-temperature` : RURAL_1961
-                          + `mean.sum-daily-precipitation-amount` | CNTR_LAU_CODE,
-                          data = panel_data),
-  "FEs (two-way)" = feols(log_POP ~ `mean.mean-daily-mean-temperature`
-                          + `mean.mean-daily-mean-temperature` : RURAL_1961
-                          + `mean.sum-daily-precipitation-amount`
-                          | CNTR_LAU_CODE + YEAR,
-                          data = panel_data),
-  "FEs (one-way & time-trend)" = feols(log_POP ~ `mean.mean-daily-mean-temperature`
-                                       + `mean.mean-daily-mean-temperature` : RURAL_1961
-                                       + `mean.sum-daily-precipitation-amount`
-                                       + TTREND
-                                       | CNTR_LAU_CODE,
-                                       data = panel_data)
+  # TODO: check whether to also interact the rural-dummy only with precipitation
+    # and/or with temperature and precipitation together
+
+  # Pooled models (without rural dummy):
+  feols(d(log(POP)) ~ mean.[temp] + mean.[prec],
+        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(d(log(POP)) ~ mean.[temp] + mean.[prec],
+        data = panel_data_est, vcov = "conley"),
+
+  # One-way fixed effect (without rural dummy): temperature linear
+  feols(d(log(POP)) ~ mean.[temp] + mean.[prec] | CNTR_LAU_CODE,
+        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(d(log(POP)) ~ mean.[temp] + mean.[prec] | CNTR_LAU_CODE,
+        data = panel_data_est, vcov = "conley"),
+  # One-way fixed effect (without rural dummy): temperature squared
+  feols(d(log(POP)) ~ mean.[temp] + mean.[temp]^2 + mean.[prec] | CNTR_LAU_CODE,
+        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(d(log(POP)) ~ mean.[temp] + mean.[temp]^2 + mean.[prec] | CNTR_LAU_CODE,
+        data = panel_data_est, vcov = "conley"),
+
+  # One-way fixed effect (with rural dummy): temperature linear
+  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
+        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
+        data = panel_data_est, vcov = "conley"),
+  # One-way fixed effect (with rural dummy): temperature squared
+  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
+        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
+        data = panel_data_est, vcov = "conley"),
+
+  # Two-way fixed effects (with rural dummy): temperature squared
+  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + YEAR,
+        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + YEAR,
+        data = panel_data_est, vcov = "conley"),
+
+  # FE for LAU-ID and country-varying time trend (with rural dummy):
+    # temperature squared
+  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE[YEAR],
+        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE[YEAR],
+        data = panel_data_est, vcov = "conley"),
+
+  # FEs for LAU-ID and country-year (with rural dummy): temperature squared
+  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE^YEAR,
+        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE^YEAR,
+        data = panel_data_est, vcov = "conley")
+
   )
-save(panel_data, models_decennial, file = 'data/temp/model-results.RData')
 
-# Estimation of standard errors -------------------------------------------
+# TODO find sensible selection of models to save for results table:
+  # save(panel_data_est, models_decennial, file = 'data/temp/model-results.RData')
 
-# 1st Option: Standard error cluster
 
-# 2st Option: Conley HAC errors
-# install.packages("conleyreg")
-# Borsky: Spatial autocorrelation wahrscheinlich estimated über long & lat
-# --> über sf mittelpunkt zu jedem shape berechnen und in tibble mitgeben
 
-# pop |>
-#   filter(is.na(POP_1961)) |>
-#   leaflet() |>
-#   addTiles(options = tileOptions(opacity = 0.2)) |>
-#   addPolygons(
-#     stroke = FALSE,
-#     fillOpacity = 0.7,
-#     fillColor = ~pal(POP_2011),
-#     label = ~ paste0(LAU_NAME, ": ", round(POP_2011, 4))
-#   ) |>
-#   addLegend(pal = pal, values = ~POP_2011, opacity = 1.0)
-#
-#
-# population |>
-#   select(CNTR_LAU_CODE, geometry) |>
-#   right_join(panel_data, by = c("CNTR_LAU_CODE"))
+# Exclusion of observations during estimations: no. of NAs in data --------
+# TODO
 
-# panel_data <-
+# Overview of NAs in baseline panel data set
+panel_data |>
+  group_by(YEAR) |>
+  summarise(across(everything(), ~ sum(is.na(.x)))) |>
+  pivot_longer(!YEAR, names_to = "column", values_to = "na_count") |>
+  pivot_wider(names_from = YEAR, names_prefix = "YEAR_", values_from = na_count)
+
+# Check if panel data attributes and identifiers are also saved with tibble,
+  # alternatively use package data.table
+panel_date_as_data_table <- panel_data |>
+  as.data.table() |>
+  panel(panel.id = ~CNTR_LAU_CODE+YEAR)
+
+# Check on values removed during regression
+panel_date_as_data_table[, d_log_pop := d(log(POP))]
+lhs_unused <- panel_date_as_data_table |>
+  filter(is.na(d_log_pop) | is.infinite(d_log_pop)) |>
+  as_tibble()
+rhs_unused <- panel_date_as_data_table |>
+  filter(if_any(c(mean.t, mean.r), ~ is.na(.x) | is.infinite(.x))) |>
+  as_tibble()
+
+
+
+# Curve plots: regressors -------------------------------------------------
+# TODO
+
+# model |> fixef() für Ergebnisse zu den fixed effects
+# model |> fixef() |> summary()
+# model |> fixef() |> plot()
+
+# coefplot() für coefficient plot
+
+# TODO: solve issues with implementation via marginaleffects package
+# plot_predictions(models_decennial[[16]], condition = c("mean.t", "RURAL_1961"))
+
+
+
+# Scratch notes - TODO: maps of spatial overlay ---------------------------
+# TODO
+
+# scratch code to plot shapes of Graz and its surroundings along with the
+# grid cells that overlay them
+
+graz <- shapes_full_map |>
+  filter(CNTR_LAU_CODE == "AT60101")
+graz_surroundings <- shapes_full_map |>
+  st_filter(graz)
+mask(weather$`t_dec_avg_dec_end=1960`, graz_surroundings) |>
+  trim() |>
+  plot()
+polys(graz_surroundings)
+plot(st_centroid(graz_surroundings), add = TRUE)
+
+belgium <- shapes_full_map |>
+  filter(CNTR_CODE == "BE")
+mask(weather$`t_dec_avg_dec_end=2010`, belgium) |>
+  trim() |>
+  plot()
+polys(belgium)
+
+norway <- shapes_full_map |>
+  filter(CNTR_CODE == "NO")
+mask(weather$`t_dec_avg_dec_end=2010`, norway) |>
+  trim() |>
+  plot()
+polys(norway)
+
+austria <- shapes_full_map |>
+  filter(CNTR_CODE == "AT")
+mask(weather$`t_dec_avg_dec_end=2010`, austria) |>
+  trim() |>
+  plot()
+polys(austria)
+
+# Plotting multiple attributes in sub-graphs
+population |>
+  filter(CNTR_CODE == "AT") |>
+  plot()

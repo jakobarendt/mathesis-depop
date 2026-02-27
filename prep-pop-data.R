@@ -86,10 +86,13 @@ rm(obs_laus_pop_orig, obs_shapes_2011, obs_shapes_2012)
 # EuroGeographics LAU Shapefiles
 
 ## Streamline identifiers: Create new column that combines CNTR_CODE and LAU_ID
+  ## (except for Switzerland, CH, in the 2012 and 2021 data set - it already has
+  ## the CNTR_CODE in the LAU_ID)
 shapes_2011 <- shapes_2011 |>
   mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID))
 shapes_2012 <- shapes_2012 |>
-  mutate(CNTR_LAU_ID = paste0(CNTR_CODE, LAU_ID))
+  mutate(CNTR_LAU_ID = if_else(CNTR_CODE != "CH", paste0(CNTR_CODE, LAU_ID),
+                               LAU_ID))
 
 ## Check: Does the newly created column CNTR_LAU_ID correspond to GISCO_ID ?
 sum(shapes_2011$CNTR_LAU_ID == gsub("_", "", shapes_2011$GISCO_ID)) == nrow(shapes_2011)

@@ -69,7 +69,6 @@ config_yearly <- read_csv(file = "weather-config-yearly.csv") |>
 
 # 2. Iterate through configuration
 # Map over the config rows, process, and return the filenames of created files
-# TODO adjust function inputs
 yearly_aggregate_files <- pmap(config_yearly, function(var_type, source_file, date_start, date_end, months, agg_fun, threshold_temp, nc_var, unit, longname) {
 
   # Name and file path of output file
