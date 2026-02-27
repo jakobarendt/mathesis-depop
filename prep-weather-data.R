@@ -142,7 +142,7 @@ weather_year_avgs |>
 # Resample all variables to decade-wise averages --------------------------
 
 # Set up index for computing decade-wise averages
-decade_endings <- seq(from = 1960, to = 2010, by = 10)
+decade_endings <- seq(from = 1960, to = 2020, by = 10)
 decades <- paste0("Y", decade_endings - 9, "_", decade_endings)
 decades_index <- decades |> rep(each = 10)
 

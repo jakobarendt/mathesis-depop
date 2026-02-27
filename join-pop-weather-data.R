@@ -111,6 +111,18 @@ panel_data_est <- panel_data |>
   filter(YEAR <= 2011) |>
   fixest::panel(panel.id = ~CNTR_LAU_CODE+YEAR)
 
+# Sub-panel data set for prediction & Set panel identifiers
+  # Keeps also the population from 2011 (used in estimation), needed to calculate
+  # population levels from predicted growth rates
+panel_data_2021 <- panel_data |>
+  filter(YEAR == 2021) |>
+  select(-POP) |>
+  left_join(
+    joined_data |> select(CNTR_LAU_CODE, POP_2011_01_01),
+    by = c("CNTR_LAU_CODE")
+  ) |>
+  fixest::panel(panel.id = ~CNTR_LAU_CODE+YEAR)
+
 
 
 # Estimation: fixed-effects models ----------------------------------------
@@ -214,6 +226,23 @@ rhs_unused <- panel_date_as_data_table |>
 
 # TODO: solve issues with implementation via marginaleffects package
 # plot_predictions(models_decennial[[16]], condition = c("mean.t", "RURAL_1961"))
+
+
+
+# RMSE calculations for 2021 ----------------------------------------------
+# TODO
+
+rmse_df <- panel_data_2021 |>
+  unpanel() |>
+  bind_cols(predict(models_decennial[[8]], panel_data_2021)) |>
+  rename(predicted = ...24) |>
+  mutate(predicted_levels = exp(log(POP_2011_01_01) + predicted)) |>
+  select(CNTR_LAU_CODE, LAU_LABEL, CALC_RMSE_POP_2021, predicted_levels) |>
+  mutate(diff_predicted_actual = predicted_levels - CALC_RMSE_POP_2021) |>
+  mutate(diff_predicted_actual_sq = diff_predicted_actual^2)
+# panel_data_2021$predicted_levels <- exp(log(panel_data_2021$POP_2011_01_01) + panel_data_2021$predicted)
+# sqrt(mean((rmse_df$predicted_levels - rmse_df$CALC_RMSE_POP_2021)^2, na.rm = TRUE))
+sqrt(mean(rmse_df$diff_predicted_actual_sq, na.rm = TRUE))
 
 
 

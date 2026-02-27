@@ -1,11 +1,11 @@
 var_type,source_file,date_start,date_end,months,agg_fun,threshold_temp,nc_var,unit,longname
 temp,tg_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1951,31/12/1980,NA,mean,NA,t,Celsius,year average of daily mean temperatures
-temp,tg_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1981,31/12/2010,NA,mean,NA,t,Celsius,year average of daily mean temperatures
+temp,tg_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1981,31/12/2020,NA,mean,NA,t,Celsius,year average of daily mean temperatures
 prec,rr_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1951,31/12/1980,NA,sum,NA,r,mm,year sum of daily precipitation sums
-prec,rr_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1981,31/12/2010,NA,sum,NA,r,mm,year sum of daily precipitation sums
+prec,rr_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1981,31/12/2020,NA,sum,NA,r,mm,year sum of daily precipitation sums
 temp,tg_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1951,31/12/1980,"6, 7, 8",mean,NA,t_jja,Celsius,summer (JJA) mean temperature
-temp,tg_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1981,31/12/2010,"6, 7, 8",mean,NA,t_jja,Celsius,summer (JJA) mean temperature
+temp,tg_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1981,31/12/2020,"6, 7, 8",mean,NA,t_jja,Celsius,summer (JJA) mean temperature
 prec,rr_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1951,31/12/1980,"6, 7, 8",sum,NA,r_jja,mm,summer (JJA) precipitation sum
-prec,rr_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1981,31/12/2010,"6, 7, 8",sum,NA,r_jja,mm,summer (JJA) precipitation sum
+prec,rr_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1981,31/12/2020,"6, 7, 8",sum,NA,r_jja,mm,summer (JJA) precipitation sum
 temp,tg_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1951,31/12/1980,NA,sum,30,t_n_days,Celsius,days with mean temp >= 30C
-temp,tg_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1981,31/12/2010,NA,sum,30,t_n_days,Celsius,days with mean temp >= 30C
+temp,tg_ens_mean_0.1deg_reg_v29.0e.nc,01/01/1981,31/12/2020,NA,sum,30,t_n_days,Celsius,days with mean temp >= 30C

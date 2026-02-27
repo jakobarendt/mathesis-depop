@@ -33,6 +33,11 @@ if(!file.exists('data/shapefiles/lau/LAU_RG_01M_2012_4326.gpkg')) {
                         verbose = TRUE)
 }
 shapes_2012 <- read_sf('data/shapefiles/lau/LAU_RG_01M_2012_4326.gpkg')
+if(!file.exists('data/shapefiles/lau/LAU_RG_01M_2021_4326.gpkg')) {
+  giscoR::gisco_get_lau(year = "2021", cache_dir = 'data/shapefiles',
+                        verbose = TRUE)
+}
+shapes_2021 <- read_sf('data/shapefiles/lau/LAU_RG_01M_2021_4326.gpkg')
 # shapefiles are loaded by default for the WGS84 (EPSG 4326) map projection
 
 
@@ -48,6 +53,7 @@ shapes_tr <- read_sf('data/shapefiles/tr')
 # (st_crs() returns the current CRS of an sf object)
 shapes_2011 <- shapes_2011 |> st_transform(crs = "OGC:CRS84")
 shapes_2012 <- shapes_2012 |> st_transform(crs = "OGC:CRS84")
+shapes_2021 <- shapes_2021 |> st_transform(crs = "OGC:CRS84")
 shapes_gr <- shapes_gr |> st_transform(crs = "OGC:CRS84")
 shapes_ie <- shapes_ie |> st_transform(crs = "OGC:CRS84")
 shapes_tr <- shapes_tr |> st_transform(crs = "OGC:CRS84")
@@ -71,13 +77,16 @@ obs_shapes_2011 <- shapes_2011 |>
 ## Shapes of 2012 (Eurogeographics v7.0) per country
 obs_shapes_2012 <- shapes_2012 |>
   as_tibble() |> select(-geom) |> group_by(CNTR_CODE) |> summarise(SHAPES_2012_OBS = n())
+## Shapes of 2021 (probably Eurogeographics v2022) per country
+obs_shapes_2021 <- shapes_2021 |>
+  as_tibble() |> select(-geom) |> group_by(CNTR_CODE) |> summarise(SHAPES_2021_OBS = n())
 ## Join numbers of shapes to population figures table by CNTR_CODE and save as Excel file
 table_obs <- obs_laus_pop_orig |>
-  left_join(obs_shapes_2011) |> left_join(obs_shapes_2012)
+  left_join(obs_shapes_2011) |> left_join(obs_shapes_2012) |> left_join(obs_shapes_2021)
 # table_obs |> writexl::write_xlsx("obs-pop-figures-shapes.xlsx")
 ### Save as Excel file is commented out so as to not overwrite the annotated file
 ## Remove data to free up work space; it is only needed for producing the table
-rm(obs_laus_pop_orig, obs_shapes_2011, obs_shapes_2012)
+rm(obs_laus_pop_orig, obs_shapes_2011, obs_shapes_2012, obs_shapes_2021)
 
 
 
@@ -93,11 +102,15 @@ shapes_2011 <- shapes_2011 |>
 shapes_2012 <- shapes_2012 |>
   mutate(CNTR_LAU_ID = if_else(CNTR_CODE != "CH", paste0(CNTR_CODE, LAU_ID),
                                LAU_ID))
+shapes_2021 <- shapes_2021 |>
+  mutate(CNTR_LAU_ID = if_else(CNTR_CODE != "CH", paste0(CNTR_CODE, LAU_ID),
+                               LAU_ID))
 
 ## Check: Does the newly created column CNTR_LAU_ID correspond to GISCO_ID ?
 sum(shapes_2011$CNTR_LAU_ID == gsub("_", "", shapes_2011$GISCO_ID)) == nrow(shapes_2011)
 sum(shapes_2012$CNTR_LAU_ID == gsub("_", "", shapes_2012$GISCO_ID)) == nrow(shapes_2012)
 shapes_2012 |> filter(shapes_2012$CNTR_LAU_ID != gsub("_", "", shapes_2012$GISCO_ID))
+sum(shapes_2021$CNTR_LAU_ID == gsub("_", "", shapes_2021$GISCO_ID)) == nrow(shapes_2021)
 ### With the exception of Budapest (HU) in the shapefiles of 2012 (EuroGeographics v7.0),
 ### the newly created column corresponds to GISCO_ID.
 
@@ -114,6 +127,9 @@ shapes_2011 <- shapes_2011 |>
 shapes_2012 <- shapes_2012 |>
   select(CNTR_LAU_ID, LAU_NAME, POP_2012, POP_DENS_2012, AREA_KM2, geom) |>
   rename("AREA_KM2_2012" = AREA_KM2, "geom_2012" = geom)
+shapes_2021 <- shapes_2021 |>
+  select(CNTR_LAU_ID, LAU_NAME, POP_2021, POP_DENS_2021, AREA_KM2, geom) |>
+  rename("AREA_KM2_2021" = AREA_KM2, "geom_2021" = geom)
 
 
 # Exceptional cases - Shapefiles delivered with population data set: GR, IE, TR
@@ -139,6 +155,7 @@ shapes_tr <- shapes_tr |>
 ## the historical population time series
 shapes_2011 |> filter(duplicated(CNTR_LAU_ID))
 shapes_2012 |> filter(duplicated(CNTR_LAU_ID))
+shapes_2021 |> filter(duplicated(CNTR_LAU_ID))
 shapes_gr |> filter(duplicated(CNTR_LAU_ID))
 shapes_ie |> filter(duplicated(CNTR_LAU_ID))
 shapes_tr |> filter(duplicated(CNTR_LAU_ID))
@@ -147,6 +164,7 @@ shapes_tr |> filter(duplicated(CNTR_LAU_ID))
 # Check coordinate reference systems (CRS) of all shapefiles
 
 st_crs(shapes_2011) == st_crs(shapes_2012)
+st_crs(shapes_2011) == st_crs(shapes_2021)
 st_crs(shapes_2011) == st_crs(shapes_gr)
 st_crs(shapes_2011) == st_crs(shapes_ie)
 st_crs(shapes_2011) == st_crs(shapes_tr)
@@ -229,6 +247,7 @@ rm(eschweiler_wiltz, eschweiler_wiltz_aggreg)
 pop_all_shapes <- pop_orig |>
   left_join(select(shapes_2011, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   left_join(select(shapes_2012, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
+  left_join(select(shapes_2021, -LAU_NAME), by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   left_join(shapes_gr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   left_join(shapes_ie, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)) |>
   left_join(shapes_tr, by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID))
@@ -239,7 +258,8 @@ table_match_rates <- pop_all_shapes |>
   group_by(CNTR_CODE) |>
   summarise(HIST_POP_OBS_LAUS = n(),
             SHAPES_2011_JOINED = sum(!st_is_empty(geom_2011)),
-            SHAPES_2012_JOINED = sum(!st_is_empty(geom_2012))) |>
+            SHAPES_2012_JOINED = sum(!st_is_empty(geom_2012)),
+            SHAPES_2021_JOINED = sum(!st_is_empty(geom_2021))) |>
   mutate(VERS_SHAPEFILE = case_when(
     CNTR_CODE %in% c("PT", "SI") ~ "cannot join",
     CNTR_CODE %in% c("EL", "IE", "TR") ~ "proprietary",
@@ -288,6 +308,21 @@ population <- pop_all_shapes |>
 ## now combined to a single geometry column; all columns are reordered and reduced
 ## to only the ones needed in the further analysis. The LAUs without
 ## georeferences are also filtered out.
+
+
+
+# Merge 2021 population data for later RMSE calculation -------------------
+
+population <- population |>
+  left_join(
+    shapes_2021 |> rename(LAU_NAME_2021 = LAU_NAME) |> as_tibble(),
+    by = join_by(CNTR_LAU_CODE == CNTR_LAU_ID)
+  ) |>
+  mutate(area_dev_11_21 = AREA_KM2_2021 / EUROGEOGRAPHICS_AREA_KM2_2011_2012) |>
+  mutate(CALC_RMSE_POP_2021 = if_else(area_dev_11_21 > 1.02 | area_dev_11_21 < 0.98, NA,
+                            POP_2021),
+         .before = geometry) |>
+  select(!c(LAU_NAME_2021, POP_2021, POP_DENS_2021, AREA_KM2_2021, geom_2021, area_dev_11_21))
 
 
 
