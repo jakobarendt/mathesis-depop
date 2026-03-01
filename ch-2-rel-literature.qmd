@@ -1,10 +1,25 @@
 # Related Literature {#sec-Literature}
 
-In the last few decades, a variety of research has tried to answer the question of how the climate affects individuals and society.
-After all, this topic is relevant not only for economics, but also for sociology, demography, environmental and political sciences as well as other scientific disciplines.
+At a defined location during a specific period in time, there are three main factors that determine the growth or decline of its human population: birth rate, mortality rate and migration.
+In theory, their relationships with population growth are relatively clear: if one of these three determinants changes while keeping the other two constant, population growth will change.[^ch-2-rel-literature-1]
+For example, if a defined population experiences no migration, and has new children at the same rate as deaths, it does neither grow nor decline--it is stable.
 
-As for the precise research question of this investigation, asking on the effect of climate on the development of municipal population figures, a variety of causal chains can be relevant.
-Generally, there are three main factors that drive the size of the population at a specific location during a specific period in time: birth rate, death rate and migration.
+[^ch-2-rel-literature-1]: While an increase in the location's birth rate implies an increase in its population growth ceteris paribus, the effect of the mortality rate is the opposite.
+    As regards migration ceteris paribus, immigration causes the location's population to grow, whereas emigration causes it to shrink.
+
+In practise, however, the way that these factors determine population growth is much more complex and convoluted.
+First, they can move simultaneously and can, consequently, cancel each other out.
+For example, a country may experience a decrease in its birth rate, but its population would remain stable if it faced an increase in immigration at the same magnitude as the decrease in its birth rate.
+Second, birth, mortality, and migration can exhibit interdependencies among themselves.
+For example, when comparing population growth across societies in different locations and with different economic preconditions, an economically poorer society might be incentivised to have more children to make up the comparably higher mortality or the fewer retirement provisions caused by its comparably fewer resources and economic endowments.
+Third, they can be subject to conscious decisions by individuals or society, or they are the direct consequences of the circumstances, the environment or the events they find themselves exposed towards.
+For example, the decision to migrate could be one imposed relatively forceful by a natural disaster or one considerately taken with longer-term view and justified by living preferences.
+**\[Fourth point here?\]**
+
+When investigating the relationship between climate and growth and spatial distribution of population, the aforementioned aspects make it hard to perfectly distil all the underlying causal chains from climate to population, infer about their interactions and understand how they might combine to form the overall effect.
+As a researcher, one then typically has to make the decision to either look at individual links of these causal chains in isolation or to consider the aggregate relationship.
+Even though the econometric analysis in this thesis aims to do the latter, the following describes a few of the causal chains that are likely to drive the climate-population relationship.
+
 **TODO integrate here: net fertility and mortality rates, also their differentials** Numerous aspects, that are, in turn, related to climate can influence these three factors.
 They are probably best described by the following non-exhaustive list of exemplary causal chains.
 
@@ -26,9 +41,10 @@ They also compare this to lagged shares of permanent emigration resulting from n
 With the help of a cross-section analysis that considers the underlying multi-period panel data only in pooled format, the authors estimate that decreasing precipitation has increased urbanisation in Sub-Saharan Africa by \[...\] for every milliliter less of rainfall \[clarify the quantitative results, also which resolution\].
 Similarly, @henderson-etal-2017-cc-urbanization-africa also investigate urbanisation.
 
-**Economic growth and activity** Contrasting to the micro-level aspects laid out before, various studies have also tried to establish a causal relationship on the macro-level, i.e. between economic growth or activity and the climate.
+**Economic activity, growth, productivity and opportunities** Contrasting to the micro-level aspects laid out before, various studies have also tried to establish a causal relationship on the macro-level, i.e. between economic growth or activity and the climate.
 Climate change profoundly and permanently alters how comparative advantages of different regions fare against each other, whether be it in natural conditions and how humans are able to live with and exploit them, or in infrastructure and other human-made (pre)conditions.
-@kalkuhl-wenz-2020-climate-on-grp, @linsenmeier-2023-temp-econ-dev-sfd, @marbler-2024-water-econ-activity
+Check @kalkuhl-wenz-2020-climate-on-grp, @linsenmeier-2023-temp-econ-dev-sfd, @marbler-2024-water-econ-activity as well.
+**\[Here check that economics also influence population, i.e. look into demographics literature.\]**
 
 In other words, these above aspects and many more already have a proven relationship to climate, or at least weather.
 Population reflects all these aspects to a varying degree, allowing it to be a measure combining different causal chains for identifying the effect of climate on humans on the macro-level.
