@@ -22,9 +22,18 @@ Even though the econometric analysis in this thesis aims to do the latter, the f
 
 Consider first the first-order or direct demographic effects of climate---situations in which climate has shown to have a direct effect on total population, birth, mortality or migration.
 For example, @heutel-etal-2021-mortality-effects-us-regions investigate heterogeneous effects of climate on mortality and find that increases in temperature affect mortality differently, depending on the current regional climate.
-**\[TODO: Add sentence with further detail on the study.\]** Allowing for heterogeneity is also what this study aims, however not based on the climatic preconditions of the investigated spatial units, but rather on the preconditions they show in infrastructure and settlement characteristics.
+According to the authors, their semiparametric regression estimation shows that hot days increase mortality more in cold regions than in warm ones.
+In essence, those regions already more adapted to climate change carry less of its mortality burden than those regions that have yet to face the increased amounts of high temperatures.
+This finding stands in stark contrast to the widely-recognised notion that warmer regions, that are often also less economically developed, will have to bear more of the burden climate change implies [e.g. see @kalkuhl-wenz-2020-climate-on-grp, for economic damages; or e.g. @barreca-etal-2016-us-temp-mortality-decline, for mortality].
+In the context of this study's question of what impact climate change might have on population development in rural and urban areas, both ideas seem plausible.
+Urban areas are known to be warmer than their rural counterparts due to a higher proportion of sealed surfaces, which could lead to increased mortality damages for the former as climate change intensifies.
+However, they commonly dispose of better infrastructure to adapt to heat, whether be it more advanced and accessible healthcare offerings to treat heat-related diseases or a higher share of the labour force employed in working environments that can be cooled.
+Either way, this open debate goes to show that allowing for heterogeneity on the basis of a space's preconditions or environmental circumstances enables a new understanding of the socioeconomic and demographic consequences climate change might have.
+Allowing for heterogeneity is also what this study aims, however not based on the climatic preconditions of the investigated spatial units, but rather on the preconditions they show in infrastructure and settlement characteristics.
 
-\[TODO\] **Human health**
+As far as birth rates concern,...
+**\[Continue here.\]**
+
 
 Safety can also have impacts on birth and death rates.
 It is also a major part of what is often considered as quality of living, eventually driving human decisions to migrate or to settle.
