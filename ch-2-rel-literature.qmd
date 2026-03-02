@@ -2,7 +2,7 @@
 
 At a defined location during a specific period in time, there are three main factors that determine the growth or decline of its human population: birth rate, mortality rate and migration.
 In theory, their relationships with population growth are relatively clear: if one of these three determinants changes while keeping the other two constant, population growth will change.[^ch-2-rel-literature-1]
-For example, if a defined population experiences no migration, and has new children at the same rate as deaths, it does neither grow nor decline--it is stable.
+For example, if a defined population experiences no migration, and has new children at the same rate as deaths, it does neither grow nor decline---it remains stable.
 
 [^ch-2-rel-literature-1]: While an increase in the location's birth rate implies an increase in its population growth ceteris paribus, the effect of the mortality rate is the opposite.
     As regards migration ceteris paribus, immigration causes the location's population to grow, whereas emigration causes it to shrink.
@@ -12,16 +12,17 @@ First, they can move simultaneously and can, consequently, cancel each other out
 For example, a country may experience a decrease in its birth rate, but its population would remain stable if it faced an increase in immigration at the same magnitude as the decrease in its birth rate.
 Second, birth, mortality, and migration can exhibit interdependencies among themselves.
 For example, when comparing population growth across societies in different locations and with different economic preconditions, an economically poorer society might be incentivised to have more children to make up the comparably higher mortality or the fewer retirement provisions caused by its comparably fewer resources and economic endowments.
-Third, they can be subject to conscious decisions by individuals or society, or they are the direct consequences of the circumstances, the environment or the events they find themselves exposed towards.
-For example, the decision to migrate could be one imposed relatively forceful by a natural disaster or one considerately taken with longer-term view and justified by living preferences.
-**\[Fourth point here?\]**
+Third, they can be subject to conscious decisions by individuals or society, or they can be the direct consequences of their circumstances, the environment or the events they find themselves exposed to.
+For example, the decision to migrate could be one imposed forcefully by a natural disaster or one considerately taken with a longer-term view and justified by living preferences.
+**\[TODO: Fourth point here?\]**
 
-When investigating the relationship between climate and growth and spatial distribution of population, the aforementioned aspects make it hard to perfectly distil all the underlying causal chains from climate to population, infer about their interactions and understand how they might combine to form the overall effect.
-As a researcher, one then typically has to make the decision to either look at individual links of these causal chains in isolation or to consider the aggregate relationship.
-Even though the econometric analysis in this thesis aims to do the latter, the following describes a few of the causal chains that are likely to drive the climate-population relationship.
+When investigating the relationship between climate and population growth, the aforementioned aspects make it hard to perfectly distil all the underlying causal pathways, infer about their interactions and understand how they might combine to form the overall effect.
+As a researcher, one then typically has to make the decision to either look at individual links of these causal chains in isolation or to consider the aggregate relationship from a more macroscopic perspective.
+Even though the econometric analysis in this thesis aims to do the latter, the following describes a few of the causal pathways that are likely to drive the climate-population relationship and introduce heterogeneity for urban and rural preconditions into that relationship.
 
-**TODO integrate here: net fertility and mortality rates, also their differentials** Numerous aspects, that are, in turn, related to climate can influence these three factors.
-They are probably best described by the following non-exhaustive list of exemplary causal chains.
+Consider first the first-order or direct demographic effects of climate---situations in which climate has shown to have a direct effect on total population, birth, mortality or migration.
+For example, @heutel-etal-2021-mortality-effects-us-regions investigate heterogeneous effects of climate on mortality and find that increases in temperature affect mortality differently, depending on the current regional climate.
+**\[TODO: Add sentence with further detail on the study.\]** Allowing for heterogeneity is also what this study aims, however not based on the climatic preconditions of the investigated spatial units, but rather on the preconditions they show in infrastructure and settlement characteristics.
 
 \[TODO\] **Human health**
 
