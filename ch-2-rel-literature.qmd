@@ -31,7 +31,11 @@ However, they commonly dispose of better infrastructure to adapt to heat, whethe
 Either way, this open debate goes to show that allowing for heterogeneity on the basis of a space's preconditions or environmental circumstances enables a new understanding of the socioeconomic and demographic consequences climate change might have.
 Allowing for heterogeneity is also what this study aims, however not based on the climatic preconditions of the investigated spatial units, but rather on the preconditions they show in infrastructure and settlement characteristics.
 
-As far as birth rates concern,...
+Similarly, there is also growing evidence that climate change has adverse effects on birth rates.
+In the short term for example, temperature shocks can lead to reduced pregnancies.
+XXX show that hot days in US states have lead to significant declines in their birth rates 8 to 10 months later.
+While this observed pregnancy reduction effect is rather short term as the authors also observe a partial rebound in birth rates in the months thereafter, the literature also contains findings with longer term consequences.
+XXX, for example, consider the effects of heat on the risk of pregnancy loss and find weekly spontaneous pregnancy loss rate to increase significantly with temperature.
 **\[Continue here.\]**
 
 
