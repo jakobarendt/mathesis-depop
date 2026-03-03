@@ -18,76 +18,77 @@ For example, the decision to migrate could be one imposed forcefully by a natura
 
 When investigating the relationship between climate and population growth, the aforementioned aspects make it hard to perfectly distil all the underlying causal pathways, infer about their interactions and understand how they might combine to form the overall effect.
 As a researcher, one then typically has to make the decision to either look at individual links of these causal chains in isolation or to consider the aggregate relationship from a more macroscopic perspective.
-Even though the econometric analysis in this thesis aims to do the latter, the following describes a few of the causal pathways that are likely to drive the climate-population relationship and introduce heterogeneity for urban and rural preconditions into that relationship.
+Even though the econometric analysis in this thesis aims to do the latter, the following describes a few of the causal pathways that are likely to drive the climate-population relationship and introduce heterogeneity for urban and rural preconditions into it.
 
 Consider first the first-order or direct demographic effects of climate---situations in which climate has shown to have a direct effect on total population, birth, mortality or migration.
 For example, @heutel-etal-2021-mortality-effects-us-regions investigate heterogeneous effects of climate on mortality and find that increases in temperature affect mortality differently, depending on the current regional climate.
 According to the authors, their semiparametric regression estimation shows that hot days increase mortality more in cold regions than in warm ones.
 In essence, those regions already more adapted to climate change carry less of its mortality burden than those regions that have yet to face the increased amounts of high temperatures.
-This finding stands in stark contrast to the widely-recognised notion that warmer regions, that are often also less economically developed, will have to bear more of the burden climate change implies [e.g. see @kalkuhl-wenz-2020-climate-on-grp, for economic damages; or e.g. @barreca-etal-2016-us-temp-mortality-decline, for mortality].
+This finding provides nuance to the widely-recognised notion that warmer regions, that are often also less economically developed, will have to bear more of the burden that climate change implies [e.g. see @kalkuhl-wenz-2020-climate-on-grp, for economic damages; or e.g. @barreca-etal-2016-us-temp-mortality-decline, for mortality].
 In the context of this study's question of what impact climate change might have on population development in rural and urban areas, both ideas seem plausible.
 Urban areas are known to be warmer than their rural counterparts due to a higher proportion of sealed surfaces, which could lead to increased mortality damages for the former as climate change intensifies.
 However, they commonly dispose of better infrastructure to adapt to heat, whether be it more advanced and accessible healthcare offerings to treat heat-related diseases or a higher share of the labour force employed in working environments that can be cooled.
-Either way, this open debate goes to show that allowing for heterogeneity on the basis of a space's preconditions or environmental circumstances enables a new understanding of the socioeconomic and demographic consequences climate change might have.
-Allowing for heterogeneity is also what this study aims, however not based on the climatic preconditions of the investigated spatial units, but rather on the preconditions they show in infrastructure and settlement characteristics.
+Either way, this open debate goes to show that allowing for heterogeneity on the basis of a space's structural preconditions or environmental circumstances enables a new understanding of the socioeconomic and demographic consequences climate change might have.
 
 Similarly, there is also growing evidence that climate change has adverse effects on birth rates.
-In the short term for example, temperature shocks can lead to reduced pregnancies.
-XXX show that hot days in US states have lead to significant declines in their birth rates 8 to 10 months later.
-While this observed pregnancy reduction effect is rather short term as the authors also observe a partial rebound in birth rates in the months thereafter, the literature also contains findings with longer term consequences.
-XXX, for example, consider the effects of heat on the risk of pregnancy loss and find weekly spontaneous pregnancy loss rate to increase significantly with temperature.
+In the short term, for example, temperature shocks can lead to reduced pregnancies.
+@barreca-etal-2018-temp-shocks-birth-rates show that hot days in US states have lead to significant declines in their birth rates 8 to 10 months later, and they cannot be associated with sexual activity.
+While this observed pregnancy reduction effect is rather short term as the authors observe a partial rebound in birth rates in the months after the mentioned time frame, the literature also contains findings with longer term consequences.
+@hajdu-hajdu-2023-cc-unborn-mortality, for example, consider the effects of heat on the risk of pregnancy loss and find the weekly spontaneous pregnancy loss rate to increase significantly with temperature.
+For the effect of climate on population growth and rural-urban differences therein, this evidence hints at a crucial link: rising temperatures and an overall increase of hot days induced by climate change can reduce population via their negative effect on the likelihood of successful pregnancies.
+Similar to the rural-urban differences of the climate effect discussed for mortality, the socioeconomic, infra- and other structural differences present in rural and urban regions are likely to induce heterogeneity into the climate-natality relationship.
+Two differentiators could again be quality and access to care attenuating the climate effects on fetal and maternal health, or that urban building and settlement design increases temperatures and exacerbates other symptoms of climate change.
+Another one could relate to social differences and consequent differences in the vulnerability profile of rural versus urban societies: @hajdu-hajdu-2023-cc-unborn-mortality find that the pregnancy loss-effect of heat is especially strong among women without high school degree---an aspect that could amplify the climate effect on birth rates of rural or urban regions if one of the two types has disproportionately more members in this vulnerable group.
+
+Lastly, climate has also shown to have significant short- and long-term effects on migration.
 **\[Continue here.\]**
 
-
-Safety can also have impacts on birth and death rates.
-It is also a major part of what is often considered as quality of living, eventually driving human decisions to migrate or to settle.
-One meta analysis aggregating the results of 55 studies in this field is from @burke-etal-2015-climate-conflict.
-The authors conclude that anomalies in temperature and in rainfall
-
-**Conflict** in their meta analysis of 55 studies on the relationship between climate and conflict that of all weather dimensions, temperature has the strongest impact on conflict.
-
-One level more macroscopic...
 **Migration** @bohramishra-etal-2014-permanent-migration-climate perform a panel analysis, considering the effect of temperature and precipitation onto lagged shares of permanent emigration out of sub-national regions \["probability to migrate"\].
 The authors find that the overall effects onto emigration are stronger for temperature than for precipitation.
 They also compare this to lagged shares of permanent emigration resulting from natural disasters and find that \[...\].
 
-**Urbanisation** A study that aims to relate climate change with shifts in rural and urban population amounts is from @barrios-etal-2006-rural-urban-mig-africa.
-With the help of a cross-section analysis that considers the underlying multi-period panel data only in pooled format, the authors estimate that decreasing precipitation has increased urbanisation in Sub-Saharan Africa by \[...\] for every milliliter less of rainfall \[clarify the quantitative results, also which resolution\].
-Similarly, @henderson-etal-2017-cc-urbanization-africa also investigate urbanisation.
+**Second-order/indirect effects and mediated pathways** In addition to observing mortality directly, one can also consider its drivers and how they are related to climate.
+For example, life expectancy is a deciding determinant of the mortality rate.
+Keeping all its other potential influences constant, mortality decreases if life expectancy increases.
+\[TODO\] **Human health**, e.g. child newborn mortality, @burke-etal-2018-temperature-suicide-rates
+
+**Conflict and Safety** in their meta analysis of 55 studies on the relationship between climate and conflict that of all weather dimensions, temperature has the strongest impact on conflict.
+One meta analysis aggregating the results of 55 studies in this field is from @burke-etal-2015-climate-conflict.
+The authors conclude that anomalies in temperature and in rainfall...
+
+**Agriculture**
 
 **Economic activity, growth, productivity and opportunities** Contrasting to the micro-level aspects laid out before, various studies have also tried to establish a causal relationship on the macro-level, i.e. between economic growth or activity and the climate.
 Climate change profoundly and permanently alters how comparative advantages of different regions fare against each other, whether be it in natural conditions and how humans are able to live with and exploit them, or in infrastructure and other human-made (pre)conditions.
 Check @kalkuhl-wenz-2020-climate-on-grp, @linsenmeier-2023-temp-econ-dev-sfd, @marbler-2024-water-econ-activity as well.
 **\[Here check that economics also influence population, i.e. look into demographics literature.\]**
 
-In other words, these above aspects and many more already have a proven relationship to climate, or at least weather.
+**Other quality of living pathways** driving conscious or unconscious decisions can also influence the three determinants of population growth, in particular the decisions to migrate or to have a child.
+
+**Urbanisation** A study that aims to relate climate change with shifts in rural and urban population amounts is from @barrios-etal-2006-rural-urban-mig-africa.
+With the help of a cross-section analysis that considers the underlying multi-period panel data only in pooled format, the authors estimate that decreasing precipitation has increased urbanisation in Sub-Saharan Africa by \[...\] for every milliliter less of rainfall \[clarify the quantitative results, also which resolution\].
+Similarly, @henderson-etal-2017-cc-urbanization-africa also investigate urbanisation.
+
+**Summary** In other words, these above aspects and many more already have a proven relationship to climate, or at least weather.
 Population reflects all these aspects to a varying degree, allowing it to be a measure combining different causal chains for identifying the effect of climate on humans on the macro-level.
 As the overall approach of this investigation concerns...
 
-**provide more background on the Henderson paper** **Relevant literature is the literature that is touching upon and relevant to my research question: How has climate shaped (or: influenced) European municipal population figures since WW2?**
-
-\[Name & differentiate papers by economic subject area/independent variable (e.g. agriculture, conflict, economic growth & activity, migration, productivity, urbanisation) and weather variable\]
-
-\[Name some papers (the same as mentioned just above or others) to make a differentiation by methodology, i.e. simple cross-section analysis, panel analysis, *spatial first differences* etc\]
-
-*Cite those three mentioned in the @auffhammer-etal-2013-weather-data-econ-analysis paper:*
-
-Among the first to introduce panel models in the context of estimation economic impacts of climate were Auffhammer, Ramanathan, and Vincent 2006; Deschenes and Greenstone 2007; Schlenker and Roberts 2009...
-also quote Fisher et al (2012)
+**Relevant literature is the literature that is touching upon and relevant to my research question: How has climate shaped (or: influenced) European municipal population figures since WW2?**
 
 \[Consider literature in the context of these two argumentation strands & causal channels:\]
 
 1.  Climate literature: What influences does climate have on socioeconomic outcomes and how have they been measured? (I already have some literature on this)
 2.  Population literature: What has shaped population shifts and urbanization (and migration), and which role have climate and socioeconomic factors played in these shifts? How have they been measured? (Still need to find more literature on that)
 
-\[Differentiators to other, already published, literature:\]
+**TODO:**
 
--   its relatively small spatial resolution
--   the time span of the underlying data going relatively far back (first period 1961)
--   its panel nature allowing for control of many unobserved confounders with repeated influence stable in magnitude in every period
--   Unique in the geographical and economic area it covers, many studies seemed to have focused more on developing countries, using nightlights as a proxy for economic development. Using data from European sources, where independent statistical and meteorological institutions responsible for collecting the data underlying this study have been, at least historically, comparably strong and reliable.
--   To my knowledge, no one has so far pursued such a climate-related analysis with this exact population data set, particular contribution with geographical area it investigates (Europe) and the spatial level of detail
--   While many other studies [e.g. @bohramishra-etal-2014-permanent-migration-climate, **check paper**] have put greater focus on migration per se--not giving deeper considerations on where people come from or where they go when a changing climate makes them move--or have mainly investigated urbanisation--i.e. considering mainly cities as object of interest in the climate-population relationship--, this investigation adds to the existing literature by giving particular attention to rural areas and their unique circumstances.
+-   Give more detail on the weather statistics that each of the mentioned weather papers used (maybe for table) ?
+-   Add overview table similar to Kotz et al. (2024): columns for papers, pathways (effect of weather on?), climate statistic used and econometric methodology (?)
+
+## Reserve
+
+*Cite those three mentioned in the @auffhammer-etal-2013-weather-data-econ-analysis paper:* Among the first to introduce panel models in the context of estimation economic impacts of climate were Auffhammer, Ramanathan, and Vincent 2006; Deschenes and Greenstone 2007; Schlenker and Roberts 2009...
+also quote Fisher et al (2012)
 
 \[Further notes for myself\]
 
