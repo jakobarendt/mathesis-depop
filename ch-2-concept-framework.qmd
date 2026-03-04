@@ -1,10 +1,10 @@
-# Related Literature {#sec-Literature}
+# Conceptual Framework {#sec-ConceptFramework}
 
 At a defined location during a specific period in time, there are three main factors that determine the growth or decline of its human population: birth rate, mortality rate and migration.
-In theory, their relationships with population growth are relatively clear: if one of these three determinants changes while keeping the other two constant, population growth will change.[^ch-2-rel-literature-1]
+In theory, their relationships with population growth are relatively clear: if one of these three determinants changes while keeping the other two constant, population growth will change.[^ch-2-concept-framework-1]
 For example, if a defined population experiences no migration, and has new children at the same rate as deaths, it does neither grow nor decline---it remains stable.
 
-[^ch-2-rel-literature-1]: While an increase in the location's birth rate implies an increase in its population growth ceteris paribus, the effect of the mortality rate is the opposite.
+[^ch-2-concept-framework-1]: While an increase in the location's birth rate implies an increase in its population growth ceteris paribus, the effect of the mortality rate is the opposite.
     As regards migration ceteris paribus, immigration causes the location's population to grow, whereas emigration causes it to shrink.
 
 In practise, however, the way that these factors determine population growth is much more complex and convoluted.

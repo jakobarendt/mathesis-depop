@@ -14,7 +14,7 @@ book:
   chapters:
     - index.qmd
     - ch-1-introduction.qmd
-    - ch-2-rel-literature.qmd
+    - ch-2-concept-framework.qmd
     - ch-3-methodology.qmd
     - ch-4-data.qmd
     - ch-5-results.qmd
