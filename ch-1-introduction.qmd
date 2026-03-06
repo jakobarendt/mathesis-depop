@@ -4,8 +4,8 @@ How have climate and its changes shaped the growth and distribution of populatio
 In this investigation, I attempt to identify the causal relationship between population growth and climate and I try to quantify the effect that weather, as a realisation of climate, has had on population \[TODO check whether this is the correct wording or whether I can also speak of *quantifying the effect of climate*\].
 
 Tremendous advances in computational power have enabled the research community to develop an understanding of the climate and its underlying physics, that has never been more profound.
-Similarly, the proofs that demonstrate how a multitude of human activity very likely is the cause of modern-day climate change through the continuous emissions of greenhouse gases have never been less clear.
-While this shows that we have relatively good knowledge of what humans are capable of doing to the climate, the opposite direction seems less clear: we still stand a lot to gain from a better understanding of what the climate and its changes are doing to humans and human societies, not least as this varies greatly with the specific population, area and societal and socioeconomic circumstances considered.
+Similarly, the proofs that demonstrate how a multitude of human activity is the cause of modern-day climate change through the continuous emissions of greenhouse gases have never been less clear.
+While this shows that we have relatively good knowledge of what humans are capable of doing to the climate, the opposite direction seems less clear: we still stand a lot to gain from a better understanding of what the climate and its changes are doing to humans and human societies and economies, not least as this varies greatly with the specific population, area and societal and socioeconomic circumstances considered.
 
 One such socioeconomic aspect likely influenced by the climate is the development of population figures in defined regions.
 Particularly the effects on smaller regions are interesting to estimate as the climate variation across space tends to decrease with the size of the area a region covers.
@@ -35,11 +35,21 @@ I consider linear as well as non-linear effects of climate and also make use of 
 For the panel and hybrid approaches, I exploit the time series dimension of the municipalities' weather and population data by applying fixed effects to correct for unobserved municipality-specific characteristics potentially confounding the climate-population relationship.
 \[TODO plug in here sentence if I do forecasting as well\]
 
-The remainder of this thesis paper is organised as follows: in @sec-Literature, I discuss selected literature touching upon my research question.
+\[**TODO** Differentiators to other, already published, literature:\]
+
+-   its relatively small spatial resolution
+-   the time span of the underlying data going relatively far back (first period 1961)
+-   its panel nature allowing for control of many unobserved confounders with repeated influence stable in magnitude in every period
+-   Unique in the geographical and economic area it covers, many studies seemed to have focused more on developing countries, using nightlights as a proxy for economic development. Using data from European sources, where independent statistical and meteorological institutions responsible for collecting the data underlying this study have been, at least historically, comparably strong and reliable.
+-   To my knowledge, no one has so far pursued such a climate-related analysis with this exact population data set, particular contribution with geographical area it investigates (Europe) and the spatial level of detail.
+    -   In the literature that I have come across, the time distance between a panel's periods was often a year. The decennial data used here may provide a useful addition to the range of methodologies, especially when considering the philosophy behind long-differences modelling frameworks.
+-   While many other studies [e.g. @bohramishra-etal-2014-permanent-migration-climate, **check paper**] have put greater focus on migration per se--not giving deeper considerations on where people come from or where they go when a changing climate makes them move--or have mainly investigated urbanisation--i.e. considering mainly cities as object of interest in the climate-population relationship--, this investigation adds to the existing literature by giving particular attention to rural areas and their unique circumstances.
+
+The remainder of this thesis paper is organised as follows: in [chapter @sec-ConceptFramework], I lay out the conceptual framework behind my research question and discuss supporting literature.
 In particular, I consider investigations that use econometric methodology to identify effects of climate on socioeconomic outcomes and that identify mechanisms likely underlying the climate-population relationship.
-Then a chapter on the methodology used in my investigation follows [@sec-Methodology] follows, along with a chapter on the data sets [@sec-Data].
-@Sec-Results lays out the results of my work and @sec-Conclusion concludes.
-Appendices with further details on the population ([-@sec-AppxPopData]) and weather ([-@sec-AppxWeatData]) are also provided.
+Then a chapter on the methodology used in my investigation follows ([-@sec-Methodology]), along with a chapter on the data sets ([-@sec-Data]).
+@Sec-Results lays out the results of my work and [chapter @sec-Conclusion] concludes.
+Appendices with further details on the population ([-@sec-AppxPopData]) and weather ([-@sec-AppxWeatData]) data are also provided.
 
 \[TODO Potential additional points to consider:\]
 

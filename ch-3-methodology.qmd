@@ -106,6 +106,8 @@ When trying to identify the effects that climate has on population, all of these
 
 \[Further discuss in this sub-chapter:\]
 
+\[Name some papers (the same as mentioned just above or others) to make a differentiation by methodology, i.e. simple cross-section analysis, panel analysis, *spatial first differences* etc, maybe also just for table in conceptual framework chapter\]
+
 -   Identifying variation as a key word
 -   Unlike for certain agricultural processes or economic outcomes, we may never fully know the data-generating process and influencing factors for demographic developments. Considering that, panel modeling is very likely a better choice than a cross-section with its a lack of a systematic approach to test for missing variables.
 -   OVB: panel models are less prone to omitted variable bias, that is, the existence of a variable that also impacts the outcome and is correlated with climate or one of the other observables used as controls.
