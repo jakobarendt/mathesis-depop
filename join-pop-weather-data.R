@@ -109,7 +109,12 @@ panel_data <- joined_data |>
 # Sub-panel data set for estimation & Set panel identifiers
 panel_data_est <- panel_data |>
   filter(YEAR <= 2011) |>
+  as.data.table() |>
   fixest::panel(panel.id = ~CNTR_LAU_CODE+YEAR)
+
+# Add log first-differences of the dependent variable manually before running
+  # FE regressions
+panel_data_est[, d_log_POP := d(log(POP))]
 
 
 
@@ -123,50 +128,50 @@ models_decennial <- list(
     # and/or with temperature and precipitation together
 
   # Pooled models (without rural dummy):
-  feols(d(log(POP)) ~ mean.[temp] + mean.[prec],
-        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d(log(POP)) ~ mean.[temp] + mean.[prec],
+  feols(d_log_POP ~ mean.[temp] + mean.[prec],
+        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),  # VCOV (variance-covariance) matrix is not positive semi-definite, likely due to numerical instability of the scaling of mean.[prec]. The computer has difficulties inverting the cluster covariance matrix due to floating-point precision limits.
+  feols(d_log_POP ~ mean.[temp] + mean.[prec],
         data = panel_data_est, vcov = "conley"),
 
   # One-way fixed effect (without rural dummy): temperature linear
-  feols(d(log(POP)) ~ mean.[temp] + mean.[prec] | CNTR_LAU_CODE,
+  feols(d_log_POP ~ mean.[temp] + mean.[prec] | CNTR_LAU_CODE,
         data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d(log(POP)) ~ mean.[temp] + mean.[prec] | CNTR_LAU_CODE,
+  feols(d_log_POP ~ mean.[temp] + mean.[prec] | CNTR_LAU_CODE,
         data = panel_data_est, vcov = "conley"),
   # One-way fixed effect (without rural dummy): temperature squared
-  feols(d(log(POP)) ~ mean.[temp] + mean.[temp]^2 + mean.[prec] | CNTR_LAU_CODE,
+  feols(d_log_POP ~ mean.[temp] + mean.[temp]^2 + mean.[prec] | CNTR_LAU_CODE,
         data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d(log(POP)) ~ mean.[temp] + mean.[temp]^2 + mean.[prec] | CNTR_LAU_CODE,
+  feols(d_log_POP ~ mean.[temp] + mean.[temp]^2 + mean.[prec] | CNTR_LAU_CODE,
         data = panel_data_est, vcov = "conley"),
 
   # One-way fixed effect (with rural dummy): temperature linear
-  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
+  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
         data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
+  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
         data = panel_data_est, vcov = "conley"),
   # One-way fixed effect (with rural dummy): temperature squared
-  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
+  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
         data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
+  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
         data = panel_data_est, vcov = "conley"),
 
   # Two-way fixed effects (with rural dummy): temperature squared
-  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + YEAR,
+  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + YEAR,
         data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + YEAR,
+  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + YEAR,
         data = panel_data_est, vcov = "conley"),
 
   # FE for LAU-ID and country-varying time trend (with rural dummy):
     # temperature squared
-  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE[YEAR],
+  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE[YEAR],
         data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE[YEAR],
+  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE[YEAR],
         data = panel_data_est, vcov = "conley"),
 
   # FEs for LAU-ID and country-year (with rural dummy): temperature squared
-  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE^YEAR,
+  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE^YEAR,
         data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d(log(POP)) ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE^YEAR,
+  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE^YEAR,
         data = panel_data_est, vcov = "conley")
 
   )
