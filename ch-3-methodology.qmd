@@ -8,40 +8,44 @@ The sub chapters following thereafter describe the specific identification probl
 ## The Climate Econometric Problem and Common Approaches for Its Solution
 
 Concerning the methodological discipline of climate econometrics, @hsiang-2016-climate-econometrics and @kolstad-moore-2020-clim-impacts-from-weather-data have contributed fundamental survey papers that this study also relies on.
-They discuss in more detail under which circumstances weather observations can reliably describe climate and changes therein, and the advantages and disadvantages of different econometric models aimed at identifying its socioeconomic impacts.
+They discuss in more detail under which circumstances weather observations can reliably describe climate and changes therein, and the advantages and disadvantages of different econometric models aimed at causally identifying its socioeconomic impacts.
 
 @hsiang-2016-climate-econometrics formally define a statistical model to distinguish weather and climate and to provide a framework for their use in econometric modelling.
 As weather exhibits randomness by its very nature, they consider it as a vector of random variables, containing temperature, precipitation, air pressure, and other measures of atmospheric states that fully characterise the weather condition at a defined location during a certain time period.
 Building on this, climate is the full, multivariate distribution[^ch-3-methodology-1] from which the random variable is drawn.
 In other words, climate is the parametrisation of the joint distribution of athmospheric states for a given location and specified time period, based on which certain potential states of weather could realise.
 
-[^ch-3-methodology-1]: Or, to be more precise, the statistical moments that parametrise this distribution.
+[^ch-3-methodology-1]: Or, to be more precise, the statistical moments that fully parametrise this distribution.
 
 Therefore, weather observations for a given location during a specified time are never sufficient to fully infer about its climate.
-Unless when making assumptions about the shape of the distribution specifying climate, we are unlikely to ever know the full distribution and, hence, the climate perfectly as we only observe weather once at the given location during the specific time period, and do not know which other states of the atmosphere could have realised.
+Unless when making assumptions about the shape of the distribution specifying climate, we are unlikely to ever know the full distribution and, hence, the climate perfectly because we only observe weather once at the given location during the specific time period, and do not know which other states of the atmosphere could also have realised.
 However, for investigating the socioeconomic impacts of climate this need not be a problem.
 As long as a change in weather can reliably represent a change in climate, the parameters of the full distribution representing the climate do not need to be perfectly known.
 
-This definition has the advantage that it leaves room for adjustments in order to allow application to the data and the research question at hand: first, it allows for using partially or fully model-derived data such as reanalyses, besides observed weather data, to be used for deriving climate impacts.
+This definition has the advantage that it leaves room for adjustments in order to allow application to the data and the research question one has at hand: first, it allows for using partially or fully model-derived data such as reanalyses, besides observed weather data, to be used for deriving climate impacts.
 Second, this definition does not impose any specific time duration nor climate statistic to describe the theoretical distributions (e.g. mean of daily temperatures).
-Rather, their appropriate choice should be driven by the research question and the socioeconomic outcome investigated, e.g. growing degree days for agricultural outcomes and temeperature adjusted for evaporative cooling for public health outcomes [see also @kolstad-moore-2020-clim-impacts-from-weather-data, p. 3] **TODO add column 'Weather statistic' to table**.
-In general tendency, the weather parameters to describe climate have increased in number with each new study applying climate econometric models [@hsiang-2016-climate-econometrics, p. 45].
+Rather, their appropriate choice should be driven by the research question and the socioeconomic outcome investigated, e.g. growing degree days for agricultural outcomes or temperature adjusted for evaporative cooling for public health outcomes [see also @kolstad-moore-2020-clim-impacts-from-weather-data, p. 3] **TODO add column 'Weather statistic' to table**.
+In general tendency, the weather parameters used in a model to describe climate have increased in number with each new study applying climate econometric models [@hsiang-2016-climate-econometrics, p. 45].
 
 When the climate influences a population or its socioeonomic outcomes, a combination of two effects is at play: direct effects and belief effects [@hsiang-2016-climate-econometrics, p. 45f.].
 On the one hand, direct effects are those that individuals or societies experience without any secondary causal chains, e.g. more economic damages in periods and areas with more cyclones or a higher likelihood for sunburns the closer one gets to the equator.
 On the other hand, belief effects are those effects that channel through onto socioeconomic outcomes when individuals or societies have or change their beliefs about the climate and when they act upon them.
 Returning to the latter example, individuals may expect their UV-exposure to be high and put on sunscreen.
 It is only the combination of these two effects that constitute the effects of climate as they can also attenuate or reinforce each other, and during estimation of real-world effects they are also hard to differentiate.[^ch-3-methodology-2]
-The belief effect together with its interaction with the direct effect is often considered as *adaptation*. In the previous example, people that adapt to a higher likelihood of sunburns are those that expect high UV-exposure and put on sunscreen.
-In this example, adaptation leads to an attenuation of the effect in the relationship "closeness to the equator" and "likelihood of sunburns".
-For applied estimation with time series models based on short period distances, @hsiang-2016-climate-econometrics argues that estimated short-run effects should be the same as the long-run effects accounting for adaptation so long as the socioeconomic outcome variable can be assumed to result from continuous maximisation, whereas @merel-gammans-2021-climate-econometrics-lr-adaptation find these models to estimate a weighted average of short- and long-run responses and they propose a correction term for this bias **TODO check whether to better put this sentence at the summary or modelling paragraph**.
+The belief effect together with its interaction with the direct effect is often considered as *adaptation*. Considering again the previous example, people that adapt to a higher likelihood of sunburns are those that expect high UV-exposure and put on sunscreen.
+In this case, adaptation leads to an attenuation of the effect going from "proximity to the equator" to "likelihood of sunburns".
+For applied estimation with time series models based on short period distances, @hsiang-2016-climate-econometrics argues that estimated short-run effects should on the margin be the same as long-run effects incorporating adaptation so long as the socioeconomic outcome variable can be assumed to result from continuous maximisation, whereas @merel-gammans-2021-climate-econometrics-lr-adaptation find these models to estimate a weighted average of short- and long-run responses and they propose a correction term for this bias **TODO check whether to better put this sentence at the summary or modelling paragraph**.
 
 [^ch-3-methodology-2]: While direct effects can also be substantiated for very short time periods, belief effects and changes thereof are often traceable only over the longer run, with data sets covering longer time periods.
 
-**TODO check whether this is correctly placed here** As @hsiang-2016-climate-econometrics and @kolstad-moore-2020-clim-impacts-from-weather-data explain, there are two fundamental issues in climate econometrics **\[CONTINUE HERE\]**.
-Each of these issues have solutions that stand against each other in a trade-off that needs to be balanced.
-First, climate needs to be reliably inferred from weather observations (clear that different regions have different climates at one point in time, but OVB problem).
-Second, changes in climate need to be sufficiently relatable in terms of time and space to the outcome observed.
+**TODO check whether this is correctly placed here** As @hsiang-2016-climate-econometrics and @kolstad-moore-2020-clim-impacts-from-weather-data explain, there are three fundamental challenges in climate econometrics, and the econometric methodologies most common in the literature are subject to a trade-off: they can mitigate either one of the challenges in isolation, but none are able to address them both simultaneously **\[CONTINUE HERE\]**.
+The first challenge is to ensure that changes in the outcome variable can be associated...
+This can be ensured by ..., and @hsiang-2016-climate-econometrics call this the *unit homogeneity assumption*.
+The second challenge is to reliably infer climate from weather observations.
+(clear that different regions have different climates at one point in time, but OVB problem).
+This also relies on an assumption, which @hsiang-2016-climate-econometrics consider the *marginal treatment comparability assumption*.
+Third and last, it is also a challenge to credibly identify changes in outcome to climate with regards to the time length and frequency if the data at hand requires time series based modelling.
+Dual trade-off with regards to time...
 
 At its core, identifying climate change effects on a population is always subject to a trade-off: xxx vs. xxx.
 As @kolstad-moore-2020-clim-impacts-from-weather-data discuss, finding a balance between these two goals is the only way to reduce this dilemma.
