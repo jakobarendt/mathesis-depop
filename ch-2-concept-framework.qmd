@@ -12,9 +12,13 @@ First, they can move simultaneously and can, consequently, cancel each other out
 For example, a country may experience a decrease in its birth rate, but its population would remain stable if it faced an increase in immigration at the same magnitude as the decrease in its birth rate.
 Second, birth, mortality, and migration can exhibit interdependencies among themselves.
 For example, when comparing population growth across societies in different locations and with different economic preconditions, an economically poorer society might be incentivised to have more children to make up the comparably higher mortality or the fewer retirement provisions caused by its comparably fewer resources and economic endowments.
-Third, they can be subject to conscious decisions by individuals or society, or they can be the direct consequences of their circumstances, the environment or the events they find themselves exposed to.
+These interdependencies make it very hard to clearly identify causal relationships and the directions of the effects they channel.
+Third, they can be subject to conscious decisions by individuals or society, or they can be the direct consequences of their circumstances, the environment or the events they find themselves exposed to.[^ch-2-concept-framework-2]
 For example, the decision to migrate could be one imposed forcefully by a natural disaster or one considerately taken with a longer-term view and justified by living preferences.
 **\[TODO: Fourth point here?\]**
+
+[^ch-2-concept-framework-2]: In the literature, they are typically call *belief effects* and *direct effects*, analogously.
+    See also [section @sec-MethodologyApproaches] for more details on this.
 
 When investigating the relationship between climate and population growth, the aforementioned aspects make it hard to perfectly distil all the underlying causal pathways, infer about their interactions and understand how they might combine to form the overall effect.
 As a researcher, one then typically has to make the decision to either look at individual links of these causal chains in isolation or to consider the aggregate relationship from a more macroscopic perspective.
@@ -27,25 +31,30 @@ In essence, those regions already more adapted to climate change carry less of i
 This finding provides nuance to the widely-recognised notion that warmer regions, that are often also less economically developed, will have to bear more of the burden that climate change implies [e.g. see @kalkuhl-wenz-2020-climate-on-grp, for economic damages; or e.g. @barreca-etal-2016-us-temp-mortality-decline, for mortality].
 In the context of this study's question of what impact climate change might have on population development in rural and urban areas, both ideas seem plausible.
 Urban areas are known to be warmer than their rural counterparts due to a higher proportion of sealed surfaces, which could lead to increased mortality damages for the former as climate change intensifies.
-However, they commonly dispose of better infrastructure to adapt to heat, whether be it more advanced and accessible healthcare offerings to treat heat-related diseases or a higher share of the labour force employed in working environments that can be cooled.
+However, they commonly dispose of better infrastructure to adapt to heat, whether be it more advanced and accessible healthcare offerings to treat heat-related diseases or a higher share of the labour force employed in working environments that can be cooled ["urban pull", see also @helbling-meierrieks-2023-global-warming-urbanization].
 Either way, this open debate goes to show that allowing for heterogeneity on the basis of a space's structural preconditions or environmental circumstances enables a new understanding of the socioeconomic and demographic consequences climate change might have.
 
 Similarly, there is also growing evidence that climate change has adverse effects on birth rates.
 In the short term, for example, temperature shocks can lead to reduced pregnancies.
 @barreca-etal-2018-temp-shocks-birth-rates show that hot days in US states have lead to significant declines in their birth rates 8 to 10 months later, and they cannot be associated with sexual activity.
-While this observed pregnancy reduction effect is rather short term as the authors observe a partial rebound in birth rates in the months after the mentioned time frame, the literature also contains findings with longer term consequences.
+While this observed pregnancy reduction effect is rather short term as the authors observe a partial rebound in birth rates in the months after the mentioned time period, the literature also contains findings with longer term consequences.
 @hajdu-hajdu-2023-cc-unborn-mortality, for example, consider the effects of heat on the risk of pregnancy loss and find the weekly spontaneous pregnancy loss rate to increase significantly with temperature.
 For the effect of climate on population growth and rural-urban differences therein, this evidence hints at a crucial link: rising temperatures and an overall increase of hot days induced by climate change can reduce population via their negative effect on the likelihood of successful pregnancies.
 Similar to the rural-urban differences of the climate effect discussed for mortality, the socioeconomic, infra- and other structural differences present in rural and urban regions are likely to induce heterogeneity into the climate-natality relationship.
 Differentiators could again be quality and access to care attenuating the climate effects on fetal and maternal health, or that urban building and settlement design increases temperatures and, consequently, exacerbates the spontaneous pregnancy loss rate and other symptoms of climate change affecting the former.
-Another one could relate to social differences and consequent differences in the vulnerability profile of rural versus urban societies: @hajdu-hajdu-2023-cc-unborn-mortality find that the pregnancy loss-effect of heat is especially strong among women without high school degree---an aspect that could amplify the climate effect on birth rates of rural or urban regions if one of the two types has disproportionately more members in this vulnerable group.
+Another differentiator could be induced by social differences and consequent differences in the vulnerability profile of rural versus urban societies: @hajdu-hajdu-2023-cc-unborn-mortality find that the pregnancy loss-effect of heat is especially strong among women without high school degree---an aspect that could amplify the climate effect on birth rates of rural or urban regions if one of the two types has disproportionately more members in this vulnerable group.
 
 Lastly, climate has also shown to have significant short- and long-term effects on migration.
+Concerning long-term effects, @bohramishra-etal-2014-permanent-migration-climate perform a panel analysis that considers the effect of temperature, precipitation and natural disasters onto lagged shares of permanent migration between sub-national regions.
+They find that the overall effects onto the probability to permanently migrate out of the province are strong for temperature, whereas the effects for precipitation are small and those for disasters insignificant, presumably because people tend to return to their homes after they have been displaced due to disaster.
+@cattaneo-peri-2016-temperatures-migration-response broaden this question of temperature and precipitation effects on migration to 115 countries, and also consider international migration in addition to internal one.
+For middle-income countries, they estimate that the probabilities of urbanisation and international migration increase with temperature and precipitation, while for poor countries the opposite is the case.
+The authors assume that these effects run through climate change adversely affecting agricultural incomes, inducing people in middle-income countries to search for alternative incomes in cities and internationally but stripping people in poor countries of their income to even enable migration in the first place.
+@feng-etal-2010-cc-crop-yields-migration are able to confirm this presumed causal channel by using climate as an instrumental variable (IV), by first regressing agricultural yields on temperature, precipitation and summer temperatures, and then regressing the probability of Mexicans to migrate to the United States on the fitted values of the first regression.
+Indeed, they estimate the number of migrants to increase by 1.4-6.7 million additional emigrants, depending on the climate change model and the extent of adaptation.
 **\[Continue here.\]**
 
-**Migration** @bohramishra-etal-2014-permanent-migration-climate perform a panel analysis, considering the effect of temperature and precipitation onto lagged shares of permanent emigration out of sub-national regions \["probability to migrate"\].
-The authors find that the overall effects onto emigration are stronger for temperature than for precipitation.
-They also compare this to lagged shares of permanent emigration resulting from natural disasters and find that \[...\].
+**Migration**
 
 **Second-order/indirect effects and mediated pathways** In addition to observing mortality directly, one can also consider its drivers and how they are related to climate.
 For example, life expectancy is a deciding determinant of the mortality rate.
