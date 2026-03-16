@@ -17,7 +17,7 @@ Third, they can be subject to conscious decisions by individuals or society, or 
 For example, the decision to migrate could be one imposed forcefully by a natural disaster or one considerately taken with a longer-term view and justified by living preferences.
 **\[TODO: Fourth point here?\]**
 
-[^ch-2-concept-framework-2]: In the literature, they are typically call *belief effects* and *direct effects*, analogously.
+[^ch-2-concept-framework-2]: In the literature, they are typically called *belief effects* and *direct effects*, analogously.
     See also [section @sec-MethodologyApproaches] for more details on this.
 
 When investigating the relationship between climate and population growth, the aforementioned aspects make it hard to perfectly distil all the underlying causal pathways, infer about their interactions and understand how they might combine to form the overall effect.
@@ -46,15 +46,20 @@ Another differentiator could be induced by social differences and consequent dif
 
 Lastly, climate has also shown to have significant short- and long-term effects on migration.
 Concerning long-term effects, @bohramishra-etal-2014-permanent-migration-climate perform a panel analysis that considers the effect of temperature, precipitation and natural disasters onto lagged shares of permanent migration between sub-national regions.
-They find that the overall effects onto the probability to permanently migrate out of the province are strong for temperature, whereas the effects for precipitation are small and those for disasters insignificant, presumably because people tend to return to their homes after they have been displaced due to disaster.
+They find that the overall effects onto the probability to permanently migrate out of the province are strong for temperature, whereas the effects for precipitation are small and those for disasters insignificant, presumably because people tend to return to their homes after they have been displaced due to a disaster.
 @cattaneo-peri-2016-temperatures-migration-response broaden this question of temperature and precipitation effects on migration to 115 countries, and also consider international migration in addition to internal one.
 For middle-income countries, they estimate that the probabilities of urbanisation and international migration increase with temperature and precipitation, while for poor countries the opposite is the case.
-The authors assume that these effects run through climate change adversely affecting agricultural incomes, inducing people in middle-income countries to search for alternative incomes in cities and internationally but stripping people in poor countries of their income to even enable migration in the first place.
-@feng-etal-2010-cc-crop-yields-migration are able to confirm this presumed causal channel by using climate as an instrumental variable (IV), by first regressing agricultural yields on temperature, precipitation and summer temperatures, and then regressing the probability of Mexicans to migrate to the United States on the fitted values of the first regression.
-Indeed, they estimate the number of migrants to increase by 1.4-6.7 million additional emigrants, depending on the climate change model and the extent of adaptation.
-**\[Continue here.\]**
+The authors assume that these effects run through climate change adversely affecting agricultural incomes, inducing individuals in middle-income countries to search for alternative incomes in cities and other countries, but stripping people in poor countries of an income that would have enabled them to migrate in the first place.
+@feng-etal-2010-cc-crop-yields-migration are able to confirm this presumed causal channel by using climate as an instrumental variable (IV), first regressing agricultural yields on temperature, precipitation and summer temperatures, and then regressing the probability of Mexicans to migrate to the United States on the fitted values of the first regression.
+Indeed, they estimate that, via this agricultural channel, the number of migrants from Mexico to the U.S. is to increase by 1.4-6.7 million additional people, depending on the climate change model and the extent of adaptation.
+**\[Continue here.\]** Still missing another paper observing migration patterns directly, and the review and meta-analysis literature.
 
-**Migration**
+Based on a more macroscopic perspective, studies have shown that temperature and precipitation increase urbanisation in Malawi **\[TODO check and add study on more national level\]**, Sub-Saharan Africa [@henderson-etal-2017-cc-urbanization-africa] or globally [@castellsquintana-etal-2020-pop-distr-global; @cattaneo-peri-2016-temperatures-migration-response; @helbling-meierrieks-2023-global-warming-urbanization].
+Note that for all of these studies, changes in urbanisation were observed at the aggregate level, by considering the share of the population living in urban areas of the regions or countries investigated.
+It is crucial to point out and make sure this specification is distinguished from migration and human mobility as changes in urbanisation cannot only be caused by the latter, but also by differentials in birth and mortality rates.
+This distinction is not always handled with transparency.
+For example, during my literature review, I found that @cattaneo-peri-2016-temperatures-migration-response speak of "migration rates to urban rates" in their abstract while they, in fact, thereafter present their estimations based on urbanisation rates.
+Nevertheless, all aforementioned studies find that the symptoms of climate change drive an increase in urbanisation, giving good reason to consider rural-urban heterogeneity as this study aims to do.
 
 **Second-order/indirect effects and mediated pathways** In addition to observing mortality directly, one can also consider its drivers and how they are related to climate.
 For example, life expectancy is a deciding determinant of the mortality rate.
