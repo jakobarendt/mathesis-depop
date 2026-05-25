@@ -179,6 +179,7 @@ $$\Delta \log ( \mathrm{pop}_{ict} + 1 ) = {\boldsymbol{\beta}}_{\mathrm{T}} \, 
 where observations are indexed by $i$ for the respective LAU, by $c$ for the respective country of the LAU and by $t$ for the respective year of the LAU's population levels, $\mathrm{pop}_{ict}$, and the final year of the respective weather aggregate corresponding to a LAU's geographic location.
 The first-differences operator $\Delta$ transforms population to a dependent variable representing population growth measured in log-differences, where the population levels $\mathrm{pop}_{ict}$ are increased by one to ensure the logarithms remain defined throughout transformation to population growth values.
 I take population growth instead of population levels for two reasons: first, throughout major periods of the time span my data covers (from 1961 to 2011), population levels likely exhibit a unit-root and are therefore non-stationary, mainly due to the post-World War II population boom particularly present in Western countries.
+Especially in the context of the continuously rising temperatures caused by climate change, such unit roots in the dependent variable need to be avoided to ensure that the effect estimations for the weather covariates are not driven by spurious correlations **TODO check generally with spurious correlations in ToDo-list**.
 Second, specifying population in the form of growth helps with controlling for time-invariant confounding LAU-specific effects: the LAU-specific fixed effects, $\gamma_i$, can hence control for changing confounders, so long as they decrease or increase at the same rate throughout the model's entire time span.
 
 Furthermore, the weather covariates temperature and precipitation are denoted by $\mathrm{temp}_{ict}$ and $\mathrm{prec}_{ict}$, respectively measured in degrees Celsius and millimeter.
@@ -187,6 +188,7 @@ This way, the weather aggregates correspond to the population variable with resp
 Consequently, the index $t$ of these aggregate weather covariates denotes the last year of each aggregation period: for example, for the population growth from 1961 to 1971, the aggregation period for the weather covariates ranged from 1st of January 1961 to 31st of December 1970.
 In addition, the weather covariates enter the modelling equation in quadratic form $F(W) = \eta_1 W + \eta_2 W^2$, which is abbreviated with the functional form wrapper $g ( \cdot )$ in [equation @eq-reg-baseline-panel-fes], such that the coefficients $\mathbf{\beta}$ are actually vectors containing the coefficients for the linear and squared weather covariates.
 The majority of the recent climate econometric literature considers climate effects in non-linear, semi- or non-parametric form because **xxx TODO, mention literature**, and I follow this approach.
+This is also because modelling the impacts of climate by such a global nonlinear function has two advantages: in panel models, it allows for exploiting not only intra-unit but also inter-unit variation, and it helps to model the idea that socioeconomic outcomes change when deviating either way from the optimal temperature **TODO reformulate**.
 
 The baseline equation ([-@eq-reg-baseline-panel-fes]) also includes LAU-specific fixed effects, $\gamma_i$, and country-time-specific fixed effects, $\omega_{ct}$.
 In an alternative modelling specification, I replace $\omega_{ct}$ by country-specific polynomial time trends, $p_c (t)$.
@@ -239,23 +241,15 @@ $$\begin{split}
   - $\phi_{ic}$ is the regression error.
 - considering unobservable LAU-level characteristics particularly prevalant in the long-run, might prove a better fit to the data at hand and the research question on the long-run population consequences of climate change. **include also attenuation bias and citation for mostly harmless econometrics**
 
-**\[Uncertainties regarding this sub-chapter:\]**
-
-- Conditional independence assumption?
-- Consider whether population data exhibits a unit root, and mention that first differences of population data have the advantage of accounting for potential unit roots
-  - Non-stationarity and high autocorrelation of population figures that can lead to identifying spurious correlations between climate and population
-- 2-part-modell als sonstige Lösung
-- Global vs. local non-linearity (see also "Identifying Non-Linearities in Fixed Effects Models" by Mcintosh and Schlenker)
-  - If FE-estimations rely on variation across time within a unit and not variation across units as the source of identifying variation, why do I not get N (no. of units) effect estimations? How is the within unit variation aggregated for all units?
-  - @kolstad-moore-2020-clim-impacts-from-weather-data discuss OVB in multistage models
-
 ## Reserve / TODO
 
 - **SUTVA (best chapter likely "identification problem")**
+- **Conditional independence assumption (best chapter likely "identification problem")**
 - **Social costs of carbon (SSC, fitting chapter not yet clear, maybe "introduction"):** mention and define them
 - **Country-time trend against potential spurious correlations (chapter "model specification"):** to avoid estimating effects on the basis that climate and population accidentally exhibit the same development (see also Marbler, 2024)
-- **Reverse causality (chapters "identification" or "model specification"):** example with surface sealing leading to highly impervious covers and higher temperatures. Can population growth lead to higher temperatures? Yes, for example if urban growth leads to higher surface sealing and does not mostly happen in the periphery. This is likely only for the first periods of the panel, and, second, the reaction of an increase in sealed surfaces is likely delayed more than the 10 years in the model. Also brainstorm with AI and check with @Borsky.
+- **Reverse causality (chapters "identification" or "model specification"):** example with surface sealing leading to highly impervious covers and higher temperatures. Can population growth lead to higher temperatures? Yes, for example if urban growth leads to higher surface sealing and does not mostly happen in the periphery. This is likely only for the first periods of the panel, and, second, the reaction of an increase in sealed surfaces is likely delayed more than the 10 years in the model. Also brainstorm with AI and check with \@Borsky.
 - **Spatial correlation (fitting chapter not yet clear, maybe under results):** three ways of control (according to @auffhammer-etal-2013-weather-data-econ-analysis)
+- **OVB in multistage models (best chapters likely "identification" or "model specification"):** @kolstad-moore-2020-clim-impacts-from-weather-data
 - **Internal and external validity (fitting chapter not yet clear)**
 - **Attenuation bias from measurement error (chapters "common approaches", "methodology" or "results" if robustness check):** fixed effects estimation susceptible to such a bias, compare estimates against pooled model to check
 - **Weighted least squares estimation ("model specification" or "results" if test/robustness check):** weighting with population sizes to deal with heteroskedasticity
