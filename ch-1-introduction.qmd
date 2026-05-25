@@ -1,4 +1,4 @@
-# Introduction
+# Introduction {#sec-Introduction}
 
 How have climate and its changes shaped the growth and distribution of population across European municipalities in the last decades?
 In this investigation, I attempt to identify the causal relationship between population growth and climate and I try to quantify the effect that weather, as a realisation of climate, has had on population \[TODO check whether this is the correct wording or whether I can also speak of *quantifying the effect of climate*\].
@@ -53,8 +53,12 @@ Appendices with further details on the population ([-@sec-AppxPopData]) and weat
 
 \[TODO Potential additional points to consider:\]
 
--   mention *IPCC reports* when discussing urgency of climate change as a topic in public debate (i.e. consequences/scenarios when no actions are taken)
--   check whether I can find a rate of deurbanisation/ruralisation (the flip side of urbanisation) for Europe, otherwise just consider the change of the share of people living in rural areas
+- mention *IPCC reports* when discussing urgency of climate change as a topic in public debate (i.e. consequences/scenarios when no actions are taken)
+- check whether I can find a rate of deurbanisation/ruralisation (the flip side of urbanisation) for Europe, otherwise just consider the change of the share of people living in rural areas
+- Mention what it adds to the literature:
+  - High spatial resolution
+  - Long inter-period distances but still panel
+  - Demographic effects in Europe
 
 The first aim is that this backward-looking investigation, considering climatic and societal outcomes decades back to the 1960s, demonstrates how long the warmig planet has already had an impact on society, even in industrialised countries that are often considered as less affected than developing ones.
 The second aim, resulting out of the first one, is that the longer historical perspective underlines once more the relevance and urgency for climate action, and supports a better informed and more targeted approach to (climate) policymaking, in particular for regions suffering from depopulation.

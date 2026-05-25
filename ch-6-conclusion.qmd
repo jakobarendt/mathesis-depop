@@ -4,6 +4,11 @@ In chapter @sec-Methodology, I also provide the formal argument that allows for 
 
 Potential further extensions:
 
+- Further and better control variables, in particular for other drivers known to simultaneously influence the climate and births, mortality or migration.
+- **Width of climate variables:** The variables specifying climate need to be comprehensive to ensure its exogeneity when considering the climate's impact on a population (e.g. temperature may have a significant variation in one temperature, but another climate variable that exhibits significant variation in the following period as consequence of temperature may not be captured and this becomes a problem). Typically, the different weather parameters exhibit high correlation.
+  - @auffhammer-etal-2013-weather-data-econ-analysis argue for considering the entirety of available and relevant weather variables to avoid indeterminate OVB (as correlation between the weather variables themselves can highly vary in sign and magnitude for the different LAUs) **argue that correlation matrix between all available weather variables is not needed, rather look into correlations for all the LAUs (sign of OV bias depends on location. As the identifying variation is within-LAU, this needs to be accounted for - otherwise estimation of the effect of that variation will only be unbiased for some LAUs but not for all)**
+- Accounting for adaptation and looking into other global regions, in particular those with less means for adaptation measures.
+
 Improve how the econometric models in this investigation account for overall population trends in each of the countries in the sample and in Europe as a whole.
 <!--was genau meine ich denn da?!?!?-->
 
@@ -11,12 +16,14 @@ After all, some European countries and the continent as a whole are on the foref
 In that regard, potential extensions for the research presented in this thesis could range from including more variables likely correlated to population figures and weather (e.g. (child) mortality rates, life expectancy) to an improved argumentation as to how such currently unobserved confounders and trends not yet explicitly specified need or need not be considered to validate the results.
 Such considerations might also resemble a fruitful opportunity to test the population dynamics derived in Malthusian and post-Malthusian [e.g. @galor-weil-2000-growth-population-post-malthus] models.
 
--   Why is this important? Why do the results matter? What consequences have the results?
--   What are potential extensions of this investigation? Which areas of research needs further attention?
--   Consider also: Global trend that regions that suffer most from population decreases are most supportive of right-wing populist politics.
+- Why is this important? Why do the results matter? What consequences have the results?
+- What are potential extensions of this investigation? Which areas of research needs further attention?
+- Consider also: Global trend that regions that suffer most from population decreases are most supportive of right-wing populist politics.
 
 Due to their oftentimes higher proximity to the equator as well as their significantly less resources and investment capabilities to adapt to climate change, the consequences of climate change are typically considered far more severe for developing countries than for their industrialised counterparts.
 However, this analysis shows that even countries that are among the richest and furthest away from the equator are also not exempted from such consequences.
 
-\[Limitations:\] - Dilemma of identifying climate change vs identifying direct impacts of climate change: the long time horizon of this study satisfies the former aspect well, but not the latter.
-This (latter) aspect of difficulties in identifying the socioeconomic impact of climate (i.e. the causal relationship between population and climate change) is likely worsened by the fact of under-control (even other studies that panel estimation-based relied on a broad set of control variables).
+\[Limitations:\]
+
+- Dilemma of identifying climate change vs identifying direct impacts of climate change: the long time horizon of this study satisfies the former aspect well, but not the latter. This (latter) aspect of difficulties in identifying the socioeconomic impact of climate (i.e. the causal relationship between population and climate change) is likely worsened by the fact of under-control (even other studies that panel estimation-based relied on a broad set of control variables).
+- No clear differentiation between direct and belief effects, likely more modelling and additional assumptions needed (with the setup of this investigation, one way to argue that the estimates only capture direct effects would be to say that in Europe the vast majority of people may have not made their decision to move based on expectations about the climate)
