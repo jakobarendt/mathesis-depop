@@ -249,25 +249,13 @@ $$\begin{split}
   - If FE-estimations rely on variation across time within a unit and not variation across units as the source of identifying variation, why do I not get N (no. of units) effect estimations? How is the within unit variation aggregated for all units?
   - @kolstad-moore-2020-clim-impacts-from-weather-data discuss OVB in multistage models
 
-**\[To-do's for this sub-chapter:\]**
+## Reserve / TODO
 
-- Weighted least squares according to population size to deal with heteroskedasticity?
-- Write a paragraph on **reverse causality**: more populated areas are likely to have higher surface temperatures, but this cancels out with the hypotheses that hotter LAUs have population reductions?
-  - nur wenn bebauungsgrad konstant im LAU-FE geschluckt, aber sonst ist das ja in der gemessenen Temperatur im Grid mitgemessen
-  - modellierung als discrete choice modell (tortenstücke), also wenn ein Individuum sich für ein LAU entscheidet, entscheidet es sich dann für ein kühles LAU (das in den in meinen Daten stärkeres Pop Wachstum verzeichnet)
-- Write a paragraph on **adaptation**:
-  - Correct to say: Adaptation effects are accounted for as long as adaptation happens at the same pace in each period?
-  - **New:** (On adaptation) In my case, adaptation would likely lead to an attenuation bias in the effect estimations. For the panel model, would it be right to say that adaptations that influence the climate-socioeconomic causal relationship in a constant way over time are accounted for due to the time series nature of the panel model?
-    - country-FE, LAU-FE catch differences in adaptation capability of LAUs
-    - trend-variable captures influence of adaptation on climate-socioeconomic relationship that is constant over time (even better: trend\*LAU); account for potential spurious correlations, where climate and population accidentally exhibit the same development (?? see again Marbler 2024 for this)
-    - fixed effects each for every year can control for adaptation effects that are irregular over time
-- Internal vs. external validity \[or maybe put that in the second subchapter?\]
-- Argue against autocorrelation in the error term and endogeneity (the former might make a GLS estimation based on a random-effects model necessary)
-
-### General ToDos / Further Steps
-
-- Mention and define *social costs of carbon (SCC)*
-- In Climate Econometrics, is there anything similar to the random assignment assumption that we typically have in program evaluation?
-- Three ways of controlling for spatial correlation (according to @auffhammer-etal-2013-weather-data-econ-analysis) --\>
-- **Caveat:** FE estimation susceptible to attenuation bias from measurement error (very likely here as well!) --\> benchmark estimates against simple, cohort-ignorant/cohort-agnostic OLS
-- SUTVA
+- **SUTVA (best chapter likely "identification problem")**
+- **Social costs of carbon (SSC, fitting chapter not yet clear, maybe "introduction"):** mention and define them
+- **Country-time trend against potential spurious correlations (chapter "model specification"):** to avoid estimating effects on the basis that climate and population accidentally exhibit the same development (see also Marbler, 2024)
+- **Reverse causality (chapters "identification" or "model specification"):** example with surface sealing leading to highly impervious covers and higher temperatures. Can population growth lead to higher temperatures? Yes, for example if urban growth leads to higher surface sealing and does not mostly happen in the periphery. This is likely only for the first periods of the panel, and, second, the reaction of an increase in sealed surfaces is likely delayed more than the 10 years in the model. Also brainstorm with AI and check with @Borsky.
+- **Spatial correlation (fitting chapter not yet clear, maybe under results):** three ways of control (according to @auffhammer-etal-2013-weather-data-econ-analysis)
+- **Internal and external validity (fitting chapter not yet clear)**
+- **Attenuation bias from measurement error (chapters "common approaches", "methodology" or "results" if robustness check):** fixed effects estimation susceptible to such a bias, compare estimates against pooled model to check
+- **Weighted least squares estimation ("model specification" or "results" if test/robustness check):** weighting with population sizes to deal with heteroskedasticity
