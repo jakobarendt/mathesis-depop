@@ -123,61 +123,38 @@ panel_data_est[, d_log_POP := d(log(POP))]
 temp <- ".t"  # alternatively: ".t_jja", ".t_n_days"
 prec <- ".r"  # alternatively: ".r_jja"
 
-models_decennial <- list(
-  # TODO: check whether to also interact the rural-dummy only with precipitation
-    # and/or with temperature and precipitation together
+dec_panel_models <- setNames(lapply(temp, function(temp) {
 
-  # Pooled models (without rural dummy):
-  feols(d_log_POP ~ mean.[temp] + mean.[prec],
-        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),  # VCOV (variance-covariance) matrix is not positive semi-definite, likely due to numerical instability of the scaling of mean.[prec]. The computer has difficulties inverting the cluster covariance matrix due to floating-point precision limits.
-  feols(d_log_POP ~ mean.[temp] + mean.[prec],
-        data = panel_data_est, vcov = "conley"),
+  list(
+    # TODO: check results with country-time (squared) trend
+    # TODO: check whether to also run the Conley HAC standard errors
+    # TODO: check model performance without rural-urban dummy
 
-  # One-way fixed effect (without rural dummy): temperature linear
-  feols(d_log_POP ~ mean.[temp] + mean.[prec] | CNTR_LAU_CODE,
-        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d_log_POP ~ mean.[temp] + mean.[prec] | CNTR_LAU_CODE,
-        data = panel_data_est, vcov = "conley"),
-  # One-way fixed effect (without rural dummy): temperature squared
-  feols(d_log_POP ~ mean.[temp] + mean.[temp]^2 + mean.[prec] | CNTR_LAU_CODE,
-        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d_log_POP ~ mean.[temp] + mean.[temp]^2 + mean.[prec] | CNTR_LAU_CODE,
-        data = panel_data_est, vcov = "conley"),
+    # Pooled models (without rural dummy):
+    # feols(d_log_POP ~ mean.[temp] + mean.[prec],
+    #       data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),  # VCOV (variance-covariance) matrix is not positive semi-definite, likely due to numerical instability of the scaling of mean.[prec]. The computer has difficulties inverting the cluster covariance matrix due to floating-point precision limits.
 
-  # One-way fixed effect (with rural dummy): temperature linear
-  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
-        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
-        data = panel_data_est, vcov = "conley"),
-  # One-way fixed effect (with rural dummy): temperature squared
-  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
-        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE,
-        data = panel_data_est, vcov = "conley"),
-
-  # Two-way fixed effects (with rural dummy): temperature squared
-  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + YEAR,
-        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + YEAR,
-        data = panel_data_est, vcov = "conley"),
-
-  # FE for LAU-ID and country-varying time trend (with rural dummy):
-    # temperature squared
-  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE[YEAR],
-        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE[YEAR],
-        data = panel_data_est, vcov = "conley"),
-
-  # FEs for LAU-ID and country-year (with rural dummy): temperature squared
-  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE^YEAR,
-        data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
-  feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961 + mean.[prec] | CNTR_LAU_CODE + CNTR_CODE^YEAR,
-        data = panel_data_est, vcov = "conley")
+    feols(d_log_POP ~ mean.[temp] + mean.[temp]^2
+          + mean.[prec] + mean.[prec]^2
+          | CNTR_LAU_CODE + CNTR_CODE^YEAR,
+          data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+    feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961
+          + mean.[prec] + mean.[prec]^2
+          | CNTR_LAU_CODE + CNTR_CODE^YEAR,
+          data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+    feols(d_log_POP ~ mean.[temp] + mean.[temp]^2
+          + mean.[prec] / RURAL_1961 + mean.[prec]^2 / RURAL_1961
+          | CNTR_LAU_CODE + CNTR_CODE^YEAR,
+          data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+    feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961
+          + mean.[prec] / RURAL_1961 + mean.[prec]^2 / RURAL_1961
+          | CNTR_LAU_CODE + CNTR_CODE^YEAR,
+          data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE)
 
   )
+}), temp)
 
-# TODO find sensible selection of models to save for results table:
-  # save(panel_data_est, models_decennial, file = 'data/temp/model-results.RData')
+save(dec_panel_models, file = 'data/temp/model-results.RData')
 
 
 

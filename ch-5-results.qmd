@@ -4,9 +4,15 @@
 
 ```{r}
 options(scipen = 10)
+require(modelsummary)
+require(flextable)
+require(fixest)
+require(tidyverse)
 load('data/temp/model-results.RData')
 
-modelsummary::modelsummary(models_decennial, stars = TRUE)
+modelsummary(dec_panel_models$.t, stars = TRUE,
+             output = "flextable") |>
+  fontsize(size = 9, part = "all")
 ```
 
 ## Past Impacts of Weather on Municipal Population Sizes
