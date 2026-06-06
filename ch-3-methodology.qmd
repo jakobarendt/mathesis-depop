@@ -177,57 +177,43 @@ More concretely, I estimate a baseline equation of the following structure:
 $$\Delta \log ( \mathrm{pop}_{ict} + 1 ) = {\boldsymbol{\beta}}_{\mathrm{T}} \, g ( \mathrm{temp}_{ic, t-1} ) + {\boldsymbol{\beta}}_{\mathrm{P}} \, g ( \mathrm{prec}_{ic, t-1} ) + \gamma_i + \omega_{ct} + \epsilon_{ict} \mathrm{,}$$ {#eq-reg-baseline-panel-fes}
 
 where observations are indexed by $i$ for the respective LAU, by $c$ for the respective country of the LAU and by $t$ for the respective year of the LAU's population levels, $\mathrm{pop}_{ict}$, and the final year of the weather aggregates that are used as independent variables and associated to a LAU by their geographic location.
-The first-differences operator $\Delta$ transforms population to a dependent variable representing population growth measured in log-differences, where the population levels $\mathrm{pop}_{ict}$ are increased by one to ensure the logarithms remain defined even if a population level amounts to $0$.
-I take population growth instead of population levels for two reasons: first, throughout major periods of the time span my data covers (from 1961 to 2011), population levels likely exhibit a unit-root and are therefore non-stationary, mainly due to the post-World War II population boom particularly prevalent in Western countries.
+The first-differences operator $\Delta$ transforms population to a dependent variable representing population growth measured in log-differences, where the population levels $\mathrm{pop}_{ict}$ are increased by one to ensure the logarithms remain defined even if a population level amounts to zero.
+I take population growth instead of population levels for two reasons: first, throughout major periods of the time span that my data covers (from 1961 to 2011), population levels likely exhibit a unit-root and are therefore non-stationary, mainly due to the post-World War II population boom particularly prevalent in Western countries.
 Especially in the context of the continuously rising temperatures caused by climate change, such unit roots in the dependent variable need to be avoided to ensure that the effect estimations for the weather covariates are not driven by spurious correlations, where climate and population exhibit very similar developments only by coincidence.[^ch-3-methodology-3]
-Second, specifying population in the form of growth helps with controlling for one specialty of time-invariant confounding LAU-specific effects: the LAU-specific fixed effects, $\gamma_i$, can hence control for changing confounders, so long as they decrease or increase at the same rate throughout the model's entire time span.
-In other words, when first-differencing the dependent variable, the time-variant confounders are removed and the LAU-/unit-specific fixed effects now act on first-difference confounders, instead of controlling for time-variant confounders.
+Second, specifying population as growth in the form of first-differences helps with controlling for one form of the time-variant confounding LAU-specific characteristics: the LAU-specific fixed effects, $\gamma_i$, can then control for changing confounders, so long as they decrease or increase at the same rate throughout the model's entire time span.
+In other words, when first-differencing the dependent variable, the time-invariant confounders are removed and the LAU-/unit-specific fixed effects now act on first-difference confounders, instead of controlling for time-invariant confounders.
 
-[^ch-3-methodology-3]: The country-specific polynomial time trends as an alternative to country-time-specific fixed effects that are further explained below also help with accounting for such potential spurious correlation.
+[^ch-3-methodology-3]: The country-specific polynomial time trends as an alternative to the country-time-specific fixed effects that are further explained below also help with accounting for such potential spurious correlation.
 
 Furthermore, the weather covariates temperature and precipitation are denoted by $\mathrm{temp}_{ict}$ and $\mathrm{prec}_{ict}$, respectively measured in degrees Celsius and millimeter.
 As the population data was available only for the years 1961, 1971, 1981, 1991, 2001 and 2011 with January 1st as reference day, and as the corresponding transformation to population growth rates covers the decades in between those dates, I aggregate the weather data to decade averages of daily mean temperatures and yearly precipitation sums.
 This way, the weather aggregates correspond to the population variable with respect to its decade-wise time resolution.
 Consequently, the index $t$ of these aggregate weather covariates denotes the last year of each aggregation period: for example, for the population growth from 1961 to 1971, the aggregation period for the weather covariates ranged from 1st of January 1961 to 31st of December 1970.
-In addition, the weather covariates enter the modelling equation in quadratic form $F(W) = \eta_1 W + \eta_2 W^2$, which is abbreviated with the functional form wrapper $g ( \cdot )$ in [equation @eq-reg-baseline-panel-fes], such that the coefficients $\mathbf{\beta}$ are actually vectors containing the coefficients for the linear and squared weather covariates.
-The majority of the recent climate econometric literature considers climate effects in non-linear, semi- or non-parametric form because it is widely assumed that socioeconomic outcomes have ideal temperatures and deviations in both directions, to warmer or colder temperatures, lead to less desirable socioeconomic outcomes [e.g., @barreca-etal-2016-us-temp-mortality-decline; @burke-etal-2015-global-nonlin-temp-effects; @kalkuhl-wenz-2020-climate-on-grp; @linsenmeier-2023-temp-econ-dev-sfd].
-I follow their approach, not least because modelling the impacts of climate with such a global nonlinear function has another advantage in addition to incorporating the assumption of negative marginal effects when deviating from the optimal temperature: in panel models, it allows for exploiting not only intra-unit, but also inter-unit variation.
+In addition, the weather covariates enter the modelling equation in quadratic form $F(W) = \eta_1 W + \eta_2 W^2$, which is abbreviated with the functional form wrapper $g ( \cdot )$ in [equation @eq-reg-baseline-panel-fes] and the following, such that the coefficients $\mathbf{\beta}$ are actually vectors containing the coefficients for the linear and squared weather covariates.
+The majority of the recent climate econometric literature considers climate effects in non-linear, semi- or non-parametric form because it is widely assumed that socioeconomic outcomes have ideal temperatures and deviations from them, whether to warmer or colder temperatures, lead to less desirable socioeconomic outcomes [e.g., @barreca-etal-2016-us-temp-mortality-decline; @burke-etal-2015-global-nonlin-temp-effects; @kalkuhl-wenz-2020-climate-on-grp; @linsenmeier-2023-temp-econ-dev-sfd].
+I follow their approach, not least because modelling the impacts of climate with such a global nonlinear function has another advantage, in addition to incorporating the assumption of negative marginal effects when deviating from the optimal temperature: in panel models, it allows for exploiting not only intra-unit, but also inter-unit variation [@mcintosh-schlenker-2006-non-lin-fe-models].
 
 The baseline equation ([-@eq-reg-baseline-panel-fes]) also includes LAU-specific fixed effects, $\gamma_i$, and country-time-specific fixed effects, $\omega_{ct}$.
 In an alternative modelling specification, I replace $\omega_{ct}$ by country-specific polynomial time trends, $p_c (t)$.
-This alternative is more restrictive with respect to assumptions on potential time-specific confounders: while the time trend only controls for (non-)linear trends like GDP per capita growth or institutional change and assumes economic shocks and other period-inconsistent changes to not induce any confounding into the model, the country-time-specific also account for the latter.
-Nevertheless, as climate change only shows symptoms over time for within-unit comparisons, stronger control for time-specific effects risks over-control and may leave insufficient variation to recover climate effects in time-series approaches.
-Therefore, I provide results for both approaches to control time-specific confounders.
+This alternative is more restrictive with respect to assumptions on potential time-specific confounders: while the time trend only controls for (non-)linear trends like GDP per capita growth or institutional change and assumes economic shocks and other period-inconsistent changes to not induce any bias into the model, the country-time-specific fixed effects also account for the latter.
+Nevertheless, as climate change only shows symptoms over time for within-unit comparisons, stronger control for time-specific effects risks over-control and may leave insufficient variation to recover climate effects in such time-series approaches.
+Therefore, I provide results for both approaches to control for time-related confounders.
 Lastly, the regression error is denoted by $\epsilon_{ict}$.
 
-As initially motivated in [chapter @sec-Introduction] and further conceptualised in [chapter @sec-ConceptFramework], the main question of this study goes beyond the general effects of climate on communal demographic development and also asks whether structural differences between rural and urban communes might have caused demographics to react differently to the changing climate.
+As initially motivated in [chapter @sec-Introduction] and further conceptualised in [chapter @sec-ConceptFramework], the main question of this study goes beyond the general effects of climate on communal demographic development.
+It also asks whether structural differences between rural and urban communes might have caused demographics to react differently to the changing climate.
 For estimating such differences in climate effects, I interact the respective LAU's urbanity/rurality **TODO** status with the temperature, the precipitation or both covariates, such that [equation @eq-reg-baseline-panel-fes] extends to
 
 $$\begin{split}
 \Delta \log ( \mathrm{pop}_{ict} + 1 ) = &{\boldsymbol{\beta}}_{\mathrm{T}} \, g ( \mathrm{temp}_{ic, t-1} ) + {\boldsymbol{\beta}}_{\mathrm{P}} \, g ( \mathrm{prec}_{ic, t-1} ) \\
 + &{\boldsymbol{\beta}}_{\mathrm{T}}^{\mathrm{RU}} \, g ( \mathrm{temp}_{ic, t-1} ) \pi_i + {\boldsymbol{\beta}}_{\mathrm{P}}^{\mathrm{RU}} \, g ( \mathrm{prec}_{ic, t-1} ) \pi_i \\
-+ &\gamma_i + \omega_{ct} + \epsilon_{ict} \mathrm{.}
++ &\gamma_i + \omega_{ct} + \epsilon_{ict} \mathrm{,}
 \end{split}$$ {#eq-reg-panel-fes}
 
-**\[Estimation\]**
-
-This model can simply be estimated with OLS, it tests whether any population changes can be attributed to changes in weather.
-
-- **within estimator** = deviations from means estimator --\> **absorbing fixed effects**
+in the specification that considers the urban status for all weather covariates.
 
 **TODO last stop** The interaction term $\mathrm{temp}_{ict} \cdot \pi_{i}$ is included to account for the fact that the effect of temperature on population might differ between LAUs, and that this difference is not captured by the LAU-fixed effects.
 Trend factor tries to account for the fact that the LAU's population composition changes throughtout time (e.g. improvements of general health and prolonged life with every newer generation), as otherwise the inconsistent composition of the sample would require to consider justifying for the unit homogeneity assumption--a pre-condition the panel data set up was actually supposed to relax in the first place.
-
-**Arguments for Panel model:**
-
-- With panel improved causal inference due to good control for unobserved time-invariant confounders
-- In particular, fixed effects and long-differences models provide powerful capabilities to control for unobserved confounders/heterogeneity. In this setup, they are those unobserved *time-invariant* characteristics that influence the climate-population causal relationship and are different among the LAUs, such as natural resources, distance to other LAUs and potential economic hubs, consequent potential for economic growth, institutions etc.
-  - Individual effects correlated with explanatory variables.
-  - Unobservables differentiating spatial units and also correlated with weather/climate may cause bias: use of panel model should help to correct for this
-  - Mention: Choice of fixed-effect model since individual-specific unobserved properties are assumed to be correlated with the other explanatory variables as well as the dependent, causing endogeneity and the known explanatory variables to be correlated with the error in the cohort-agnostic pooled model
-- bad controls are to be avoided (i.e. separately specifying regression variables that are already part of the causal chain of climate or another control variable): On purpose, I do not introduce additional control variables into the estimation. First, as just mentioned and as the conceptual framework in chapter [chapter @sec-ConceptFramework] the causal channels from climate to population are highly diverse and convoluted and the data-generating process is not well known. Introducing controls in addition to the fixed effects already in the model would overly narrow the causal channels estimated, also considered as overcontrol, that would not consider important aspects of the identifying variation. Second, additional controls such as economic growth or infrastructure would be bad controls [@angrist-pischke-2009] as they are the result of both, climate and population, and would lead to biased estimations.
-- Exogeneity of temperature and precipitation, i.e. identifying variation stems from temperature levels and precipitation amounts and it is assumed to be exogenous to population amounts.
-- Longer run time duration of this panel setup strongly targets estimating belief effects and adaptation in particular
 
 Similarly, a long differences model:
 
@@ -241,8 +227,25 @@ $$\begin{split}
   - $g ( \cdot )$ again represents different functional forms for precipitation that are tested
   - $\omega_i$ is a dummy that controls for LAU-specific particularities **(TODO check whether LAU-specific FEs would still be needed, i.e. only under the assumption that time-invariant LAU-specific characteristics do not only confound the relationship of climate and rural-urban population *levels* but also climate and rural-urban population *growth*)**
   - similarly, $\rho$ is a country-specific dummy (**TODO** only needed when LAU-specific FEs are not included, check whether other country-related specifications are needed?), and
-  - $\phi_{ic}$ is the regression error.
+  - $\phi_{ic}$ is the regression error (TODO maybe use same notation here as for panel model).
 - considering unobservable LAU-level characteristics particularly prevalant in the long-run, might prove a better fit to the data at hand and the research question on the long-run population consequences of climate change. **include also attenuation bias and citation for mostly harmless econometrics**
+
+**\[Estimation\]**
+
+This model can simply be estimated with OLS, it tests whether any population changes can be attributed to changes in weather.
+
+- **within estimator** = deviations from means estimator --\> **absorbing fixed effects**
+
+**Arguments for Panel model:**
+
+- With panel improved causal inference due to good control for unobserved time-invariant confounders
+- In particular, fixed effects and long-differences models provide powerful capabilities to control for unobserved confounders/heterogeneity. In this setup, they are those unobserved *time-invariant* characteristics that influence the climate-population causal relationship and are different among the LAUs, such as natural resources, distance to other LAUs and potential economic hubs, consequent potential for economic growth, institutions etc.
+  - Individual effects correlated with explanatory variables.
+  - Unobservables differentiating spatial units and also correlated with weather/climate may cause bias: use of panel model should help to correct for this
+  - Mention: Choice of fixed-effect model since individual-specific unobserved properties are assumed to be correlated with the other explanatory variables as well as the dependent, causing endogeneity and the known explanatory variables to be correlated with the error in the cohort-agnostic pooled model
+- bad controls are to be avoided (i.e. separately specifying regression variables that are already part of the causal chain of climate or another control variable): On purpose, I do not introduce additional control variables into the estimation. First, as just mentioned and as the conceptual framework in chapter [chapter @sec-ConceptFramework] the causal channels from climate to population are highly diverse and convoluted and the data-generating process is not well known. Introducing controls in addition to the fixed effects already in the model would overly narrow the causal channels estimated, also considered as overcontrol, that would not consider important aspects of the identifying variation. Second, additional controls such as economic growth or infrastructure would be bad controls [@angrist-pischke-2009] as they are the result of both, climate and population, and would lead to biased estimations.
+- Exogeneity of temperature and precipitation, i.e. identifying variation stems from temperature levels and precipitation amounts and it is assumed to be exogenous to population amounts.
+- Longer run time duration of this panel setup strongly targets estimating belief effects and adaptation in particular
 
 ## Reserve / TODO
 
