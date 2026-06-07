@@ -114,7 +114,7 @@ panel_data_est <- panel_data |>
 
 # Add log first-differences of the dependent variable manually before running
   # FE regressions
-panel_data_est[, d_log_POP := d(log(POP))]
+panel_data_est[, d_log_POP := d(log(POP + 1))]
 
 
 
@@ -155,6 +155,56 @@ dec_panel_models <- setNames(lapply(temp, function(temp) {
 }), temp)
 
 save(dec_panel_models, file = 'data/temp/model-results.RData')
+
+
+
+# Long differences: wrangle data ------------------------------------------
+
+ld_data_est <- panel_data |>
+  # Keep relevant periods and prepare for creating long difference variables
+  filter(YEAR %in% c(1961, 2011)) |>
+  group_by(CNTR_LAU_CODE) |>
+  arrange(YEAR, .by_group = TRUE) |>
+  # Create long difference variables
+  mutate(
+    # Dependent variable
+    ld_log_POP = log(POP + 1) - dplyr::lag(log(POP + 1)),
+    # Linear climate long differences
+    ld_mean.t = mean.t - dplyr::lag(mean.t),
+    ld_mean.r = mean.r - dplyr::lag(mean.r),
+    # Squared climate long differences
+    ld_mean.t_sq = mean.t^2 - dplyr::lag(mean.t^2),
+    ld_mean.r_sq = mean.r^2 - dplyr::lag(mean.r^2)
+  ) |>
+  # Keep only the row with the calculated long differences
+  filter(YEAR == 2011) |>
+  ungroup() |>
+  # Set panel identifiers
+  as.data.table() |>
+  fixest::panel(panel.id = ~CNTR_LAU_CODE+YEAR)
+
+
+
+# Estimation: long differences model --------------------------------------
+
+ld_models <- list(
+  feols(ld_log_POP ~ ld_mean.t + ld_mean.t_sq
+        + ld_mean.r + ld_mean.r_sq
+        + RURAL_1961
+        | CNTR_CODE,
+        data = ld_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(ld_log_POP ~ (ld_mean.t + ld_mean.t_sq) * RURAL_1961
+        + ld_mean.r + ld_mean.r_sq
+        | CNTR_CODE,
+        data = ld_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(ld_log_POP ~ ld_mean.t + ld_mean.t_sq
+        + (ld_mean.r + ld_mean.r_sq) * RURAL_1961
+        | CNTR_CODE,
+        data = ld_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+  feols(ld_log_POP ~ (ld_mean.t + ld_mean.t_sq + ld_mean.r + ld_mean.r_sq) * RURAL_1961
+        | CNTR_CODE,
+        data = ld_data_est, vcov = cluster ~ CNTR_LAU_CODE)
+)
 
 
 

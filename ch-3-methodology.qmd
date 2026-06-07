@@ -195,14 +195,14 @@ I follow their approach, not least because modelling the impacts of climate with
 
 The baseline equation ([-@eq-reg-baseline-panel-fes]) also includes LAU-specific fixed effects, $\gamma_i$, and country-time-specific fixed effects, $\omega_{ct}$.
 In an alternative modelling specification, I replace $\omega_{ct}$ by country-specific polynomial time trends, $p_c (t)$.
-This alternative is more restrictive with respect to assumptions on potential time-specific confounders: while the time trend only controls for (non-)linear trends like GDP per capita growth or institutional change and assumes economic shocks and other period-inconsistent changes to not induce any bias into the model, the country-time-specific fixed effects also account for the latter.
+This alternative is more restrictive with respect to assumptions on potential time-specific confounders: while the time trend only controls for (non-)linear trends like GDP per capita growth, often-resulting general health improvements and life expectancy increases, or institutional change and assumes economic shocks and other period-inconsistent changes to not induce any bias into the model, the country-time-specific fixed effects also account for the latter.
 Nevertheless, as climate change only shows symptoms over time for within-unit comparisons, stronger control for time-specific effects risks over-control and may leave insufficient variation to recover climate effects in such time-series approaches.
 Therefore, I provide results for both approaches to control for time-related confounders.
 Lastly, the regression error is denoted by $\epsilon_{ict}$.
 
 As initially motivated in [chapter @sec-Introduction] and further conceptualised in [chapter @sec-ConceptFramework], the main question of this study goes beyond the general effects of climate on communal demographic development.
 It also asks whether structural differences between rural and urban communes might have caused demographics to react differently to the changing climate.
-For estimating such differences in climate effects, I interact the respective LAU's urbanity/rurality **TODO** status with the temperature, the precipitation or both covariates, such that [equation @eq-reg-baseline-panel-fes] extends to
+For estimating such differences in climate effects, I interact a dummy variable, $\pi_i$, that takes on $1$ if LAU $i$ could be considered rural at the beginning of the time span covered by my data, with the temperature, the precipitation or both covariates, such that [equation @eq-reg-baseline-panel-fes] extends to
 
 $$\begin{split}
 \Delta \log ( \mathrm{pop}_{ict} + 1 ) = &{\boldsymbol{\beta}}_{\mathrm{T}} \, g ( \mathrm{temp}_{ic, t-1} ) + {\boldsymbol{\beta}}_{\mathrm{P}} \, g ( \mathrm{prec}_{ic, t-1} ) \\
@@ -210,29 +210,30 @@ $$\begin{split}
 + &\gamma_i + \omega_{ct} + \epsilon_{ict} \mathrm{,}
 \end{split}$$ {#eq-reg-panel-fes}
 
-in the specification that considers the urban status for all weather covariates.
+in the most encompassing alteration.
 
-**TODO last stop** The interaction term $\mathrm{temp}_{ict} \cdot \pi_{i}$ is included to account for the fact that the effect of temperature on population might differ between LAUs, and that this difference is not captured by the LAU-fixed effects.
-Trend factor tries to account for the fact that the LAU's population composition changes throughtout time (e.g. improvements of general health and prolonged life with every newer generation), as otherwise the inconsistent composition of the sample would require to consider justifying for the unit homogeneity assumption--a pre-condition the panel data set up was actually supposed to relax in the first place.
-
-Similarly, a long differences model:
+Lastly, as a robustness check to verify the direction of the effects estimated with the decennial panel model and compare their magnitudes, I also estimate a long differences model.
+Compared to the panel model run with decennially-spaced data, the long differences model instead determines whether any changes in the weather covariates between the last and the first decade of my data can be attributed to population growth for the corresponding long time frame.
+Considering the research question's focus on the long-run population consequences of climate change and the resulting need to estimate climate effects net of adaptation reactions, such a long differences model might be even more appropriate.
+For this, [panel equation @eq-reg-panel-fes] then translates to
 
 $$\begin{split}
-\mathrm{pop}_{ic, t=T} - \mathrm{pop}_{ic, t=1} = \alpha &+ \beta_{\mathrm{LD}} \, ( \mathrm{temp}_{ic, t=T} - \mathrm{temp}_{ic, t=1} ) \\
-&+ g ( \mathrm{prec}_{ic, t=T} - \mathrm{prec}_{ic, t=1} ) + \omega_i + \rho_c + \phi_{ic}
+\log &( \mathrm{pop}_{ic, t=2011} + 1 ) - \log ( \mathrm{pop}_{ic, t=1961} + 1 ) = \alpha \\
+&+ {\boldsymbol{\theta}}_{\mathrm{T}} \, [ g ( \mathrm{temp}_{ic, t=2010} ) - g ( \mathrm{temp}_{ic, t=1960} ) ] + {\boldsymbol{\theta}}_{\mathrm{P}} [ g ( \mathrm{prec}_{ic, t=2010} ) - g ( \mathrm{prec}_{ic, t=1960} ) ] \\
+&+ {\boldsymbol{\theta}}_{\mathrm{T}}^{\mathrm{RU}} \, [ g ( \mathrm{temp}_{ic, t=2010} ) - g ( \mathrm{temp}_{ic, t=1960} ) ] \pi_i + {\boldsymbol{\theta}}_{\mathrm{P}}^{\mathrm{RU}} [ g ( \mathrm{prec}_{ic, t=2010} ) - g ( \mathrm{prec}_{ic, t=1960} ) ] \pi_i \\
+&+ \pi_i + \rho_i + \epsilon_{ic} \mathrm{,}
 \end{split}$$ {#eq-reg-long-diff}
 
-- This can also simply be estimated with OLS to determine whether any changes caused by weather differences between the last and the first decade can be attributed to any population changes:
-  - $\alpha$ captures any overall changes over time relevant to all LAUs
-  - $g ( \cdot )$ again represents different functional forms for precipitation that are tested
-  - $\omega_i$ is a dummy that controls for LAU-specific particularities **(TODO check whether LAU-specific FEs would still be needed, i.e. only under the assumption that time-invariant LAU-specific characteristics do not only confound the relationship of climate and rural-urban population *levels* but also climate and rural-urban population *growth*)**
-  - similarly, $\rho$ is a country-specific dummy (**TODO** only needed when LAU-specific FEs are not included, check whether other country-related specifications are needed?), and
-  - $\phi_{ic}$ is the regression error (TODO maybe use same notation here as for panel model).
-- considering unobservable LAU-level characteristics particularly prevalant in the long-run, might prove a better fit to the data at hand and the research question on the long-run population consequences of climate change. **include also attenuation bias and citation for mostly harmless econometrics**
+where $\alpha$ is now the regression constant and captures any secular changes in population growth between 1961 and 2011 that apply to all LAUs and would confound the (very) long-term climate effects.
+Now, the dummy variable for the rural status, $\pi_i$, is not only interacted with the weather covariates but also introduced separately, such that it captures all effects that may have caused differences in rural versus urban population growth beyond the climate.
+Similarly as before, $g ( \cdot )$ again abbreviates the quadratic functional forms of the weather covariates, $\rho_i$ are the country-specific fixed effects now without the time dimension, and $\epsilon_{ic}$ denotes the regression error.
+The weather covariates are also aggregated on the same decennial basis as before, i.e. for the decade ending just before the respective population reference date.
+
+- This can also simply be estimated with OLS
 
 **\[Estimation\]**
 
-This model can simply be estimated with OLS, it tests whether any population changes can be attributed to changes in weather.
+This model can simply be estimated with OLS, it tests whether any population changes can be attributed to changes in weather **include also citation for mostly harmless econometrics**.
 
 - **within estimator** = deviations from means estimator --\> **absorbing fixed effects**
 
