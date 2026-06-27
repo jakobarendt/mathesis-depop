@@ -1,92 +1,92 @@
 # Identification, Methodology and Research Design {#sec-Methodology}
 
-Isolating climate information either from weather data directly collected or weather data derived partially or fully from models of the climate (e.g. reanalysis) is not a trivial task.
-Similarly non-trivial is identifying the causal impacts that climatic states described by such information and their changes can have onto societal and economic outcomes.
-The following sub chapter entails a quick overview of what common climate-related identification problems look like and what econometric research designs have mostly been applied to solve them.
-The sub chapters following thereafter describe the specific identification problem for this study, and then substantiate the econometric methodology and model specified to address it.
+Isolating climate information from either weather data collected directly or from weather data derived in part or in full from climate models (e.g., reanalyses) is not trivial.
+Similarly non-trivial is identifying the causal impacts that climatic states, as described by such information, and their changes can have on societal and economic outcomes.
+The following sub-chapter provides a brief overview of common climate-related identification problems and the econometric research designs most commonly applied to address them.
+The sub-chapters that follow thereafter describe the specific identification problem for this study, and then substantiate the econometric methodology and model specified to address it.
 
 ## The Climate Econometric Problem and Common Approaches for Its Solution {#sec-MethodologyApproaches}
 
-Concerning the methodological discipline of climate econometrics, @hsiang-2016-climate-econometrics and @kolstad-moore-2020-clim-impacts-from-weather-data have contributed fundamental survey papers that this study also relies on.
+Regarding the methodological discipline of climate econometrics, @hsiang-2016-climate-econometrics and @kolstad-moore-2020-clim-impacts-from-weather-data have contributed foundational survey papers that this study also draws on.
 They discuss in more detail the conditions under which weather observations can reliably describe climate and changes therein, and the advantages and disadvantages of different econometric models aimed at causally identifying its socioeconomic impacts.
 
 @hsiang-2016-climate-econometrics formally define a statistical model to distinguish weather and climate and to provide a framework for their use in econometric modelling.
-As weather exhibits randomness by its very nature, they consider it as a vector of random variables, containing temperature, precipitation, air pressure, and other measures of atmospheric states that fully characterise the weather condition at a defined location during a certain time period.
-Building on this, climate is the full, multivariate distribution[^ch-3-methodology-1] from which the random variable is drawn.
-In other words, climate is the parametrisation of the joint probability distribution of atmospheric states for a given location and specified time period, based on which certain potential states of weather could realise.
+As weather exhibits randomness by its very nature, they consider it a vector of random variables, denoting temperature, precipitation, air pressure, and other measures of atmospheric state that fully characterise the weather condition at a defined location over a certain time period.
+Building on this, the climate is the full multivariate distribution[^ch-3-methodology-1] from which the random variable is drawn.
+In other words, climate is the parametrisation of the joint probability distribution of atmospheric states at a given location and over a specified time period, from which certain potential states of weather could realise.
 
 [^ch-3-methodology-1]: Or, to be more precise, the statistical moments that fully parametrise this distribution.
 
 Therefore, weather observations for a given location during a specified time are never sufficient to fully infer about its climate.
-Unless when making assumptions about the shape of the distribution specifying climate, we are unlikely to ever know the full distribution and, hence, the climate perfectly because we only observe weather once at the given location during the specific time period, and do not know which other states of the atmosphere could also have realised.
-However, for investigating the socioeconomic impacts of climate this need not be a problem.
+Unless we make assumptions about the shape of the distribution specifying climate, we are unlikely to ever know the full distribution and, hence, the climate perfectly because we only observe weather once at the given location during the specific time period, and do not know which other states of the atmosphere could also have realised.
+However, for investigating the socioeconomic impacts of climate, this need not be a problem.
 As long as a change in weather can reliably infer a change in climate, the parameters of the full distribution representing the climate do not need to be perfectly known.
 
-This definition has the advantage that it leaves room for adjustments in order to allow application to the data and the research question one has at hand: first, it allows for using partially or fully model-derived data such as reanalyses, besides observed weather data, to be used for deriving climate impacts.
-Second, this definition does not impose any specific time duration nor climate statistic to describe the theoretical distributions (e.g. mean of daily temperatures).
-Rather, their appropriate choice should be driven by the research question and the socioeconomic outcome investigated, e.g. growing degree days for agricultural outcomes or temperature adjusted for evaporative cooling when investigating public health outcomes [see also @kolstad-moore-2020-clim-impacts-from-weather-data, p. 3] **TODO add column 'Weather statistic' to table**.
-In general tendency, the weather parameters used to describe climate in an econometric model have increased in number with each new study in applied climate econometrics [@hsiang-2016-climate-econometrics, p. 45].
+This definition has the advantage that it leaves room for adjustments to allow application to the data and the research question at hand: first, it allows the use of partially or fully model-derived data, such as reanalyses, as well as observed weather data, to derive climate impacts.
+Second, this definition does not impose any specific time duration nor climate statistic to describe the theoretical distributions (e.g., mean of daily temperatures).
+Rather, their appropriate choice should be driven by the research question and the socioeconomic outcome investigated, e.g., growing degree days for agricultural outcomes or temperature adjusted for evaporative cooling when investigating public health outcomes [see also @kolstad-moore-2020-clim-impacts-from-weather-data, p. 3] **TODO add column 'Weather statistic' to table**.
+In general, the number of weather parameters used to describe climate in econometric models has increased with each new study in applied climate econometrics [@hsiang-2016-climate-econometrics, p. 45].
 
 When the climate influences a population or its socioeonomic outcomes, a combination of two effects is at play: direct effects and belief effects [@hsiang-2016-climate-econometrics, p. 45f.].
-Other researchers have also called these, respectively, ex post and ex ante effects [@linsenmeier-2023-temp-econ-dev-sfd].
+Other researchers have also referred to these, respectively, as ex post and ex ante effects [@linsenmeier-2023-temp-econ-dev-sfd].
 On the one hand, direct effects are those experienced by individuals or societies that do not run through any secondary causal chains further manipulated by them.
 Examples include increased economic damages in areas and periods with more cyclones, or a higher likelihood of sunburn the closer one gets to the equator.
-On the other hand, belief effects are those effects that channel through onto socioeconomic outcomes when individuals or societies have or change their beliefs about the climate and when they act upon them.
-Returning to the latter example concerning the likelihood of sunburn, individuals may learn and expect their UV-exposure to be high and put on sunscreen.
-It is only the combination of these two effects that constitute the overall socioeconomic effects of climate as they can also attenuate or reinforce each other.
-During estimation of real-world effects, they are often hard to differentiate.
+On the other hand, belief effects are those that channel through to socioeconomic outcomes when individuals or societies have or change their beliefs about the climate and act upon them.
+Returning to the latter example concerning the likelihood of sunburn, individuals may learn and expect their UV exposure to be high, leading them to put on sunscreen.
+It is only the combination of these two effects that constitutes the overall socioeconomic effects of climate, as they can also attenuate or reinforce each other.
+When estimating real-world effects, they are often hard to distinguish.
 While direct effects can also be substantiated for very short time periods, belief effects and changes thereof are often traceable only over the longer run, with identifying variation either recovered from long time intervals or between geographic units.
-Lastly, the belief effect together with its interaction with the direct effect is often called *adaptation*, which--resulting from the particularities explained beforehand--can also often be substianted only over the long run or in unconfounded cross-sectional models.
-Considering again the last example, people that adapt to a higher likelihood of sunburn are those that expect high UV-exposure when getting closer to the equator and put on sunscreen.
+Lastly, the belief effect in interaction with the direct effect is often called *adaptation*, which--resulting from the particularities explained beforehand--can also often be substantiated only over the long run or in unconfounded cross-sectional models.
+Considering the last example again, people who adapt to a higher likelihood of sunburn are those who expect higher UV exposure as they get closer to the equator and therefore put on sunscreen.
 In this case, adaptation leads to an attenuation of the effect going from "proximity to the equator" to "likelihood of sunburns".
 
 In econometrics, three major approaches for estimating climate impacts dominate the literature: first, cross-sectional approaches rely on data collected at a single time point and exploit variation across locations to estimate climate effects **TODO mention literature here with cross-sections here**.
-To be able to surely associate any differences in spatial units' outcomes to differences in climate, all of their other differentiating characteristics correlated with climate and influencing the outcome have to be known and controlled for.
-Addressing this risk of an *Omitted Variable Bias* (OVB) is not trivial, as failure to control cannot be verified empirically **TODO \@Borsky systematically??**: adequate control and exogeneity of the regressors has to be argued for by economic rationale as there is no systematic approach to test for missing variables.
+To reliably trace the differences in spatial units’ outcomes to the differences in their climates, all other differentiating characteristics correlated with climate and influencing outcomes must be known and controlled for.
+Addressing this risk of an *Omitted Variable Bias* (OVB) is not trivial, as failure to control cannot be verified quantitatively: adequate control and exogeneity of the regressors have to be argued for by economic rationale, as there is no systematic approach to test for missing variables.
 Second and third, there are panel **TODO mention panel-based literature here** and long-difference **TODO mention hybrid-based literature here** estimations, with the third considered a hybrid approach intended as a compromise between the first two.
 These time-series-based approaches exploit intra-unit variation, either exclusively or in combination with the inter-unit variation just described.
-They have the advantage that they are much less prone to confounding by systematic but unobserved or non-measurable characteristics influencing outcomes.
-However, they come at the cost that climate and changes thereof are harder to determine.
-Intuitively as well as from the statistical model described at the beginning of this sub chapter, it is evident that different locations exhibit different climates, so inter-unit variation undoubtedly identifies climate effects if controls are adequate.
-In contrast to that, it is less clear when intra-unit variation, stemming from observations at different time points for the same spatial unit, actually indicate shifting or differing climates.
-The exploitation of such identifying variation requires an extension to the conceptual foundation laid out so far and is one of the main challenges a researcher commonly faces in climate econometrics.
+They have the advantage of being much less prone to confounding by systematic but unobserved or non-measurable characteristics that influence outcomes.
+However, they come at the cost of making climate and its changes harder to determine.
+Intuitively, as well as from the statistical model described at the beginning of this sub-chapter, it is evident that different locations exhibit different climates, so inter-unit variation undoubtedly identifies climate effects if controls are adequate.
+In contrast, it is less clear when intra-unit variation, stemming from observations at different time points for the same spatial unit, actually indicates shifting or differing climates.
+The exploitation of such identifying variation requires an extension of the conceptual foundation laid out so far and is one of the main challenges researchers commonly face in climate econometrics.
 
 As @hsiang-2016-climate-econometrics and @kolstad-moore-2020-clim-impacts-from-weather-data explain, there are three fundamental challenges in climate econometrics.
-All three econometric methodologies listed beforehand are subject to a trade-off as none are able to address all three challenges simultaneously.
+All three econometric methodologies listed earlier are subject to a trade-off, as none can address all three challenges simultaneously.
 The first challenge is to ensure that changes in the outcome variable can be attributed to climate and only to climate when accounting for other factors causing systematic differences in the outcomes.
 This follows from the *unit homogeneity assumption*: it states that all units should be homogeneous in treatment, meaning they should exhibit the same outcomes when under the same treatment.
-As described in the paragraph directly before, cross-sectional approaches have the downside that they can meet this assumption only when the data-generating process is known well enough to ensure sufficiency of covariates as an OVB cannot be ruled out methodologically.
-In contrast to that, panel approaches can handle this challenge better as they are able to control for unobservable differences as long as they are time-invariant.
+As described in the paragraph directly before, cross-sectional approaches have the downside that they can meet this assumption only when the data-generating process is known well enough to ensure that the covariates are sufficient, as an OVB cannot be ruled out systematically.
+In contrast, panel approaches can better handle this challenge, as they can control for unobservable differences as long as they are time-invariant.
 The second challenge is to reliably infer climate and changes therein from weather observations.
 Contrary to the first challenge, cross-sectional approaches show their advantages with the second: it is clear that different locations exhibit different climates, and they are therefore able to identify long-term equilibrium effects of climate as long as the unit homogeneity assumption holds and the chosen weather statistic and the investigated outcome or behaviour can be argued to also incorporate belief effects and adaptation reactions.
-This, for example, is the case for economic productivity as well as labour market patterns because societies and individuals likely consider past experiences and future expectations about the climate and the environment of their location when making economic and labour decisions.
-Panel approaches, however, have a weakness when it comes to this second challenge.
-While the may be able to handle the first challenge well and do not necessitate its corresponding unit homogeneity assumption, they do rely on a weaker form of it to handle the second challenge: the *marginal treatment comparability assumption*.
+This, for example, is the case for economic productivity as well as labour market patterns, as societies and individuals likely consider past experiences and future expectations regarding the climate and environment of their location when making economic and labour decisions.
+Panel approaches, however, have a weakness in addressing this second challenge.
+While they may be able to handle the first challenge well and do not necessitate its corresponding unit homogeneity assumption, they do rely on a weaker form of it to handle the second challenge: the *marginal treatment comparability assumption*.
 It states that, marginally, the effect of a change in the observed weather distribution materialises in the same way as an analogous change in the climate distribution.
-This is fundamental for inference of climate effects, since, as discussed at the beginning of this sub chapter, the climate distribution for a given location--and hence any changes to it--can never be fully parametrised.
+This is fundamental for inference of climate effects, since, as discussed at the beginning of this sub-chapter, the climate distribution for a given location--and hence any changes to it--can never be fully parametrised.
 @hsiang-2016-climate-econometrics also develops a test statistic to verify this assumption.
 
-Third and last, there is also a challenge specifically for time series-based approaches that relates to the question under which circumstances a population is comparable with itself throughout time.
+Third and last, there is also a challenge specifically for time series-based approaches that concerns the question of under which circumstances a population is comparable to itself over time.
 Central to this question is a so-called frequency-identification trade-off **\[TODO dual trade-off??\]**.
-While investigating changes over long periods of time may be of particular interest in the context of climate change, whose symptoms and consequent adaptation reactions often only become apparent in the long-run, units are more likely to exhibit changes in unobserved characteristics, that influence the outcome and can confound estimation, as time spans increase.
-The greater the time interval between observation time points, or between the earliest and latest observation time points in the entire observed series, the greater is the loss of comparability between units.
-Such longer time periods would endanger the marginal treatment comparability assumption, either by reducing the presumed comparability in unobserved time-invariant characteristics in the case of a long time coverage overall or by stripping it of its marginal characteristic if the distance between observation time points is long.
+While investigating changes over long periods of time may be of particular interest in the context of climate change, whose symptoms and consequent adaptation reactions often only become apparent in the long run when comparing the same unit, a unit is also more likely to exhibit changes in unobserved characteristics that influence the outcome and can confound estimation, as time spans increase.
+The greater the time interval between observation time points, or between the earliest and latest observation time points in the entire observed series, the greater is the loss of within-unit comparability.
+Such longer time periods would endanger the marginal treatment comparability assumption, either by reducing presumed comparability in unobserved time-invariant characteristics in the case of a long overall time coverage or by stripping it of its marginal characteristic if the distance between observation time points is long.
 In this sense, the trade-off is not only one between frequency and identification, but also one between time extent and identification.
-Unless when controlling for unobserved heterogeneity not only across units but also across time periods, low frequency or long time coverage of observations can make it harder to correctly attribute changes in climate to changes in the socioeconomic outcome.
+Unless we control for unobserved heterogeneity not only across units but also across time periods, low frequency or long time coverage of observations can make it harder to correctly attribute changes in climate to changes in the socioeconomic outcome.
 However, such control across time periods can, depending on model specification, also make it difficult to retain sufficient identifying variation in the weather covariates, so striking a balance in this regard is not straightforward.
-In cases where time series and panels with short time intervals are used for estimation, @hsiang-2016-climate-econometrics argues that the estimated short-run effects should, on the margin, be the same as those long-run effects that are typically observed in longer-spaced time intervals or cross-sections and that incorporate belief effects and potential adaptations, so long as the socioeconomic outcome variable can be assumed to result from continuous maximisation.
-@merel-gammans-2021-climate-econometrics-lr-adaptation, however, find these models based on short time periods to estimate a weighted average of short- and long-run responses and they propose a correction term for successful computation of long-run effects.
+In cases where time series and panels with short time intervals are used for estimation, @hsiang-2016-climate-econometrics argues that the estimated short-run effects should, on the margin, be the same as those long-run effects that are typically observed in longer-spaced time intervals or cross-sections and that consider belief effects and potential adaptations, so long as the socioeconomic outcome variable can be assumed to result from continuous maximisation.
+@merel-gammans-2021-climate-econometrics-lr-adaptation, however, find that these models based on short time periods instead estimate a weighted average of short- and long-run responses, and they propose a correction term to compute long-run effects.
 
-In summary, identification of climate impacts on socioeconomic outcomes should be done with a few key considerations in mind.
+In summary, identification of climate impacts on socioeconomic outcomes should be guided by a few key considerations.
 First, using weather data and statistics to infer about climate and the impacts of its changes is generally feasible, but requires data and statistics to be an appropriate description of climate.
-This means that the chosen weather parameters need to be relevant for the investigated outcome variable, e.g. wind speed may not be as important as temperature for human conflict and productivity, while both may matter for agricultural outcomes.
+This means that the chosen weather parameters need to be relevant to the outcome variable under investigation; for example, wind speed may be less important than temperature for human conflict and productivity, whereas both may matter for agricultural outcomes.
 Second, the choice of the most appropriate methodology is driven by the comparability of the units (or the ability to control for their differences) and the ability of the chosen weather parameters to capture climate impacts in the chosen approach.
-Therefore, while, in practise, data availability may also influence the choice of the methodological approach, its underlying assumptions have to be justified.
-Third, the different methodological approaches have different capabilities, positioning themselves at different ends of a trade-off between systematic control for confounders and reliable inference of climatic differences.
+Therefore, while in practise, data availability may also influence the choice of the methodological approach, its underlying assumptions have to be justified.
+Third, the different methodological approaches have distinct capabilities, positioning themselves at different ends of a trade-off between systematic control for confounders and reliable inference of climatic differences.
 Fourth, the methodologies' different capabilities extend to a second trade-off concerning their ability to consider long-run equilibrium effects and adaptation.
-On the one hand, while cross-sectional and panel approaches with longer inter-period and overall time distance may better account for long-run effects, they perform worse if controls are not explicit and the data-generating process is not known well enough to ensure completeness of controls.
-On the other hand, panel approaches with periods of high frequency may be able to control well for unobserved heterogeneity, but they are not good at detecting long-run effects.
-Last, more recent methodological innovations such as long-differences [@kalkuhl-wenz-2020-climate-on-grp] and spatial first-differences [@druckenmiller-hsiang-2018-sfd-in-cross-section; @linsenmeier-2023-temp-econ-dev-sfd] have been proposed and applied to attenuate the dual trade-off resulting from the third and fourth point.
+On the one hand, while cross-sectional and panel approaches with longer inter-period and overall time distances may better account for long-run effects, they perform worse if controls are not explicit and the data-generating process is not known well enough to ensure completeness of controls.
+On the other hand, panel approaches with high-frequency periods may control well for unobserved heterogeneity, but they are not good at detecting long-run effects.
+Last, more recent methodological innovations such as long-differences [@kalkuhl-wenz-2020-climate-on-grp] and spatial first-differences [@druckenmiller-hsiang-2018-sfd-in-cross-section; @linsenmeier-2023-temp-econ-dev-sfd] have been proposed and applied to attenuate the dual trade-off arising from the third and fourth points.
 
 \[TODO table about specific techniques (and weather statistics? -\> weather statistics used better for table in previous chapter) in different papers\]
 
