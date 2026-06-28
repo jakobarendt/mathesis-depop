@@ -1,0 +1,136 @@
+# Historic Population Data and its Georeferences {#sec-AppxPopData}
+
+```{r}
+#| label: appx1-packages-data
+
+require(tidyverse)
+require(sf)
+
+options(scipen = 10)
+
+# Load population data
+if (!file.exists('data/temp/population.RData')) {
+  stop('Please run prep-population-data.R before running this script')
+} else {
+  load('data/temp/population.RData')
+}
+```
+
+The R script [`prep-pop-data.R`](./prep-pop-data.R) prepares the historical population data and its georeferences for joining it with the weather data and using it in the econometric estimation.
+The script is submitted together with this thesis paper, but can also be retrieved via the Git repository of this thesis project [@arendt-2025-mathesis-git-repo].
+This appendix ([-@sec-AppxPopData]) explains in further detail the operations performed by the script, and gives some more background on the data.
+
+As mentioned in @sec-SubsecPopData, the shapefiles from the *EuroBoundaryMap* geo-database [@eurogeographics-2025-euroboundarymap-website] can be used for most countries.
+Fortunately, Eurostat offers them free of charge but subject to Copyright and non-commercial use conditions on its website [@eurostat-2025-gisco-lau-download-website].[^appx-1-pop-data-1]
+They can also be retrieved easily via an API, of which the R script makes use with help of the *giscoR* package [@hernangomez-2025-package-giscoR].
+
+[^appx-1-pop-data-1]: The license specified above/below (**TODO** please reference license/license file) stipulates the use conditions for this thesis, its analysis and results, and gathers all the copyright and licensing conditions for the different data they build upon.
+    For details on the mentioned copyright and restrictions also see @eurostat-2025-gisco-copyright-website for the *EuroBoundaryMap* shapefiles and @gloersen-luer-2013-report-data-collect for the historical LAU population figures and the non-*EuroBoundaryMap* shapefiles.
+
+After retrieving the *EuroBoundaryMap* shapefiles, I manually load the separately delivered shapefiles for Greece, Ireland and Turkey [available on the same website as the historical population figures, @eurostat-2023-lau-website].
+I then transform the coordinate reference systems (CRS) of all the shapefiles to ensure that they are harmonised and correspond to the CRS of the weather grid data.
+While the weather grid data is retrieved with the `OGC:CRS84` CRS traditionally used for computation, the shapefiles for the LAU boundaries are provided with `EPSG:4326`, `ETRS89` or `ED50` CRS, depending on delivery.
+Fortunately, the *EuroBoundaryMap* shapefiles can be used for all except the three countries mentioned before and they come with the `EPSG:4326` CRS. As the `EPSG:4326` CRS and the `OGC:CRS84` CRS both have the *WGS84* as their underlying reference ellipsoid and only differ in the longitude-latitude order, transforming the *EuroBoundaryMap* shapefiles should not produce any inaccuracies.[^appx-1-pop-data-2]
+However, this is not the case for those countries that are special cases and whose LAU boundaries are specified by the separate, non-*EuroBoundaryMap* shapefiles: Greece, Ireland and Turkey LAU boundary shapefiles are delivered with the `ETRS89` or `ED50` CRS. When transforming the CRS for these shapefiles to `OGC:CRS84`, some inaccuracies may occur.
+[^appx-1-pop-data-3] However, considering the research setup, the extent of LAUs typically being in the $\mathrm{km}^2$ range and, in the majority of cases, weather not varying significantly within few meters, I deem those inaccuracies of maximum eight meters as neglegible
+.
+
+[^appx-1-pop-data-2]: For more details on transformation of projections and CRS, and potential inaccuracies due to that process, see also the documentation of the command `st_transform()` of the *sf* R package [@pebesma-bivand-2023-package-sf] and the EPSG simplified registry [@klokantech-2025-epsg-io].
+
+[^appx-1-pop-data-3]: More precisely, the EPSG simplified registry [@klokantech-2025-epsg-io] indicates that for Greece (`EPSG:3035`, i.e. `ETRS89-extended`) the boundaries can be off by up to one meter and for Turkey (`EPSG:4230`, i.e. `ED50`) they can be off by up to eight meters, when transforming them to a CRS that has *WGS84* as reference ellipsoid.
+    For Ireland (`EPSG:4258`, i.e. `ETRS89`), the registriy does not indicate any inaccuracies, but they are not expected to be more than those for Greece as they are also `ETRS89`-based.
+
+Besides the issues with transforming LAU boundary shapefiles to a *WGS84*-based CRS, neither the *EuroBoundaryMap* shapefiles nor the weather grid data specify which version of the *WGS84* standard they refer to.
+A point can change in coordinates across different versions of a CRS because of multiple reasons, for example an improved accuracy of the underlying reference datum or ellipsoid, an improved accuracy of the projection, or tectonic shifts.
+Yet, similarly to the transformation-induced inaccuracies discussed above, I also consider these inaccuracies caused by potential CRS version differences as minor and neglegible for this work.
+Accuracy improvements and other updates to the *WGS84* standard will have shifted points on its CRS only by some meters at most.
+In contrast to these downsides, there also some advantages to harmonising to the *WGS84*-based CRS: The weather data and the *EuroBoundaryMap* shapefiles, that cover most countries, use that standard already by delivery, allowing me to avoid inaccuracies that would have come up had I to transform either one of them to the standard of the other or a third one.
+In addition to that, the tectonic plate-independent coordinate origin of *WGS84* also has the advantage that it allows for consistent localisation of the European overseas territories.
+
+After considering the projections, the script then performs various checks and cleaning steps on the shapefiles.
+It streamlines their unique identifiers (UIDs) to ensure that they correspond to the same format as those in the population figure data set, so they can later be matched together successfully.
+The script also runs various checks as some columns that seem to contain selected parts of the UIDs are suspected to be redundant.
+Throughout the redundancy checks, it becomes clear that the UID for the Hungarian LAU *Budapest* in v7.0 of the *EuroBoundaryMap* (published in 2012) does not correspond to the UID for the historical population figures of the same LAU nor to the UID in v5.0 of the *EuroBoundaryMap* (published in 2011).
+The script corrects this accordingly in the v7.0 *EuroBoundaryMap* shapefiles.
+Lastly, it ensures that all data sets storing the shapefiles (*EuroBoundaryMap* v5.0 and v7.0, and separate shapes for Greece, Ireland and Turkey) use the same (or, if required, reasonably different) variable naming, contain only the variables needed for the analysis, and do not have any duplicates in their UIDs.
+Besides the *EuroBoundaryMap* shapefiles (v5.0 and v7.0), all of this processing is also done for the shapefiles delivered separately for Greece, Ireland and Turkey.
+In addition, I check whether streamlining the shapefiles' CRS as discussed in the paragraphs before was successful.
+
+The historical population figures data set, which is delivered in an Excel-file, also requires some checks and cleaning.
+The script first verifies that the country codes embedded in the LAUs' UIDs correspond to those country codes stored in a separate data column.
+During that check, I find population data points for two French LAUs that lack an identifier and I remove them.
+In the script, I also ensure that none of the LAU-wise observations have duplicate UIDs: Only once I find a UID that is used twice.
+I remove the figures of the original observation as well as those for the duplicate since I can not uniquely identify either of the two LAU observations by their natural language name on the map of Europe.
+As regards the LAUs' UIDs, the script adjusts the identifiers for the Croatian LAUs by extracting their last five digits since I find that only those correspond to the UIDs used in the *EuroBoundaryMap* v7.0 shapefiles belonging to Croatia.
+While the population data for the Hungarian capital *Budapest* is provided for the different districts of the city, the shapefiles covering the area of the city are not as granular.
+Hence, the script sums up period-wise all the population time series for *Budapest* to ensure congruence with the geospatial data.
+Similarly, there is one case in Luxembourg where the historical population data set has more granularity than the *EuroBoundaryMap* v7.0 shapefiles: The shapefiles consider the LAUs *Eschweiler* and *Wiltz* only with their combined boundaries, and therefore the script sums up the population figures of the two for each year as well.
+@tbl-appx1-pop-data-cleaning lists the countries for which the numbers of LAUs with historical population data changed as a result of the cleaning described in this paragraph.
+
+```{r}
+#| label: tbl-appx1-pop-data-cleaning
+#| tbl-cap: "Countries with changes in their numbers of considered LAUs with historical population data before and after cleaning"
+
+left_join(
+  select(table_obs, CNTR_CODE, HIST_POP_OBS_LAUS),
+  select(table_match_rates, CNTR_CODE, HIST_POP_OBS_LAUS),
+  by = join_by(CNTR_CODE == CNTR_CODE)
+) |> 
+  filter(HIST_POP_OBS_LAUS.x != HIST_POP_OBS_LAUS.y) |> 
+  rename(Country = CNTR_CODE, `No. of LAUs before cleaning` = HIST_POP_OBS_LAUS.x,
+         `No. of LAUs after cleaning` = HIST_POP_OBS_LAUS.y) |> 
+  knitr::kable(format.args = list(big.mark = ','))
+```
+
+Finally, the script joins the *EuroBoundaryMap* v5.0 and v7.0 shapefiles and the shapefiles for Greece, Ireland and Turkey with the historical population figures data set.
+While for the last three countries it is clear that I need to use the shapefiles delivered specifically for them, the choice of the correct shapefiles is less clear for the remaining `{r} nrow(table_match_rates) - 3` countries.
+Unfortunately, the @gloersen-luer-2013-report-data-collect report on the collection of the historical population figures is somewhat imprecise on whether 2011 or 2012 is the base year for the LAU boundaries which the population figures are referred to.
+In some passages the report speaks of 2011 being the base year for the LAU boundaries [e.g. @gloersen-luer-2013-report-data-collect, p. 4], whereas in other passages the report indicates that LAU boundaries have been fixed to 2012 [e.g. @gloersen-luer-2013-report-data-collect, p. 8].
+The former year implies that *EuroBoundaryMap* v5.0 shapefiles would be the correct ones to use for geolocalisation, while the latter year implies the use of *EuroBoundaryMap* v7.0 shapefiles.
+Furthermore, Eurostat's website that makes the historical figures and the report available [@eurostat-2023-lau-website] only mentions 2011 as the base year for the boundaries.
+
+Consequently, I specify an algorithm that helps decide which base year, and hence *EuroBoundaryMap* version, should be the most suitable for each of the `{r} nrow(table_match_rates) - 3` countries for which this is still unclear.
+@tbl-appx1-pop-data-join-decisions gives a country-wise overview of the shapefile choices resulting from that algorithm.
+With the exception of Portugal, Slovenia, Germany and the three countries with separate shapefiles, the deciding factor for this algorithm is the amounts of successful matches based on the LAUs' UIDs: Whichever of the two *EuroBoundaryMap* versions that has a higher amount of shapefiles successfully linked to the LAUs in the population data serves as the reference boundaries and base year for the respective country.
+As for Portugal and Slovenia, the population figures are not reflected in either of the shapefiles versions in question and the two countries are taken out of the sample.
+The other exception is Germany, where I decide to use v5.0 of the *EuroBoundaryMap* shapefiles even though v7.0 amounts to more matches because ...**TODO**
+
+**TODO** consider the code paragraph for the first table again, too
+
+```{r}
+#| label: tbl-appx1-pop-data-join-decisions
+#| tbl-cap: "TODO Test caption"
+
+table_match_rates |> 
+  rename(`Country` = CNTR_CODE,
+         `No. of LAUs with historical population data` = HIST_POP_OBS_LAUS,
+         `No. of matched LAUs in EuroBoundaryMap v5.0` = SHAPES_2011_JOINED,
+         `No. of matched LAUs in EuroBoundaryMap v7.0` = SHAPES_2012_JOINED,
+         `Shapefiles chosen for join` = VERS_SHAPEFILE) |> 
+  knitr::kable(format.args = list(big.mark = ','))
+```
+
+```{r}
+#| eval: false
+
+shapes_2011 |> filter(startsWith(CNTR_LAU_ID, "LU")) |> ggplot() + geom_sf(aes(fill = ifelse(LAU_NAME == "Eschweiler" | LAU_NAME == "Wiltz", "Highlight", "Default"))) + scale_fill_manual(values = c("Highlight" = "red", "Default" = "grey")) +
+  theme(legend.position = "none")
+shapes_2012 |> filter(startsWith(CNTR_LAU_ID, "LU")) |> ggplot() + geom_sf()
+
+```
+
+```{r}
+population |> 
+  ggplot(mapping = aes(x = POP_2011_01_01, y = EUROGEOGRAPHICS_POP_2011_2012)) +
+  geom_point() +
+  geom_abline(slope = 1)
+```
+
+```{r}
+#| eval: false
+
+population |> 
+  mutate(DEVIATION_POP_2011_EUROG = EUROGEOGRAPHICS_POP_2011_2012 / POP_2011_01_01) |> 
+  filter(DEVIATION_POP_2011_EUROG > 1.05 | DEVIATION_POP_2011_EUROG < 0.95) |> 
+  filter(DEVIATION_POP_2011_EUROG != 0) |> View()
+```

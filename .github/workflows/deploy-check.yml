@@ -14,7 +14,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build-deploy"
+  # This workflow contains a single job called "check-deployability"
   check-deployability:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -43,5 +43,18 @@ jobs:
           # uncomment below and fill to pin a version
           # version: SPECIFIC-QUARTO-VERSION-HERE
 
-      - name: Render Quarto Project
+      - name: Install R
+        uses: r-lib/actions/setup-r@v2
+
+      - name: Download R dependencies for rendering to PDF
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages:
+            any::rmarkdown
+            any::knitr
+
+      - name: Install recommended fonts for TinyTeX
+        run: Rscript -e 'tinytex::tlmgr_install("collection-fontsrecommended")'
+
+      - name: Render Quarto Project (use freeze from respective folder)
         uses: quarto-dev/quarto-actions/render@v2
