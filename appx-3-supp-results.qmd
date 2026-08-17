@@ -1,0 +1,58 @@
+# Supplementary Results {#sec-AppxSuppResults}
+
+```{r}
+#| label: setup-appx-3
+#| echo: false
+#| output: false
+#| warning: true
+
+options(scipen = 10)
+require(tidyverse)
+require(modelsummary)
+require(fixest)
+require(tinytable)
+
+load('data/temp/model-results.RData')
+
+```
+
+```{r}
+#| label: tbl-results-panel-country-time-trend-sq
+#| tbl-cap: "TODO caption and also consider adding line that indicates the varying slopes"
+
+# setFixest_dict(c(
+#   "CNTR_LAU_CODE" = "LAU",
+#   "CNTR_CODE" = "Country"
+# ))
+
+custom_gof <- list(
+  list("raw" = "nobs",                 "clean" = "Num.Obs.",       "fmt" = 0),
+  list("raw" = "r.squared",            "clean" = "R²",             "fmt" = 4),
+  list("raw" = "adj.r.squared",        "clean" = "R² Adj.",        "fmt" = 4),
+  list("raw" = "r2.within",            "clean" = "R² Within",      "fmt" = 4),
+  list("raw" = "r2.within.adjusted",   "clean" = "R² Within Adj.", "fmt" = 4),
+  list("raw" = "rmse",                 "clean" = "RMSE",           "fmt" = 4),
+  list("raw" = "aic",                  "clean" = "AIC",            "fmt" = 2),
+  list("raw" = "bic",                  "clean" = "BIC",            "fmt" = 2),
+  list("raw" = "FE: CNTR_LAU_CODE",    "clean" = "FE: LAU",        "fmt" = 0),
+  list("raw" = "FE: CNTR_CODE",        "clean" = "FE: Country", "fmt" = 0)
+)
+
+modelsummary(dec_panel_models_year_trend_sq$.t, stars = TRUE, fmt = 4,
+             coef_rename = c(
+               "mean.t" = "Temperature",
+               "I(mean.t^2)" = "Temperature²",
+               "mean.r" = "Precipitation",
+               "I(mean.r^2)" = "Precipitation²",
+               "mean.t:RURAL_1961TRUE" = "Temperature × Rural",
+               "RURAL_1961TRUE:I(mean.t^2)" = "Temperature² × Rural",
+               "mean.r:RURAL_1961TRUE" = "Precipitation × Rural",
+               "RURAL_1961TRUE:mean.r" = "Precipitation × Rural",
+               "RURAL_1961TRUE:I(mean.r^2)" = "Precipitation² × Rural"
+               ),
+             gof_map = custom_gof,
+             notes = "t statistics are in parentheses. Standard errors clustered by LAU."
+             ) |> 
+  style_tt(fontsize = 0.9) |> 
+  style_tt(i = "notes", fontsize = 0.9)
+```

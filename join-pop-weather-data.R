@@ -69,9 +69,9 @@ joined_data <- exact_extract(weather,
 # Introduce rural-urban differentiation based on first period -------------
 
 # LAU is rural if its 1961 population density is lower than 300 inhabitants per
-  # km2 and its 1961 total population is lower than 5,000 inhabitants
-  # Differentiation simplied from the definition in European Commission and
-  # Eurostat (2019)
+  # km2 and its 1961 total population is lower than 5,000 inhabitants.
+  # Differentiation simplified from the definition in European Commission and
+  # Eurostat (2019).
 joined_data <- joined_data |>
   mutate(POP_DENS_1961 = POP_1961_01_01 / AREA_KM2) |>
   mutate(RURAL_1961 = if_else(POP_DENS_1961 < 300 & POP_1961_01_01 < 5000, TRUE,
@@ -116,6 +116,10 @@ panel_data_est <- panel_data |>
   # FE regressions
 panel_data_est[, d_log_POP := d(log(POP + 1))]
 
+# Add squared year term for polynomial time trends as an alternative to country-
+  # time FEs
+panel_data_est[, YEAR_sq := YEAR^2]
+
 
 
 # Estimation: fixed-effects models ----------------------------------------
@@ -126,7 +130,6 @@ prec <- ".r"  # alternatively: ".r_jja"
 dec_panel_models <- setNames(lapply(temp, function(temp) {
 
   list(
-    # TODO: check results with country-time (squared) trend
     # TODO: check whether to also run the Conley HAC standard errors
     # TODO: check model performance without rural-urban dummy
 
@@ -154,7 +157,33 @@ dec_panel_models <- setNames(lapply(temp, function(temp) {
   )
 }), temp)
 
-save(dec_panel_models, file = 'data/temp/model-results.RData')
+
+
+# Estimation: decennial panel with country-year trends --------------------
+
+dec_panel_models_year_trend_sq <- setNames(lapply(temp, function(temp) {
+
+  list(
+
+    feols(d_log_POP ~ mean.[temp] + mean.[temp]^2
+          + mean.[prec] + mean.[prec]^2
+          | CNTR_LAU_CODE + CNTR_CODE[YEAR] + CNTR_CODE[YEAR_sq],
+          data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+    feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961
+          + mean.[prec] + mean.[prec]^2
+          | CNTR_LAU_CODE + CNTR_CODE[YEAR] + CNTR_CODE[YEAR_sq],
+          data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+    feols(d_log_POP ~ mean.[temp] + mean.[temp]^2
+          + mean.[prec] / RURAL_1961 + mean.[prec]^2 / RURAL_1961
+          | CNTR_LAU_CODE + CNTR_CODE[YEAR] + CNTR_CODE[YEAR_sq],
+          data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE),
+    feols(d_log_POP ~ mean.[temp] / RURAL_1961 + mean.[temp]^2 / RURAL_1961
+          + mean.[prec] / RURAL_1961 + mean.[prec]^2 / RURAL_1961
+          | CNTR_LAU_CODE + CNTR_CODE[YEAR] + CNTR_CODE[YEAR_sq],
+          data = panel_data_est, vcov = cluster ~ CNTR_LAU_CODE)
+
+  )
+}), temp)
 
 
 
@@ -207,6 +236,10 @@ ld_models <- list(
 )
 
 
+
+save(dec_panel_models, dec_panel_models_year_trend_sq,
+     ld_models,
+     file = 'data/temp/model-results.RData')
 
 # Exclusion of observations during estimations: no. of NAs in data --------
 # TODO

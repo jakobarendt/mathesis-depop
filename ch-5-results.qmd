@@ -1,18 +1,111 @@
 # Results {#sec-Results}
 
+```{r}
+#| label: setup-results
+#| echo: false
+#| output: false
+#| warning: true
+
+options(scipen = 10)
+require(tidyverse)
+require(modelsummary)
+require(fixest)
+require(tinytable)
+
+load('data/temp/model-results.RData')
+
+```
+
 \[tbc\]
 
 ```{r}
-options(scipen = 10)
-require(modelsummary)
-require(flextable)
-require(fixest)
-require(tidyverse)
-load('data/temp/model-results.RData')
+#| label: tbl-results-panel-country-year-fes
+#| tbl-cap: "Decennial panel model results. Estimations for the decennial panel model with LAU-specific and country-year-specific fixed effects. The dependent variable for all four models is decade-wise population growth, measured in first-differences of log population levels. The estimation results therefore indicate the effect of decennial weather on decennial log population changes. The first model is agnostic the LAUs' rural-urban stati, but the other three interact it with the weather covariates in different variations."
 
-modelsummary(dec_panel_models$.t, stars = TRUE,
-             output = "flextable") |>
-  fontsize(size = 9, part = "all")
+setFixest_dict(c(
+  "CNTR_LAU_CODE" = "LAU",
+  "CNTR_CODE^YEAR" = "Country-Year"
+))
+
+custom_gof <- list(
+  list("raw" = "nobs",                 "clean" = "Num.Obs.",       "fmt" = 0),
+  list("raw" = "r.squared",            "clean" = "R²",             "fmt" = 4),
+  list("raw" = "adj.r.squared",        "clean" = "R² Adj.",        "fmt" = 4),
+  list("raw" = "r2.within",            "clean" = "R² Within",      "fmt" = 4),
+  list("raw" = "r2.within.adjusted",   "clean" = "R² Within Adj.", "fmt" = 4),
+  list("raw" = "rmse",                 "clean" = "RMSE",           "fmt" = 4),
+  list("raw" = "aic",                  "clean" = "AIC",            "fmt" = 2),
+  list("raw" = "bic",                  "clean" = "BIC",            "fmt" = 2),
+  list("raw" = "FE: CNTR_LAU_CODE",    "clean" = "FE: LAU",        "fmt" = 0),
+  list("raw" = "FE: CNTR_CODE^YEAR",   "clean" = "FE: Country-Year", "fmt" = 0)
+)
+
+# TODO fix overly small superscript in names of squared variables
+modelsummary(dec_panel_models$.t, stars = TRUE, fmt = 4,
+             coef_rename = c(
+               "mean.t" = "Temperature",
+               "I(mean.t^2)" = "Temperature²",
+               "mean.r" = "Precipitation",
+               "I(mean.r^2)" = "Precipitation²",
+               "mean.t:RURAL_1961TRUE" = "Temperature × Rural",
+               "RURAL_1961TRUE:I(mean.t^2)" = "Temperature² × Rural",
+               "mean.r:RURAL_1961TRUE" = "Precipitation × Rural",
+               "RURAL_1961TRUE:mean.r" = "Precipitation × Rural",
+               "RURAL_1961TRUE:I(mean.r^2)" = "Precipitation² × Rural"
+               ),
+             gof_map = custom_gof,
+             notes = "t statistics are in parentheses. Standard errors clustered by LAU."
+             ) |> 
+  style_tt(fontsize = 0.9) |> # padding = "0.2em"
+  style_tt(i = "notes", fontsize = 0.9)
+  # theme_tt("resize")
+```
+
+@tbl-results-panel-country-year-fes gives an overview of the results from estimating the proposed decennial panel model:
+
+- across all specifications, the linear temperature term is positive and the squared temperature terms is negative. This does not change whether a model differentiates these terms for urban and rural LAUs. Also, for the specifications which allow estimating temperature coefficients separately for urban and rural LAUs (models (2) and (4)), the aforementioned signs of the temperature coefficients do not change.
+- Generally, the positive linear temperature coefficient alongside the negative squared temperature coefficients indicate the dose response function towards temperature with convex. Figure XX **\[TODO reference figure here\]** illustrates this. While for rural LAUs the signs of the coefficients stay the same, the negative squared coefficient is reduced in magnitude, hinting that rural LAUs might marginally suffer less from population decline after reaching their temperature optimum compared to their urban counterparts.
+- **TODO** draw better contextual links to 10-year population growth, and do a critical check against discussion with AI
+- **TODO** also provide interpretation for model without urban/rural interaction, precipitation coefficients, significances, and model diagnostics.
+
+```{r}
+#| label: tbl-results-ld
+#| tbl-cap: "TODO Decennial panel model results. Estimations for the decennial panel model with LAU-specific and country-year-specific fixed effects. The dependent variable for all four models is decade-wise population growth, measured in first-differences of log population levels. The estimation results therefore indicate the effect of decennial weather on decennial log population changes. The first model is agnostic the LAUs' rural-urban stati, but the other three interact it with the weather covariates in different variations."
+
+setFixest_dict(c(
+  "CNTR_CODE" = "Country"
+))
+
+custom_gof <- list(
+  list("raw" = "nobs",                 "clean" = "Num.Obs.",       "fmt" = 0),
+  list("raw" = "r.squared",            "clean" = "R²",             "fmt" = 4),
+  list("raw" = "adj.r.squared",        "clean" = "R² Adj.",        "fmt" = 4),
+  list("raw" = "r2.within",            "clean" = "R² Within",      "fmt" = 4),
+  list("raw" = "r2.within.adjusted",   "clean" = "R² Within Adj.", "fmt" = 4),
+  list("raw" = "rmse",                 "clean" = "RMSE",           "fmt" = 4),
+  list("raw" = "aic",                  "clean" = "AIC",            "fmt" = 2),
+  list("raw" = "bic",                  "clean" = "BIC",            "fmt" = 2),
+  list("raw" = "FE: CNTR_CODE",        "clean" = "FE: Country",    "fmt" = 0)
+)
+
+modelsummary(ld_models, stars = TRUE, fmt = 4,
+             coef_rename = c(
+               "ld_mean.t" = "Temperature",
+               "ld_mean.t_sq" = "Temperature²",
+               "ld_mean.r" = "Precipitation",
+               "ld_mean.r_sq" = "Precipitation²",
+               "RURAL_1961TRUE" = "Rural",
+               "ld_mean.t × RURAL_1961TRUE" = "Temperature × Rural",
+               "ld_mean.t_sq × RURAL_1961TRUE" = "Temperature² × Rural",
+               "ld_mean.r × RURAL_1961TRUE" = "Precipitation × Rural",
+               "ld_mean.r_sq × RURAL_1961TRUE" = "Precipitation² × Rural"
+               ),
+             gof_map = custom_gof,
+             notes = "t statistics are in parentheses. Standard errors clustered by LAU."
+             ) |> 
+  style_tt(fontsize = 0.9) |> # padding = "0.2em"
+  style_tt(i = "notes", fontsize = 0.9)
+  # theme_tt("resize")
 ```
 
 ## Past Impacts of Weather on Municipal Population Sizes
