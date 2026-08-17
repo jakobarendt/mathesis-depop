@@ -23,7 +23,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # Runs a single command using the runners shell
       # - name: Run a one-line script
@@ -54,7 +54,7 @@ jobs:
             any::knitr
 
       - name: Install recommended fonts for TinyTeX
-        run: Rscript -e 'tinytex::tlmgr_install("collection-fontsrecommended")'
+        run: Rscript -e 'tinytex::tlmgr_install(c("collection-fontsrecommended", "tex-gyre"))'
 
       - name: Render Quarto Project (use freeze from respective folder)
         uses: quarto-dev/quarto-actions/render@v2

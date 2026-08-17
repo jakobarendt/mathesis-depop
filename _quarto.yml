@@ -46,6 +46,8 @@ format:
   html:
     lang: en
     theme: cosmo
+    mainfont: "TeX Gyre Pagella"
+    sansfont: "Arial"
     # css: styles.css
     # code-fold: true
   pdf:
@@ -57,9 +59,11 @@ format:
       - left=40mm
       - right=25mm
       - footskip=15mm
+    fig-env: "figure*"
     # mainfont: "Times New Roman"
-    # sansfont: "Arial"
-    fontsize: 12pt
+    mainfont: "TeX Gyre Pagella"
+    sansfont: "Arial"
+    fontsize: 11pt
     linestretch: 1.5
     # documentclass: scrbook
     # cite-method: natbib
@@ -69,5 +73,7 @@ format:
   docx:
     lang: en
     papersize: a4
-    mainfont: "Times New Roman"
+    # mainfont: "Times New Roman"
+    mainfont: "TeX Gyre Pagella"
+    sansfont: "Arial"
     fontsize: 12pt

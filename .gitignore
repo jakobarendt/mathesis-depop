@@ -73,3 +73,6 @@ rsconnect/
 
 # APFS-specific config file/folder
 .DS_Store
+
+**/*.quarto_ipynb
+.positai
