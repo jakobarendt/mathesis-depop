@@ -1,7 +1,10 @@
 # Historic Population Data and its Georeferences {#sec-AppxPopData}
 
 ```{r}
-#| label: appx1-packages-data
+#| label: appx-1-packages-data-setup
+#| echo: false
+#| output: false
+#| warning: true
 
 require(tidyverse)
 require(sf)

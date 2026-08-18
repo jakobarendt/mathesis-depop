@@ -1,19 +1,24 @@
 # Results {#sec-Results}
 
 ```{r}
-#| label: setup-results
+#| label: ch-5-packages-data-setup
 #| echo: false
 #| output: false
 #| warning: true
 
-options(scipen = 10)
 require(tidyverse)
 require(modelsummary)
 require(fixest)
 require(tinytable)
 
-load('data/temp/model-results.RData')
+options(scipen = 10)
 
+# Load data and estimation results
+if (!file.exists('data/temp/model-results.RData')) {
+  stop('Please run join-pop-weather-data.R before running this QMD file.')
+} else {
+  load('data/temp/model-results.RData')
+}
 ```
 
 \[tbc\]
